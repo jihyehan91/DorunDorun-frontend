@@ -4,61 +4,51 @@ export default function Wordquiz() {
   const enAnswers = [
     {
       sentence: 'This is a sample sentence for shuffling',
-      krTranslation: '이것은 셔플링을 위한 샘플 문장입니다'
+      krTranslation: '이것은 셔플링을 위한 샘플 문장입니다',
+      question: 'This a sentence sample is shuffling for'
     },
     {
       sentence: 'I love to eat pizza on Fridays',
-      krTranslation: '나는 금요일에 피자를 먹는 것을 좋아합니다'
-    },
-    {
-      sentence: 'The cat chased the mouse around the house',//해결 힘듬...
-      krTranslation: '고양이가 집 주위를 쥐를 쫓았습니다'
+      krTranslation: '나는 금요일에 피자를 먹는 것을 좋아합니다',
+      question: 'Fridays pizza to on eat love I'
     },
     {
       sentence: 'He goes jogging in the park every morning',
-      krTranslation: '그는 매일 아침 공원에서 조깅을 합니다'
+      krTranslation: '그는 매일 아침 공원에서 조깅을 합니다',
+      question: 'morning jogging park goes every in He the'
     },
     {
       sentence: 'We had a picnic by the river last weekend',
-      krTranslation: '지난 주말에 우리는 강가에서 소풍을 했습니다'
+      krTranslation: '지난 주말에 우리는 강가에서 소풍을 했습니다',
+      question: 'weekend river by picnic a had We last the'
     }
   ];
 
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [currentAnswer, setCurrentAnswer] = useState(enAnswers[currentQuestionIndex]);
-  const [krAnswer, setKrAnswer] = useState(enAnswers[currentQuestionIndex].krTranslation);
-  const [newArr, setNewArr] = useState(currentAnswer.sentence.split(' '));
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // 현재 질문
+  const [currentAnswer, setCurrentAnswer] = useState(enAnswers[currentQuestionIndex]); // 답변
+  const [krAnswer, setKrAnswer] = useState(enAnswers[currentQuestionIndex].krTranslation); // 해석
+  const [questionArr, setQuestionArr] = useState(enAnswers[currentQuestionIndex].question.split(' '));
   const [userAnswer, setUserAnswer] = useState('');
-  const [correctAnswer, setCorrectAnswer] = useState(false);
-  const [showUndoButton, setShowUndoButton] = useState(false);
+  const [wrongAnswer, setWrongAnswer] = useState(false);
 
   const checkAnswer = () => {
-    if (currentAnswer.sentence === userAnswer) {
+    if (userAnswer.trim() === '') {
+      alert('답변을 입력해주세요!');
+      return;
+    }
+
+    if (currentAnswer.sentence === userAnswer.trim()) {
       alert('정답입니다!');
-      firework();
-      setShowUndoButton(false);
       setUserAnswer('');
-      setCorrectAnswer(false);
-      if (currentQuestionIndex < enAnswers.length - 1) {
-        setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-        setCurrentAnswer(enAnswers[currentQuestionIndex + 1]);
-        setNewArr(enAnswers[currentQuestionIndex + 1].sentence.split(' '));
-        setKrAnswer(enAnswers[currentQuestionIndex + 1].krTranslation);
-      } else {
-        alert('모든 문제를 푸셨습니다!');
-        setCurrentQuestionIndex(0);
-        setCurrentAnswer(enAnswers[0]);
-        setNewArr(enAnswers[0].sentence.split(' '));
-        setKrAnswer(enAnswers[0].krTranslation);
-      }
+      setWrongAnswer(false);
+      moveToNextQuestion();
+      firework()
     } else {
-      alert('오답입니다.');
-      setCorrectAnswer(true);
-      setShowUndoButton(true);
+      setWrongAnswer(true);
     }
   };
 
-  const userAnswerHandler = (word) => {
+  const userAnswerHandler = (word : string) => {
     setUserAnswer((prevAnswer) => {
       if (prevAnswer === '') {
         return word;
@@ -66,8 +56,26 @@ export default function Wordquiz() {
         return prevAnswer + (prevAnswer.endsWith(' ') ? '' : ' ') + word;
       }
     });
-    setNewArr((prevArr) => prevArr.filter((val) => val !== word));
-    setShowUndoButton(true);
+    setQuestionArr((prevArr) => prevArr.filter((val) => val !== word));
+  };
+
+  const moveToNextQuestion = () => {
+    if (currentQuestionIndex < enAnswers.length - 1) {
+      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+      setCurrentAnswer(enAnswers[currentQuestionIndex + 1]);
+      setQuestionArr(enAnswers[currentQuestionIndex + 1].question.split(' '));
+      setKrAnswer(enAnswers[currentQuestionIndex + 1].krTranslation);
+      setUserAnswer('');
+      setWrongAnswer(false);
+    } else {
+      alert('모든 문제를 푸셨습니다!');
+      setCurrentQuestionIndex(0);
+      setCurrentAnswer(enAnswers[0]);
+      setQuestionArr(enAnswers[0].question.split(' '));
+      setKrAnswer(enAnswers[0].krTranslation);
+      setUserAnswer('');
+      setWrongAnswer(false);
+    }
   };
 
   const undoClick = () => {
@@ -76,57 +84,58 @@ export default function Wordquiz() {
       words.pop();
       return words.join(' ');
     });
-    setNewArr((prevArr) => [...prevArr, userAnswer.split(' ').pop()]);
-    setShowUndoButton(false);
+    setQuestionArr((prevArr) => [...prevArr, userAnswer.split(' ').pop()]);
   };
 
-  // const firework = () => {
-  //   var duration = 20 * 100;
-  //   var animationEnd = Date.now() + duration;
-  //   var defaults = { startVelocity: 20, spread: 360, ticks: 100, zIndex: 0 };
-  //   //  startVelocity: 범위, spread: 방향, ticks: 갯수
-
-  //   function randomInRange(min, max) {
-  //     return Math.random() * (max - min) + min;
-  //   }
-
-  //   var interval = setInterval(function () {
-  //     var timeLeft = animationEnd - Date.now();
-
-  //     if (timeLeft <= 0) {
-  //       return clearInterval(interval);
-  //     }
-
-  //     var particleCount = 50 * (timeLeft / duration);
-  //     // since particles fall down, start a bit higher than random
-  //     confetti(
-  //       Object.assign({}, defaults, {
-  //         particleCount,
-  //         origin: { x: randomInRange(-0.1, 0.3), y: Math.random() - 0.2 },
-  //       })
-  //     );
-  //     confetti(
-  //       Object.assign({}, defaults, {
-  //         particleCount,
-  //         origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-  //       })
-  //     );
-  //   }, 250);
-  // }
-  // };
+  const firework = () => {
+    let duration = 20 * 100;
+    let animationEnd = Date.now() + duration;
+    let defaults = { startVelocity: 20, spread: 360, ticks: 100, zIndex: 0 };
+    //  startVelocity: 범위, spread: 방향, ticks: 갯수
+  
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+  
+    let interval = setInterval(function () {
+      let timeLeft = animationEnd - Date.now();
+  
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+  
+      let particleCount = 50 * (timeLeft / duration);
+      // since particles fall down, start a bit higher than random
+      confetti(
+        Object.assign({}, defaults, {
+          particleCount,
+          origin: { x: randomInRange(-0.1, 0.3), y: Math.random() - 0.2 }
+        })
+      );
+      confetti(
+        Object.assign({}, defaults, {
+          particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+        })
+      );
+    }, 250);
+  }
 
   return (
     <div className='mx-auto mt-10 text-center p-5 border border-[var(--border-divide-color)] shadow rounded-xl'>
-      <p className='text-xl mb-4'>{krAnswer}</p>
+      <p className='text-2xl font-semibold text-gray-800 mb-3 py-4'>
+  <span className="bg-blue-100 px-2 py-1 rounded-lg shadow-md mr-2">{krAnswer}</span>
+      </p>
       <input
-        type='text'
-        value={userAnswer}
-        readOnly
-        className='border border-gray-300 rounded-md px-4 py-2 mb-4 w-full max-w-md mx-auto'
-      />
+  type='text'
+  value={userAnswer}
+  readOnly
+  className='border border-gray-300 rounded-md px-4 py-2 mb-4 w-full max-w-md mx-auto focus:outline-none focus:ring-2 focus:ring-blue-500 font-semibold'
+  style={{ fontSize: '16px', color: 'blue', backgroundColor: '#f4f4f4', textAlign : 'center' }}
+/>
 
       <div className='flex flex-wrap justify-center'>
-        {newArr.map((val, index) => (
+        {questionArr.map((val, index) => (
           <span
             key={index}
             onClick={() => userAnswerHandler(val)}
@@ -137,14 +146,16 @@ export default function Wordquiz() {
         ))}
       </div>
 
-      <button
-        onClick={checkAnswer}
-        className='mt-8 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded'
-      >
-        확인
-      </button>
+      {!wrongAnswer && (
+        <button
+          onClick={checkAnswer}
+          className='mt-8 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded'
+        >
+          확인
+        </button>
+      )}
 
-      {correctAnswer && (
+      {wrongAnswer && (
         <div className='mt-4'>
           <h1 className='text-red-600'>틀렸습니다.</h1>
           <strong>
@@ -153,7 +164,16 @@ export default function Wordquiz() {
         </div>
       )}
 
-      {showUndoButton && (
+      {wrongAnswer && (
+        <button
+          onClick={moveToNextQuestion}
+          className='mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded'
+        >
+          다음 문제
+        </button>
+      )}
+
+      {userAnswer && !wrongAnswer && (
         <button
           onClick={undoClick}
           className='mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded'

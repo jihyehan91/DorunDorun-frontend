@@ -59,7 +59,7 @@ export default function SignUp() {
       console.log('오류 발생:', error);
     }
   };
-
+  
   const userIdValid = userIdCheck === '' && watch('userId').length >= 6 && /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(watch('userId'));
 
   //아이디 실시간 체크
@@ -184,8 +184,8 @@ export default function SignUp() {
                   {errors.userId.message}
                 </span>
               )}
-                 {/* {userIdCheck && <span className='auth-span' role='alert'>{userIdCheck}</span>}
-              {userIdRedundancy !== null && (
+                 {userIdCheck && <span className='auth-span' role='alert'>{userIdCheck}</span>}
+              {/* {userIdRedundancy !== null && (
                 <span className={!userIdRedundancy ? 'text-blue-500 text-xs' : 'text-red-500 text-xs'}>
                   {!userIdRedundancy ? '사용 가능한 아이디입니다.' : '이미 사용 중인 아이디입니다.'}
                 </span>
