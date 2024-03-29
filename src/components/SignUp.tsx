@@ -44,19 +44,23 @@ export default function SignUp() {
   const checkUserId = async () => {
     const userId = watch('userId');
     if (!userId) {
-      alert('ID를 입력해주세요');
       setUserIdRedundancy(null);
       return;
     }
     try {
       const response = await userIdCheckApi(userId);
       setUserIdRedundancy(response);
+      if(response === true){
+        alert('중복된 아이디 입니다.')
+      }else{
+        alert('사용 가능한 아이디 입니다.')
+      }
     } catch (error) {
       console.log('오류 발생:', error);
     }
-
-    console.log(userIdRedundancy)
   };
+
+  const userIdValid = userIdCheck === '' && watch('userId').length >= 6 && /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(watch('userId'));
 
   //아이디 실시간 체크
   useEffect(() => {
@@ -168,19 +172,24 @@ export default function SignUp() {
                   },
                 })}
               />
-              <button className='py-0.5 bg-[var(--btn-bg)] rounded border-0 text-white font-medium text-sm' type='button' onClick={checkUserId}>아이디 중복 검사</button>
+              <button
+                className={`py-0.5 rounded border-0 text-white font-medium text-sm ${!userIdValid ? 'bg-gray-400' : 'bg-[var(--btn-bg)]'}`}
+                type='button'
+                onClick={checkUserId}
+                disabled={!userIdValid}>아이디 중복 검사</button>
+
               </div>
               {errors.userId && (
                 <span className='auth-span' role='alert'>
                   {errors.userId.message}
                 </span>
               )}
-                 {userIdCheck && <span className='auth-span' role='alert'>{userIdCheck}</span>}
+                 {/* {userIdCheck && <span className='auth-span' role='alert'>{userIdCheck}</span>}
               {userIdRedundancy !== null && (
                 <span className={!userIdRedundancy ? 'text-blue-500 text-xs' : 'text-red-500 text-xs'}>
                   {!userIdRedundancy ? '사용 가능한 아이디입니다.' : '이미 사용 중인 아이디입니다.'}
                 </span>
-              )}              
+              )}               */}
 
               <label className='auth-label' htmlFor='email'>
                 이메일
