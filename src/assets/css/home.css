@@ -4,7 +4,7 @@
 .banner {
   @apply flex mr-5 rounded-xl bg-[var(--bg-highlight-color)];
   position: relative;
-  width: 70%;
+  width: 60%;
 }
 
 .banner-text-area {
@@ -36,7 +36,7 @@
 
 .site-map {
   @apply rounded-xl;
-  width: 30%;
+  width: 40%;
 }
 
 .banner-btn {
