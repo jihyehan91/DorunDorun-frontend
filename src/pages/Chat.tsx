@@ -36,7 +36,7 @@ export default function Chat() {
     if (account === undefined) {
         setLikedList([]);
     } else {
-        const user = datas.users.find((user) => user.userid === account);
+        const user = datas.users.find((user) => user.userId === account);
         if (user) {
             setLikedList(user.chats);
         }
