@@ -27,9 +27,9 @@ export default function Wordquiz() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // 현재 질문
   const [currentAnswer, setCurrentAnswer] = useState(enAnswers[currentQuestionIndex]); // 답변
   const [krAnswer, setKrAnswer] = useState(enAnswers[currentQuestionIndex].krTranslation); // 해석
-  const [questionArr, setQuestionArr] = useState(enAnswers[currentQuestionIndex].question.split(' '));
-  const [userAnswer, setUserAnswer] = useState('');
-  const [wrongAnswer, setWrongAnswer] = useState(false);
+  const [questionArr, setQuestionArr] = useState(enAnswers[currentQuestionIndex].question.split(' ')); //문제 종합
+  const [userAnswer, setUserAnswer] = useState('');//내 답변
+  const [wrongAnswer, setWrongAnswer] = useState(false); // 틀리면 나오는 
 
   const checkAnswer = () => {
     if (userAnswer.trim() === '') {

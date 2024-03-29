@@ -11,12 +11,12 @@ type FormData = {
 
 export default function Login() {
   const dispatch = useAppDispatch();
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
+
   const onSubmit: SubmitHandler<FormData> = (userdata) => {
     console.log('onSubmit', userdata);
     dispatch(loginUser(userdata));
@@ -26,7 +26,6 @@ export default function Login() {
     console.log('onError', errors);
   };
   
-
   return (
     <div className='form-container'>
       <div className='form-area'>

@@ -25,7 +25,6 @@ function App() {
         <Route path='/talk/:id' element={<Talk />} />
         <Route path='/talk2/:id' element={<Talk2 />} />
         <Route path='/myroom' element={<Myroom />} />
-        <Route path='/mypage' element={<Auth />} />
         <Route path='/about' element={<About />} />
         <Route path='/mylog' element={<Mypage />} />
         <Route path='/mylog/:id' element={<ReviewContent />} />
@@ -36,6 +35,7 @@ function App() {
       </Route>
       <Route path='/signup' element={<SignUp />} />
       <Route path='/login' element={<Login />} />
+      <Route path='/mypage' element={<Auth />} />
       <Route path='/spinner' element={<Spinner />} />
     </Routes>
   );
