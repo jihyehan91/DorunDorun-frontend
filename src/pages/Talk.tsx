@@ -23,11 +23,12 @@ import { FaArrowLeft } from 'react-icons/fa6';
 // import wavfile from '/test.wav';
 // import { type } from './../store/store';
 import { Popup } from './(talk)/Popup';
+import { ChatHistory } from './(talk)/ChatList';
 
 // 파비콘 출천 : http://si.serverzero.kr/main/pc/index.php#five
 // 이미지 출처 : https://m.blog.naver.com/sinnam88/221375405075
 
-export const ChatHistory = ({ talkMessages, userInfo, characterInfo }) => {
+/* export const ChatHistory = ({ talkMessages, userInfo, characterInfo }) => {
 	return (
 		<ul className={talkMessages.length === 0 ? 'h-full' : ''}>
 			{talkMessages.length === 0 ? (
@@ -53,13 +54,13 @@ export const ChatHistory = ({ talkMessages, userInfo, characterInfo }) => {
 			)}
 		</ul>
 	);
-};
+}; */
 
 function Talk() {
 	const { id } = useParams();
 	const [account] = useState('test');
 	// const [beforeMessage, setBeforeMessage] = useState([]);//api로 사용예정
-	const [beforeMessage] = useState(datas.chats.filter((chat) => chat.roomId === id)); //임시:기존 대화한 내역 메세지
+	// const [beforeMessage] = useState(datas.chats.filter((chat) => chat.roomId === id)); //임시:기존 대화한 내역 메세지
 
 	const [mic, setMic] = useState(false); //마이크 활성 체크
 	const [history, setHistory] = useState(false); //대화 내역
@@ -77,10 +78,9 @@ function Talk() {
 	const [correctLoad, setCorrectLoad] = useState(false); //교정 fetching 체크
 	const [audioLoad, setAudioLoad] = useState(false); //오디오 fetching 체크
 	const [firstAudioMsg, setFirstAudioMsg] = useState(false); //첫 대화시 오디오 파일 체크
-	// const [count,setCount] = useState(0);//임시 : 대화 메세지 전송 개수 체크(api 적용시 삭제예정)
-	// const [file] = useState(['https://market-imgs.s3.ap-northeast-2.amazonaws.com/test.mp3','/test.wav']);//임시 : 음성메세제 개수 (api 적용시 삭제예정)
-	const [aiMsg, setAiMsg] = useState({}); //임시 : 대화 메세지 전송 개수 체크(api 적용시 삭제예정)
-	const [talkMessages, setTalkMessages] = useState([]); //둘의 대화 메세지 목록
+	const [emotion, setEmotion] = useState('happy'); //
+	const [aiMsg, setAiMsg] = useState({}); //
+	const [talkMessages, setTalkMessages] = useState([]); //전송의 응답 메세지([user: .., pooh: ..])
 	const [correctList, setCorrectList] = useState([]); //교정 할 리스트
 	const [isFinishPop, setIsFinishPop] = useState(false); //대화 종료 팝업 체크
 	const [isFinish, setIsFinish] = useState(false); //대화 종료
@@ -149,6 +149,7 @@ function Talk() {
 				{ withCredentials: true }
 			);
 			const result = await response.data;
+      setEmotion(result.emotion);
 			setTalkMessages((prevData) => [...prevData, `pooh: ${result.aimsg}`]);
 			setAiMsg((prevData) => ({ ...prevData, result: result }));
 			setAudioLoad(false);
@@ -346,8 +347,8 @@ function Talk() {
 							<img src="/bg_2.jpg" alt="" />
 						</button>
 					</div>
-					<div className="profile">
-						<img src={beforeMessage[0]?.img} alt="" />
+					<div className={`profile ${emotion}`}>
+						<img src={`/pooh_${emotion}.png`} alt="" />
 					</div>
 				</div>
 
@@ -364,7 +365,7 @@ function Talk() {
 							<dt className="flex justify-between">
 								<button id="charName" className="btn-char" onClick={() => setCharacterDesc(!characterDesc)}>
 									{characterDesc ? <PiUserListFill className="text-lg" /> : <PiUserListDuotone className="text-lg" />}{' '}
-									{characterInfo[0].name}
+									{characterInfo[0].name} {emotion}
 									<div className={`voiceContainer ${playState ? 'on' : 'off'}`}>
 										<div>
 											<div className="voice voice1"></div>
