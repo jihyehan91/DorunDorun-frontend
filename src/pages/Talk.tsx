@@ -28,34 +28,6 @@ import { ChatHistory } from './(talk)/ChatList';
 // 파비콘 출천 : http://si.serverzero.kr/main/pc/index.php#five
 // 이미지 출처 : https://m.blog.naver.com/sinnam88/221375405075
 
-/* export const ChatHistory = ({ talkMessages, userInfo, characterInfo }) => {
-	return (
-		<ul className={talkMessages.length === 0 ? 'h-full' : ''}>
-			{talkMessages.length === 0 ? (
-				<li key={0} className="h-full !m-0 flex justify-center items-center">
-					대화 내역이 아직 없습니다.
-				</li>
-			) : (
-				talkMessages.map((talkMessage, i) => {
-					return (
-						<li key={i} className={talkMessage?.includes('user:') ? 'user' : 'ai'}>
-							<div className="profile">
-								<img src={talkMessage?.includes('user:') ? '/user-default.png' : characterInfo[0]?.img} alt="" />
-							</div>
-							<div className="info">
-								<div className="name">
-									{talkMessage?.includes('user:') ? userInfo.userid : talkMessage.split(': ')[0]}
-								</div>
-								<div className="msg">{talkMessage.split(': ')[1]}</div>
-							</div>
-						</li>
-					);
-				})
-			)}
-		</ul>
-	);
-}; */
-
 function Talk() {
 	const { id } = useParams();
 	const [account] = useState('test');
@@ -149,7 +121,7 @@ function Talk() {
 				{ withCredentials: true }
 			);
 			const result = await response.data;
-      setEmotion(result.emotion);
+			setEmotion(result.emotion);
 			setTalkMessages((prevData) => [...prevData, `pooh: ${result.aimsg}`]);
 			setAiMsg((prevData) => ({ ...prevData, result: result }));
 			setAudioLoad(false);
@@ -205,8 +177,10 @@ function Talk() {
 		}
 	};
 	const finishChat = async () => {
-    const todayMissionCount = missions.filter((data) => data.complete).length;
-    if(todayMissionCount < 3 && !window.confirm('오늘의 학습 미션을 달성하지 못하였습니다. 그만하시겠습니까?')) return;
+		const todayMissionCount = missions.filter((data) => data.complete).length;
+		let allMsg = [];
+		if (todayMissionCount < 3 && !window.confirm('오늘의 학습 미션을 달성하지 못하였습니다. 그만하시겠습니까?')) return;
+		console.log(talkMessages, correctList);
 		try {
 			setCorrectLoad(true);
 			await axios
@@ -219,6 +193,7 @@ function Talk() {
 				)
 				.then(function (response) {
 					const correctedMsg = response.data;
+					allMsg = correctedMsg;
 					correctedMsg.forEach(function (msg) {
 						if (msg.includes('->')) {
 							setCorrectList((prevData) => [...prevData, msg]);
@@ -233,10 +208,26 @@ function Talk() {
 				.catch(function (error) {
 					console.error('에러 발생:', error);
 				});
+
+        console.log('allMsg 전:',allMsg);
+			await axios
+				.post(
+					'https://43.203.227.36.sslip.io/server/room/newRoom',
+					{
+						ai: 'pooh',
+						messages: allMsg,
+					},
+					{ withCredentials: true }
+				)
+				.then(function (response) {
+					console.log(response.data);
+					roomid = response.data;
+				});
+      console.log('allMsg 후:',allMsg);
 			setIsFinishPop(true);
 			setCorrectLoad(false);
 			setFirstAudioMsg(false);
-      setTodayMission(true);//오늘의 학습 목표 3개 완료시 체크
+			setTodayMission(true); //오늘의 학습 목표 3개 완료시 체크
 		} catch (error) {
 			console.error('Fetch and play audio error:', error);
 		}
