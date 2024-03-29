@@ -13,14 +13,13 @@ type FormData = {
   nickname: string;
   email: string;
   password: string;
-  profileImage: FileList;
+  profileImage: string;
 };
 
 export default function Mypage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { userCheck, profileImage } = useUserData();
-  console.log(userCheck);
+  const { userCheck } = useUserData();
 
   const {
     register,
@@ -34,11 +33,11 @@ export default function Mypage() {
 
   const [getUser, setGetUser] = useState<FormData>({
     username: '',
-    userId : '',
+    userId: '',
     nickname: '',
     email: '',
     password: '',
-    profileImage: null
+    profileImage: ''
   });
 
   // 사용자 정보 불러오기
@@ -47,13 +46,22 @@ export default function Mypage() {
       try {
         const response = await axios.get(`${API_URL}/user/info`);
         console.log('마이페이지:', response.data);
-        setGetUser(response.data);
+        const userData = response.data; 
+        setGetUser(userData); 
+        setValue('username', userData.username);
+        setValue('userId', userData.userId);
+        setValue('nickname', userData.nickname);
+        setValue('email', userData.email);
+        setValue('password', userData.password);
+        if (userData.profileImage) {
+          setValue('profileImage', userData.profileImage);
+        }
       } catch (error) {
         console.error('에러:', error);
       }
     };
     fetchData();
-  }, []);
+  }, [setValue]);
 
   // 회원탈퇴
   const handleWithdraw = async () => {
@@ -74,8 +82,6 @@ export default function Mypage() {
   const onSubmit: SubmitHandler<FormData> = async (userdata) => {
     try {
       const formData = new FormData();
-  
-      // 이메일 변경과 비밀번호 변경을 구분하여 FormData에 추가
       if (userdata.email) {
         formData.append('email', userdata.email);
         const response = await axios.patch(`${API_URL}/user/changeEmail`, formData, {
@@ -116,22 +122,32 @@ export default function Mypage() {
   }, [nickname, dispatch]);
 
   // 프로필 이미지 변경
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setGetUser((prevState) => ({
-        ...prevState,
-        profileImage: e.target.files
-      }));
+      const formData = new FormData();
+      formData.append('image', e.target.files[0]);
+  
+      try {
+        const response = await axios.post(`${API_URL}/upload`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+  
+        const imageUrl = response.data.imageUrl;
+        setGetUser(prevState => ({
+          ...prevState,
+          profileImage: imageUrl
+        }));
+      } catch (error) {
+        console.error('이미지 업로드 에러:', error);
+      }
     }
   };
  
   useEffect(() => {
-    setValue('nickname', getUser.nickname);
-    setValue('email', getUser.email);
-    setValue('password', getUser.password);
-    setValue('profileImage', getUser.profileImage);
     console.log('프로필 이미지가 업데이트되었습니다:', getUser.profileImage)
-  }, [getUser.nickname, getUser.email , getUser.password, getUser.profileImage,setValue]);
+  }, [getUser.profileImage]);
 
   return (
     <div className='form-container'>
@@ -142,10 +158,12 @@ export default function Mypage() {
               <h1 className='logo'>DoRun-DoRun</h1>
             </Link>
           </div>
-          <div className='form-box'>
+          {
+            userCheck && 
+            <div className='form-box'>
             <form className='auth-form' onSubmit={handleSubmit(onSubmit)}>
               <div>
-                <img src={profileImage} alt='프로필 이미지' />
+                <img src={getUser.profileImage} alt='프로필 이미지' />
               </div>
 
               <label className='auth-label' htmlFor='username'>
@@ -265,6 +283,7 @@ export default function Mypage() {
               </button>
             </form>
           </div>
+          }
         </div>
       </div>
       <p onClick={handleWithdraw} className='auth-span font-black opacity-60 mb-2 text-right cursor-pointer' role='alert'>
