@@ -8,7 +8,7 @@ export const CharacterList = ({data}) => {
 			{data.map((article) => {
 				return (
 					<li key={article.id}>
-						<Link to={`/talk/${article.id}`}>
+						<Link to={`/talk/${article.id}`} className={article.id !=='aaa111' ? `none` : null} onClick={e=> article.id !=='aaa111' && (e.preventDefault())}>
 							<div className="img">
 								<img src={article.img} alt="" />
 							</div>

@@ -23,43 +23,16 @@ import { FaArrowLeft } from 'react-icons/fa6';
 // import wavfile from '/test.wav';
 // import { type } from './../store/store';
 import { Popup } from './(talk)/Popup';
+import { ChatHistory } from './(talk)/ChatList';
 
 // 파비콘 출천 : http://si.serverzero.kr/main/pc/index.php#five
 // 이미지 출처 : https://m.blog.naver.com/sinnam88/221375405075
-
-export const ChatHistory = ({ talkMessages, userInfo, characterInfo }) => {
-	return (
-		<ul className={talkMessages.length === 0 ? 'h-full' : ''}>
-			{talkMessages.length === 0 ? (
-				<li key={0} className="h-full !m-0 flex justify-center items-center">
-					대화 내역이 아직 없습니다.
-				</li>
-			) : (
-				talkMessages.map((talkMessage, i) => {
-					return (
-						<li key={i} className={talkMessage?.includes('user:') ? 'user' : 'ai'}>
-							<div className="profile">
-								<img src={talkMessage?.includes('user:') ? '/user-default.png' : characterInfo[0]?.img} alt="" />
-							</div>
-							<div className="info">
-								<div className="name">
-									{talkMessage?.includes('user:') ? userInfo.userid : talkMessage.split(': ')[0]}
-								</div>
-								<div className="msg">{talkMessage.split(': ')[1]}</div>
-							</div>
-						</li>
-					);
-				})
-			)}
-		</ul>
-	);
-};
 
 function Talk() {
 	const { id } = useParams();
 	const [account] = useState('test');
 	// const [beforeMessage, setBeforeMessage] = useState([]);//api로 사용예정
-	const [beforeMessage] = useState(datas.chats.filter((chat) => chat.roomId === id)); //임시:기존 대화한 내역 메세지
+	// const [beforeMessage] = useState(datas.chats.filter((chat) => chat.roomId === id)); //임시:기존 대화한 내역 메세지
 
 	const [mic, setMic] = useState(false); //마이크 활성 체크
 	const [history, setHistory] = useState(false); //대화 내역
@@ -77,10 +50,9 @@ function Talk() {
 	const [correctLoad, setCorrectLoad] = useState(false); //교정 fetching 체크
 	const [audioLoad, setAudioLoad] = useState(false); //오디오 fetching 체크
 	const [firstAudioMsg, setFirstAudioMsg] = useState(false); //첫 대화시 오디오 파일 체크
-	// const [count,setCount] = useState(0);//임시 : 대화 메세지 전송 개수 체크(api 적용시 삭제예정)
-	// const [file] = useState(['https://market-imgs.s3.ap-northeast-2.amazonaws.com/test.mp3','/test.wav']);//임시 : 음성메세제 개수 (api 적용시 삭제예정)
-	const [aiMsg, setAiMsg] = useState({}); //임시 : 대화 메세지 전송 개수 체크(api 적용시 삭제예정)
-	const [talkMessages, setTalkMessages] = useState([]); //둘의 대화 메세지 목록
+	const [emotion, setEmotion] = useState('happy'); //
+	const [aiMsg, setAiMsg] = useState({}); //
+	const [talkMessages, setTalkMessages] = useState([]); //전송의 응답 메세지([user: .., pooh: ..])
 	const [correctList, setCorrectList] = useState([]); //교정 할 리스트
 	const [isFinishPop, setIsFinishPop] = useState(false); //대화 종료 팝업 체크
 	const [isFinish, setIsFinish] = useState(false); //대화 종료
@@ -89,27 +61,45 @@ function Talk() {
 	const [characterInfo] = useState(datas.characters.filter((character) => character.id === id)); //임시
 	const [bgNum, setBgNum] = useState(Math.floor(Math.random() * 3));
 	const [characterDesc, setCharacterDesc] = useState(false);
-	const [missions] = useState([
-		// 더미
+	const [getData] = useState([
+		//더미
 		{
-			id: 1,
-			message:
-				'mission1 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 ',
-			complete: true,
+			id: 'review_1',
+			messages: [
+				{ speaker: 'ai', message: 'I have to go.' },
+				{ speaker: 'user', message: 'why?' },
+				{ speaker: 'ai', message: 'He goed to the store.' },
+				{ speaker: 'user', message: 'Why do you think so?' },
+			],
+			wrongSentence: 'He goed to the store.',
+			correctedSentence: 'He went to the store.',
 		},
 		{
-			id: 2,
-			message:
-				'mission2 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 ',
-			complete: false,
+			id: 'review_2',
+			messages: [
+				{ speaker: 'ai', message: 'God bless you' },
+				{ speaker: 'user', message: 'what?' },
+				{ speaker: 'ai', message: 'He goed to the store.' },
+				{ speaker: 'user', message: 'Why do you think so?' },
+				{ speaker: 'ai', message: 'He goed to the store.' },
+				{ speaker: 'user', message: 'Why do you think so?' },
+			],
+			wrongSentence: 'He goed to the store.',
+			correctedSentence: 'He went to the store..',
 		},
 		{
-			id: 3,
-			message:
-				'mission3 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 미션 노출 ',
-			complete: false,
+			id: 'review_3',
+			messages: [
+				{ speaker: 'ai', message: "That's ok." },
+				{ speaker: 'user', message: 'why?' },
+			],
+			wrongSentence: 'He goed to the store.',
+			correctedSentence: 'He went to the store!',
 		},
 	]);
+	const [missions, setMissions] = useState(
+		getData.map((data, i) => ({ id: i, message: data.correctedSentence, complete: false }))
+	);
 
 	useEffect(() => {
 		setMic(false);
@@ -131,6 +121,7 @@ function Talk() {
 				{ withCredentials: true }
 			);
 			const result = await response.data;
+			setEmotion(result.emotion);
 			setTalkMessages((prevData) => [...prevData, `pooh: ${result.aimsg}`]);
 			setAiMsg((prevData) => ({ ...prevData, result: result }));
 			setAudioLoad(false);
@@ -175,6 +166,10 @@ function Talk() {
 			}
 			playAudio();
 			setFirstAudioMsg(true);
+
+			setMissions((prevData) =>
+				prevData.map((mission) => (mission.message === inputText ? { ...mission, complete: true } : mission))
+			);
 			textareaRef.current.value = '';
 			micRef.current.focus();
 		} catch (error) {
@@ -182,6 +177,10 @@ function Talk() {
 		}
 	};
 	const finishChat = async () => {
+		const todayMissionCount = missions.filter((data) => data.complete).length;
+		let allMsg = [];
+		if (todayMissionCount < 3 && !window.confirm('오늘의 학습 미션을 달성하지 못하였습니다. 그만하시겠습니까?')) return;
+		console.log(talkMessages, correctList);
 		try {
 			setCorrectLoad(true);
 			await axios
@@ -194,6 +193,7 @@ function Talk() {
 				)
 				.then(function (response) {
 					const correctedMsg = response.data;
+					allMsg = correctedMsg;
 					correctedMsg.forEach(function (msg) {
 						if (msg.includes('->')) {
 							setCorrectList((prevData) => [...prevData, msg]);
@@ -208,9 +208,26 @@ function Talk() {
 				.catch(function (error) {
 					console.error('에러 발생:', error);
 				});
+
+        console.log('allMsg 전:',allMsg);
+			await axios
+				.post(
+					'https://43.203.227.36.sslip.io/server/room/newRoom',
+					{
+						ai: 'pooh',
+						messages: allMsg,
+					},
+					{ withCredentials: true }
+				)
+				.then(function (response) {
+					console.log(response.data);
+					roomid = response.data;
+				});
+      console.log('allMsg 후:',allMsg);
 			setIsFinishPop(true);
 			setCorrectLoad(false);
 			setFirstAudioMsg(false);
+			setTodayMission(true); //오늘의 학습 목표 3개 완료시 체크
 		} catch (error) {
 			console.error('Fetch and play audio error:', error);
 		}
@@ -309,20 +326,20 @@ function Talk() {
 					<Popup title={'오늘의 학습 미션'} datas={missions} isPop={isPop} setIsPop={setIsPop} />
 				</div>
 				<div ref={innerRef} className="inner">
-					<div className="bg-char" style={{ backgroundImage: `url(/bg_${bgNum}.png)` }}></div>
+					<div className="bg-char" style={{ backgroundImage: `url(/bg_${bgNum}.jpg)` }}></div>
 					<div className="bg-emo">
 						<button onClick={() => emoHandler(0)}>
-							<img src="/bg_0.png" alt="" />
+							<img src="/bg_0.jpg" alt="" />
 						</button>
 						<button onClick={() => emoHandler(1)}>
-							<img src="/bg_1.png" alt="" />
+							<img src="/bg_1.jpg" alt="" />
 						</button>
 						<button onClick={() => emoHandler(2)}>
-							<img src="/bg_2.png" alt="" />
+							<img src="/bg_2.jpg" alt="" />
 						</button>
 					</div>
-					<div className="profile">
-						<img src={beforeMessage[0]?.img} alt="" />
+					<div className={`profile ${emotion}`}>
+						<img src={`/pooh_${emotion}.png`} alt="" />
 					</div>
 				</div>
 

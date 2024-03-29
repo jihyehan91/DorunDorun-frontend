@@ -65,9 +65,23 @@
 .list-char li {
   @apply rounded-xl overflow-hidden hover:shadow-md duration-300 border border-[var(--border-divide-color)];
 }
-
 .list-char a {
-  @apply flex flex-col text-[var(--btn)] hover:text-black rounded-lg bg-[--bg-highlight-color];
+  @apply relative flex flex-col text-[var(--btn)] hover:text-black rounded-lg bg-[--bg-highlight-color];
+}
+.list-char a.none {
+  @apply  cursor-default;
+}
+.list-char a.none:hover>* {
+  filter:blur(1px);
+  @apply text-gray-400;
+}
+.list-char a.none:after {
+  content:"준비 중입니다";
+  font-size:3vw;
+  @apply absolute top-0 left-0 w-full h-full flex justify-center pt-[40%] text-gray-500 bg-[var(--bg-highlight-color)] opacity-0 transition-opacity sm:text-lg;
+}
+.list-char a.none:hover:after {
+  @apply  opacity-60;
 }
 .list-char li .img {
   @apply relative pt-[85%] rounded-xl object-cover overflow-hidden;
@@ -79,7 +93,7 @@
   @apply scale-110;
 }
 .list-char li dl {
-  @apply m-5;
+  @apply m-3 md:m-5;
 }
 .list-char li .name {
   @apply truncate font-bold text-black;

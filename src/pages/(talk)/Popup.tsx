@@ -1,6 +1,15 @@
+import { useState, useEffect } from 'react';
 import { IoMdCloseCircle } from 'react-icons/io';
 
 export const Popup = ({ title, datas, isPop, setIsPop }) => {
+	const [mssCount, setMssCount] = useState(0);
+	useEffect(() => {
+		const completedCount = datas.filter((data) => data.complete).length;
+		if (completedCount === 3 && mssCount < 1) {
+			setMssCount((prevMss) => prevMss + 1);
+		}
+	}, [datas, mssCount]);
+
 	function List({ title }) {
 		switch (title) {
 			case '교정 목록':
@@ -21,7 +30,8 @@ export const Popup = ({ title, datas, isPop, setIsPop }) => {
 				return (
 					<>
 						<p className="todo">
-							<span>오늘의 학습 목표: 미달(1/3)</span> <span>전체 목표량 : 1/30일</span>
+							<span>오늘의 목표: 미달({datas.filter((data) => data.complete).length}/3)</span>{' '}
+							<span>전체 목표량 : {mssCount}/30일</span>
 						</p>
 						<ul className="list-mission">
 							{datas.map((mission) => {
@@ -37,8 +47,8 @@ export const Popup = ({ title, datas, isPop, setIsPop }) => {
 			case '캐릭터 소개':
 				return (
 					<>
-            <strong className="text-lg">{datas[0].name}</strong>
-            <p>{datas[0].desc}</p>
+						<strong className="text-lg">{datas[0].name}</strong>
+						<p>{datas[0].desc}</p>
 					</>
 				);
 
