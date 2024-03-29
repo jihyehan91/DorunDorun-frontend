@@ -1,20 +1,56 @@
 import { useState } from 'react';
 
 export default function Wordquiz() {
-  const krAnswer = '해석 : 이것은 셔플링에 대한 샘플 문장입니다';
-  const enAnswer = 'This is a sample sentence for shuffling';
-  const [newArr, setNewArr] = useState(enAnswer.split(' '));
+  const enAnswers = [
+    {
+      sentence: 'This is a sample sentence for shuffling',
+      krTranslation: '이것은 셔플링을 위한 샘플 문장입니다'
+    },
+    {
+      sentence: 'I love to eat pizza on Fridays',
+      krTranslation: '나는 금요일에 피자를 먹는 것을 좋아합니다'
+    },
+    {
+      sentence: 'The cat chased the mouse around the house',//해결 힘듬...
+      krTranslation: '고양이가 집 주위를 쥐를 쫓았습니다'
+    },
+    {
+      sentence: 'He goes jogging in the park every morning',
+      krTranslation: '그는 매일 아침 공원에서 조깅을 합니다'
+    },
+    {
+      sentence: 'We had a picnic by the river last weekend',
+      krTranslation: '지난 주말에 우리는 강가에서 소풍을 했습니다'
+    }
+  ];
+
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [currentAnswer, setCurrentAnswer] = useState(enAnswers[currentQuestionIndex]);
+  const [krAnswer, setKrAnswer] = useState(enAnswers[currentQuestionIndex].krTranslation);
+  const [newArr, setNewArr] = useState(currentAnswer.sentence.split(' '));
   const [userAnswer, setUserAnswer] = useState('');
   const [correctAnswer, setCorrectAnswer] = useState(false);
-  const [clickedWords, setClickedWords] = useState([]);
   const [showUndoButton, setShowUndoButton] = useState(false);
 
   const checkAnswer = () => {
-    if (enAnswer === userAnswer) {
+    if (currentAnswer.sentence === userAnswer) {
       alert('정답입니다!');
       firework();
       setShowUndoButton(false);
-      setUserAnswer('아래 버튼을 눌러 다음 문제로 넘어가시오');
+      setUserAnswer('');
+      setCorrectAnswer(false);
+      if (currentQuestionIndex < enAnswers.length - 1) {
+        setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+        setCurrentAnswer(enAnswers[currentQuestionIndex + 1]);
+        setNewArr(enAnswers[currentQuestionIndex + 1].sentence.split(' '));
+        setKrAnswer(enAnswers[currentQuestionIndex + 1].krTranslation);
+      } else {
+        alert('모든 문제를 푸셨습니다!');
+        setCurrentQuestionIndex(0);
+        setCurrentAnswer(enAnswers[0]);
+        setNewArr(enAnswers[0].sentence.split(' '));
+        setKrAnswer(enAnswers[0].krTranslation);
+      }
     } else {
       alert('오답입니다.');
       setCorrectAnswer(true);
@@ -31,23 +67,17 @@ export default function Wordquiz() {
       }
     });
     setNewArr((prevArr) => prevArr.filter((val) => val !== word));
-    setClickedWords((prevClickedWords) => [...prevClickedWords, word]);
     setShowUndoButton(true);
   };
 
   const undoClick = () => {
-    if (clickedWords.length > 0) {
-      const lastClickedWord = clickedWords[clickedWords.length - 1];
-      setUserAnswer((prevAnswer) => {
-        const regex = new RegExp(`\\b${lastClickedWord}\\b`);
-        return prevAnswer.replace(regex, '').trim();
-      });
-      setNewArr((prevArr) => [...prevArr, lastClickedWord]);
-      setClickedWords((prevClickedWords) => prevClickedWords.slice(0, -1));
-      if (clickedWords.length === 1) {
-        setShowUndoButton(false);
-      }
-    }
+    setUserAnswer((prevAnswer) => {
+      const words = prevAnswer.split(' ');
+      words.pop();
+      return words.join(' ');
+    });
+    setNewArr((prevArr) => [...prevArr, userAnswer.split(' ').pop()]);
+    setShowUndoButton(false);
   };
 
   const firework = () => {
@@ -84,14 +114,13 @@ export default function Wordquiz() {
     }, 250);
   }
 
-
   return (
     <div className='mx-auto mt-10 text-center p-5 border-2'>
       <p className='text-xl mb-4'>{krAnswer}</p>
       <input
         type='text'
         value={userAnswer}
-        onChange={(e) => setUserAnswer(e.target.value)}
+        readOnly
         className='border border-gray-300 rounded-md px-4 py-2 mb-4 w-full max-w-md mx-auto'
       />
 
@@ -118,7 +147,7 @@ export default function Wordquiz() {
         <div className='mt-4'>
           <h1 className='text-red-600'>틀렸습니다.</h1>
           <strong>
-            정답은 <span className='text-blue-500'>'{enAnswer}'</span>입니다.
+            정답은 <span className='text-blue-500'>'{currentAnswer.sentence}'</span>입니다.
           </strong>
         </div>
       )}

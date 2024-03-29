@@ -1,10 +1,8 @@
 import { useForm, SubmitHandler, SubmitErrorHandler } from 'react-hook-form';
-import { userNicknameCheckApi, userIdCheckApi } from '../api/userCheck';
-// import { signupApi } from '../api/signUp';
-import { useEffect, useState } from 'react';
+import {userIdCheckApi } from '../api/userCheck';
+import { useState ,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../hooks';
-import { userIdCheck, userNicknameCheck } from '../store/features/userIdCheck';
 import { signUpUser } from '../store/features/signUpSlice';
 
 import '../assets/css/auth.css';
@@ -21,6 +19,10 @@ type FormData = {
 
 export default function SignUp() {
   const dispatch = useAppDispatch();
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
+  const [userIdCheck, setUserIdCheck] = useState<boolean | null>(null);
+  const [userIdRedundancy, setUserIdRedundancy] = useState<boolean | null>(null);
 
   const {
     register,
@@ -28,9 +30,6 @@ export default function SignUp() {
     formState: { errors },
     watch,
   } = useForm<FormData>();
-
-  const [nicknameAvailable, setNicknameAvailable] = useState<boolean | null>(null);
-  const [userIdAvailable, setUserIdAvailable] = useState<boolean | null>(null);
 
   const onSubmit: SubmitHandler<FormData> = (userdata) => {
     console.log('onSubmit', userdata);
@@ -41,40 +40,74 @@ export default function SignUp() {
     console.log('onError', errors);
   };
 
-  // 아이디, 닉네임 실시간 체크
-  const userId = watch('userId');
-  const nickname = watch('nickname');
-
-  useEffect(() => {
-    if (userId !== '') {
-      dispatch(userIdCheck(userId));
-      userIdCheckApi(userId)
-        .then((response) => {
-          setUserIdAvailable(response);
-        })
-        .catch((error) => {
-          console.log('오류 발생:', error);
-        });
-    } else {
-      setUserIdAvailable(null);
+  // 아이디 중복 체크
+  const checkUserId = async () => {
+    const userId = watch('userId');
+    if (!userId) {
+      alert('ID를 입력해주세요');
+      setUserIdRedundancy(null);
+      return;
     }
-  }, [userId, dispatch]);
-
-  useEffect(() => {
-    if (nickname !== '' ) { 
-      dispatch(userNicknameCheck(nickname));
-      userNicknameCheckApi(nickname)
-        .then((response) => {
-          setNicknameAvailable(response);
-        })
-        .catch((error) => {
-          console.error('오류 발생:', error);
-        });
-    } else {
-      setNicknameAvailable(null);
+    try {
+      const response = await userIdCheckApi(userId);
+      setUserIdRedundancy(response);
+    } catch (error) {
+      console.log('오류 발생:', error);
     }
-  }, [nickname, dispatch]);
+  };
 
+  //아이디 실시간 체크
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const userId = watch('userId');
+      let errorMessage = '';
+      if (userId !== '') {
+        if (userId.length < 6) {
+          errorMessage = '아이디는 6자 이상이어야 합니다';
+        } else if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(userId)) {
+          errorMessage = '아이디는 영문과 숫자의 조합으로 이루어져야 합니다';
+        }
+      }
+      setUserIdCheck(errorMessage);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [watch('userId')]);
+
+  //비벌번호 실시간 체크
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const password = watch('password');
+      let errorMessage = '';
+      if (password !== '') {
+        if (password.length < 8) {
+          errorMessage = '비밀번호는 8자 이상 및 숫자, 대문자, 소문자, 특수문자를 포함해야 합니다';
+        } else if (!/\d/.test(password) || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[!@#$%^&*]/.test(password)) {
+          errorMessage = '비밀번호는 숫자, 대문자, 소문자, 특수문자를 포함해야 합니다';
+        }
+      }
+      setPasswordError(errorMessage);
+    }, 500);
+  
+    return () => clearTimeout(timer);
+  }, [watch('password')]);
+
+  //비빌번호 확인 실시간 체크
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const confirmPassword = watch('confirmPassword');
+      const password = watch('password');
+      let errorMessage = '';
+      if (confirmPassword !== '' && password !== '') {
+        if (confirmPassword !== password) {
+          errorMessage = '비밀번호가 일치하지 않습니다';
+        }
+      }
+      setConfirmPasswordError(errorMessage);
+    }, 500);
+  
+    return () => clearTimeout(timer);
+  }, [watch('confirmPassword'), watch('password')]);
 
 
   return (
@@ -116,8 +149,9 @@ export default function SignUp() {
               <label className='auth-label' htmlFor='userId'>
                 아이디
               </label>
+              <div className='flex'>
               <input
-                className='auth-input'
+                className='auth-input mr-2 w-3/4'
                 type='text'
                 id='userId'
                 placeholder='ID를 입력해주세요 (8글자 이상, 영문 및 숫자 조합)'
@@ -133,43 +167,19 @@ export default function SignUp() {
                   },
                 })}
               />
+              <button className='py-0.5 bg-[var(--btn-bg)] rounded border-0 text-white font-medium text-sm' type='button' onClick={checkUserId}>아이디 중복 검사</button>
+              </div>
               {errors.userId && (
                 <span className='auth-span' role='alert'>
                   {errors.userId.message}
                 </span>
               )}
-              {userIdAvailable !== null && (
-                // <span className={!userIdAvailable ? 'text-blue-500 text-xs' : 'text-red-500 text-xs'}>
-                //   {!userIdAvailable ? '사용 가능한 아이디입니다.' : '이미 사용 중인 아이디입니다.'}
-                // </span>
-                <span className='text-red-500 text-xs'>
-                {userIdAvailable && '이미 사용 중인 아이디입니다.'}
-              </span>
-              )}
-              
-
-              <label className='auth-label' htmlFor='nickname'>
-                닉네임
-              </label>
-              <input
-                className='auth-input'
-                type='text'
-                id='nickname'
-                placeholder='닉네임을 입력해주세요'
-                {...register('nickname', {
-                  required: '닉네임을 입력해주세요',
-                })}
-              />
-              {errors.nickname && (
-                <span className='auth-span' role='alert'>
-                  {errors.nickname.message}
+                 {userIdCheck && <span className='auth-span' role='alert'>{userIdCheck}</span>}
+              {userIdRedundancy !== null && (
+                <span className={!userIdRedundancy ? 'text-blue-500 text-xs' : 'text-red-500 text-xs'}>
+                  {!userIdRedundancy ? '사용 가능한 아이디입니다.' : '이미 사용 중인 아이디입니다.'}
                 </span>
-              )}
-              {nicknameAvailable !== null && (
-                <span className={!nicknameAvailable ? 'text-blue-500 text-xs' : 'text-red-500 text-xs'}>
-                  {!nicknameAvailable ? '사용 가능한 닉네임입니다.' : '이미 사용 중인 닉네임입니다.'}
-                </span>
-              )}
+              )}              
 
               <label className='auth-label' htmlFor='email'>
                 이메일
@@ -178,7 +188,7 @@ export default function SignUp() {
                 className='auth-input'
                 type='email'
                 id='email'
-                placeholder='이메일 주소'
+                placeholder='이메일 주소를 입력해주세요'
                 {...register('email', {
                   required: '이메일을 입력해주세요',
                   pattern: {
@@ -222,6 +232,7 @@ export default function SignUp() {
                   },
                 })}
               />
+              {passwordError && <span className='auth-span' role='alert'>{passwordError}</span>}
               {errors.password && (
                 <span className='auth-span' role='alert'>
                   {errors.password.message}
@@ -243,6 +254,7 @@ export default function SignUp() {
                     '비밀번호가 일치하지 않습니다',
                 })}
               />
+              {confirmPasswordError && <span className='auth-span' role='alert'>{confirmPasswordError}</span>}
               {errors.confirmPassword && (
                 <span className='auth-span' role='alert'>
                   {errors.confirmPassword.message}

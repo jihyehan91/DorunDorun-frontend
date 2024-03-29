@@ -12,7 +12,7 @@ const useUserData = () => {
         const API_URL = 'https://43.203.227.36.sslip.io/server';
         const response = await axios.get(`${API_URL}/user/authuser`, { withCredentials: true });
         setUserCheck(response.data.result);
-        setUser(response.data.nickname || '');
+        setUser(response.data.userId || '');
         setProfileImage(response.data.profileImageUrl || ''); 
       } catch (error) {
         console.error('에러가 발생했습니다:', error);

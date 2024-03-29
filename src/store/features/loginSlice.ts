@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Dispatch } from '@reduxjs/toolkit';
-import { loginApi, logoutApi, authUser } from '../../api/login';
+import { loginApi, logoutApi } from '../../api/login';
 interface User {
   userId: string;
   password: string;
@@ -65,19 +65,19 @@ export const loginUser =
     }
   };
 
-  export const authUsers = () => async (dispatch: Dispatch) => {
-    try {
-      await authUser();
-      dispatch(loginSuccess());
-    } catch (error) {
-      if (isErrorWithMessage(error)) {
-        dispatch(loginError(error.message)); 
-        throw new ReadError("Validation Error", error); 
-      } else {
-        throw error;
-      }
-    }
-  };
+  // export const authUsers = () => async (dispatch: Dispatch) => {
+  //   try {
+  //     await authUser();
+  //     dispatch(loginSuccess());
+  //   } catch (error) {
+  //     if (isErrorWithMessage(error)) {
+  //       dispatch(loginError(error.message)); 
+  //       throw new ReadError("Validation Error", error); 
+  //     } else {
+  //       throw error;
+  //     }
+  //   }
+  // };
 
 export const logoutUser = () => async (dispatch: Dispatch) => {
   try {
