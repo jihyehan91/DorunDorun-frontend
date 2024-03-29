@@ -98,9 +98,15 @@ export default function Login() {
             </form>
           </div>
           <div className='signup-link'>
-            <span>아직 회원이 아니라면? </span>
+            {/* <span>아직 회원이 아니라면? </span> */}
             <span>
               <Link to='/signup'>회원가입</Link>
+            </span>
+            <span>
+              <Link to='/signup'> | 아이디 찾기</Link>
+            </span>
+            <span>
+              <Link to='/signup'> | 패스워드 찾기</Link>
             </span>
           </div>
         </div>

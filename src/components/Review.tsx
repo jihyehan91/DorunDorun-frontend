@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import '../assets/css/review.css';
-import datas from '../../datas.json';
 
 interface Data {
   id: string;
@@ -13,8 +12,14 @@ interface Data {
   incorrectSentences: string[];
 }
 
+interface Room {
+  id: string;
+  userid: string;
+  ai: string;
+  createdAt: Date;
+}
 interface ReviewData extends Data {
-  date: string;
+  date: Date;
 }
 
 interface Props {
@@ -49,21 +54,24 @@ function ReviewItem({ data }: Props) {
 }
 
 export default function Review() {
-  // 임시 데이터
-  const dummyData = datas.reviewDatas;
-
   const [sortBy, setSortBy] = useState<string>('latest');
-  const [reviewDatas, setReviewDatas] = useState<ReviewData[]>(dummyData);
-  // const [reviewDatas, setReviewDatas] = useState<ReviewData[]>([]);
+  const [reviewDatas, setReviewDatas] = useState<ReviewData[]>([]);
   const uniqueDates: string[] = [
-    ...new Set(reviewDatas.map((data) => data.date)),
+    ...new Set(
+      reviewDatas.map((data) => data.date.toISOString().split('T')[0])
+    ),
   ];
+  let rooms: Room[] = [];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const response = await axios.get<ReviewData[]>('URL');
-        // setReviewDatas(response.data);
+        const response = await axios.get<string>(
+          'https://43.203.227.36.sslip.io/server/room/getRooms'
+        );
+        console.log(response.data);
+        // rooms = JSON.parse(response.data);
+        console.log(rooms);
       } catch (error) {
         console.error('Error fetching review data:', error);
       }

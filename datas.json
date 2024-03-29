@@ -129,19 +129,19 @@
   "users": [
     {
       "id": 1,
-      "userid": "test",
+      "userId": "test",
       "profile": "/image1.png",
       "chats": ["aaa111"]
     },
     {
       "id": 2,
-      "userid": "hong",
+      "userId": "hong",
       "profile": "/image1.png",
       "chats": ["aaa333"]
     },
     {
       "id": 3,
-      "userid": "oh",
+      "userId": "oh",
       "profile": "/image1.png",
       "chats": ["aaa444"]
     }
@@ -300,670 +300,1276 @@
     }
   ],
 
-  "level0": [
+  "level": [
     {
-      "id": "level0_0",
+      "id": "level0",
       "no": 0,
-      "sentence": "레벨0 I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨0)I am trying to...",
+      "sentence_translation": "나는 노력하고 있어요...",
+      "similar": [
+        "I am trying to learn a new language.",
+        "I am trying to fix the broken computer.",
+        "I am trying to finish my homework before dinner."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 새로운 언어를 배우려고 노력하고 있어요.",
+        "나는 고장난 컴퓨터를 고치려고 노력하고 있어요.",
+        "나는 저녁 식사 전에 숙제를 끝내려고 노력하고 있어요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What are you doing?" },
+        {
+          "speaker": "B",
+          "text": "I am trying to solve this puzzle. It's quite challenging."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 하고 있니?" },
+        {
+          "speaker": "B",
+          "text": "이 퍼즐을 풀려고 노력하고 있어요. 꽤 도전적이에요."
+        }
       ],
       "used": false
     },
+
     {
-      "id": "level0_1",
+      "id": "level0",
       "no": 1,
-      "sentence": "She has a cat.",
-      "similarSentences": [
-        "She owns a cat.",
-        "There is a cat in her house.",
-        "A cat belongs to her."
+      "sentence": "(레벨0)Are you going to...",
+      "sentence_translation": "나는 노력하고 있어요...",
+      "similar": [
+        "I am trying to learn a new language.",
+        "I am trying to fix the broken computer.",
+        "I am trying to finish my homework before dinner."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "Does she have any pets?" },
-        { "speaker": "B", "text": "Yes, she has a cat." }
+      "similar_translation": [
+        "나는 새로운 언어를 배우려고 노력하고 있어요.",
+        "나는 고장난 컴퓨터를 고치려고 노력하고 있어요.",
+        "나는 저녁 식사 전에 숙제를 끝내려고 노력하고 있어요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What are you doing?" },
+        {
+          "speaker": "B",
+          "text": "I am trying to solve this puzzle. It's quite challenging."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 하고 있니?" },
+        {
+          "speaker": "B",
+          "text": "이 퍼즐을 풀려고 노력하고 있어요. 꽤 도전적이에요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_2",
+      "id": "level0",
       "no": 2,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨0)I need to...",
+      "sentence_translation": " 나는 ...이 필요해요...",
+      "similar": [
+        "I need to buy some groceries.",
+        "I need to finish this report by tomorrow.",
+        "I need to call my parents."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 장을 사러 가야 해요.",
+        "내일까지 이 보고서를 끝내야 해요.",
+        "부모님께 전화해야 해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you need to do?" },
+        {
+          "speaker": "B",
+          "text": "I need to buy some groceries. We're running out of food."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 해야 하나요?" },
+        {
+          "speaker": "B",
+          "text": "장을 사러 가야 해요. 음식이 부족해져서요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_3",
+      "id": "level0",
       "no": 3,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨0)I want to...",
+      "sentence_translation": " 나는 ... 하고 싶어요...",
+      "similar": [
+        "I want to learn how to play the guitar.",
+        "I want to travel around the world.",
+        "I want to spend more time with my family."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 기타를 배우고 싶어요.",
+        "나는 세계 일주를 하고 싶어요.",
+        "나는 가족과 더 많은 시간을 보내고 싶어요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you want to do?" },
+        {
+          "speaker": "B",
+          "text": "I want to learn how to play the guitar. It's been a dream of mine for a long time."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 하고 싶나요?" },
+        {
+          "speaker": "B",
+          "text": "기타를 배우고 싶어요. 오랜 시간 동안 꿈이었어요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_4",
+      "id": "level0",
       "no": 4,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨0)I love to...",
+      "sentence_translation": " 나는 ...을 좋아해요...",
+      "similar": [
+        "I love to read books in my free time.",
+        "I love to go hiking on weekends.",
+        "I love to cook for my friends."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 시간이 날 때 책을 읽는 것을 좋아해요.",
+        "주말에 하이킹을 가는 것을 좋아해요.",
+        "친구들을 위해 요리하는 것을 좋아해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you enjoy doing?" },
+        {
+          "speaker": "B",
+          "text": "I love to read books in my free time. It's very relaxing."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 즐겨 하나요?" },
+        {
+          "speaker": "B",
+          "text": "시간이 날 때 책을 읽는 것을 좋아해요. 정말 편안해요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_5",
+      "id": "level0",
       "no": 5,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨0)I enjoy...",
+      "sentence_translation": " 나는 ...을 즐겨해요...",
+      "similar": [
+        "I enjoy spending time with my pets.",
+        "I enjoy listening to music while I work.",
+        "I enjoy going for walks in the park."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 애완동물과 시간을 보는 것을 즐겨해요.",
+        "일할 때 음악을 듣는 것을 즐겨해요.",
+        "공원에서 산책하는 것을 즐겨해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What brings you joy?" },
+        {
+          "speaker": "B",
+          "text": "I enjoy spending time with my pets. They always make me happy."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇이 당신에게 기쁨을 주나요?" },
+        {
+          "speaker": "B",
+          "text": "애완동물과 시간을 보는 것을 즐겨해요. 항상 기분이 좋아져요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_6",
+      "id": "level0",
       "no": 6,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨0)I like...",
+      "sentence_translation": " 나는 ...을 좋아해요...",
+      "similar": [
+        "I like to drink coffee in the morning.",
+        "I like to watch movies on weekends.",
+        "I like to go shopping with my friends."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 아침에 커피를 마시는 것을 좋아해요.",
+        "주말에 영화를 보는 것을 좋아해요.",
+        "친구들과 함께 쇼핑을 가는 것을 좋아해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you like doing?" },
+        {
+          "speaker": "B",
+          "text": "I like to watch movies on weekends. It's a great way to relax."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 좋아 하나요?" },
+        {
+          "speaker": "B",
+          "text": "주말에 영화를 보는 것을 좋아해요. 휴식하기에 좋은 방법이에요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_7",
+      "id": "level0",
       "no": 7,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨0)I prefer...",
+      "sentence_translation": " 나는 ...을 선호해요...",
+      "similar": [
+        "I prefer to eat at home rather than going to a restaurant.",
+        "I prefer reading books to watching TV.",
+        "I prefer walking to taking the bus."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 외식하는 대신 집에서 먹는 것을 선호해요.",
+        "나는 TV를 보는 대신 책을 읽는 것을 선호해요.",
+        "나는 버스를 타는 대신 걷는 것을 선호해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you prefer?" },
+        {
+          "speaker": "B",
+          "text": "I prefer reading books to watching TV. It's more relaxing."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 선호 하나요?" },
+        {
+          "speaker": "B",
+          "text": "TV를 보는 대신 책을 읽는 것을 선호해요. 더 편안해요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_8",
+      "id": "level0",
       "no": 8,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨0)I enjoy...",
+      "sentence_translation": " 나는 ...을 즐겨해요...",
+      "similar": [
+        "I enjoy playing soccer with my friends.",
+        "I enjoy cooking meals for my family.",
+        "I enjoy spending time outdoors."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 친구들과 축구를 하는 것을 즐겨해요.",
+        "나는 가족을 위해 식사를 만드는 것을 즐겨해요.",
+        "나는 야외에서 시간을 보는 것을 즐겨해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you find enjoyable?" },
+        {
+          "speaker": "B",
+          "text": "I enjoy spending time outdoors. It's refreshing."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 즐겁다고 생각하나요?" },
+        {
+          "speaker": "B",
+          "text": "나는 야외에서 시간을 보는 것을 즐겨해요. 상쾌해요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_9",
+      "id": "level0",
       "no": 9,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨0)I am interested in...",
+      "sentence_translation": " 나는 ...에 관심이 있어요...",
+      "similar": [
+        "I am interested in learning about different cultures.",
+        "I am interested in studying psychology.",
+        "I am interested in improving my cooking skills."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 다른 문화에 대해 배우는 것에 관심이 있어요.",
+        "나는 심리학을 공부하는 것에 관심이 있어요.",
+        "나는 요리 실력을 향상시키는 것에 관심이 있어요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What are you interested in?" },
+        {
+          "speaker": "B",
+          "text": "I am interested in learning about different cultures. It's fascinating."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇에 관심이 있나요?" },
+        {
+          "speaker": "B",
+          "text": "나는 다른 문화에 대해 배우는 것에 관심이 있어요. 신기해요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_10",
+      "id": "level0",
       "no": 10,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨0)I am excited to...",
+      "sentence_translation": " 나는 ...하기를 기대해요...",
+      "similar": [
+        "I am excited to start my new job next week.",
+        "I am excited to visit a new country this summer.",
+        "I am excited to see my friends at the party tonight."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 다음 주에 새로운 직장을 시작하기를 기대해요.",
+        "나는 이번 여름에 새로운 나라를 방문하기를 기대해요.",
+        "나는 오늘 밤 파티에서 친구들을 보기를 기대해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What are you excited about?" },
+        {
+          "speaker": "B",
+          "text": "I am excited to start my new job next week. It's a great opportunity."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇에 기대하고 있나요?" },
+        {
+          "speaker": "B",
+          "text": "나는 다음 주에 새로운 직장을 시작하기를 기대해요. 좋은 기회에요."
+        }
       ],
       "used": false
-    }
-  ],
-  "level1": [
+    },
     {
-      "id": "level0_0",
+      "id": "level1",
       "no": 0,
-      "sentence": "레벨1 I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨1)I am trying to...",
+      "sentence_translation": "나는 노력하고 있어요...",
+      "similar": [
+        "I am trying to learn a new language.",
+        "I am trying to fix the broken computer.",
+        "I am trying to finish my homework before dinner."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 새로운 언어를 배우려고 노력하고 있어요.",
+        "나는 고장난 컴퓨터를 고치려고 노력하고 있어요.",
+        "나는 저녁 식사 전에 숙제를 끝내려고 노력하고 있어요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What are you doing?" },
+        {
+          "speaker": "B",
+          "text": "I am trying to solve this puzzle. It's quite challenging."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 하고 있니?" },
+        {
+          "speaker": "B",
+          "text": "이 퍼즐을 풀려고 노력하고 있어요. 꽤 도전적이에요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_1",
+      "id": "level1",
       "no": 1,
-      "sentence": "She has a cat.",
-      "similarSentences": [
-        "She owns a cat.",
-        "There is a cat in her house.",
-        "A cat belongs to her."
+      "sentence": "(레벨1)I need to...",
+      "sentence_translation": " 나는 ...이 필요해요...",
+      "similar": [
+        "I need to buy some groceries.",
+        "I need to finish this report by tomorrow.",
+        "I need to call my parents."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "Does she have any pets?" },
-        { "speaker": "B", "text": "Yes, she has a cat." }
+      "similar_translation": [
+        "나는 장을 사러 가야 해요.",
+        "내일까지 이 보고서를 끝내야 해요.",
+        "부모님께 전화해야 해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you need to do?" },
+        {
+          "speaker": "B",
+          "text": "I need to buy some groceries. We're running out of food."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 해야 하나요?" },
+        {
+          "speaker": "B",
+          "text": "장을 사러 가야 해요. 음식이 부족해져서요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_2",
+      "id": "level1",
       "no": 2,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨1)I want to...",
+      "sentence_translation": " 나는 ... 하고 싶어요...",
+      "similar": [
+        "I want to learn how to play the guitar.",
+        "I want to travel around the world.",
+        "I want to spend more time with my family."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 기타를 배우고 싶어요.",
+        "나는 세계 일주를 하고 싶어요.",
+        "나는 가족과 더 많은 시간을 보내고 싶어요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you want to do?" },
+        {
+          "speaker": "B",
+          "text": "I want to learn how to play the guitar. It's been a dream of mine for a long time."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 하고 싶나요?" },
+        {
+          "speaker": "B",
+          "text": "기타를 배우고 싶어요. 오랜 시간 동안 꿈이었어요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_3",
+      "id": "level1",
       "no": 3,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨1)I love to...",
+      "sentence_translation": " 나는 ...을 좋아해요...",
+      "similar": [
+        "I love to read books in my free time.",
+        "I love to go hiking on weekends.",
+        "I love to cook for my friends."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 시간이 날 때 책을 읽는 것을 좋아해요.",
+        "주말에 하이킹을 가는 것을 좋아해요.",
+        "친구들을 위해 요리하는 것을 좋아해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you enjoy doing?" },
+        {
+          "speaker": "B",
+          "text": "I love to read books in my free time. It's very relaxing."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 즐겨 하나요?" },
+        {
+          "speaker": "B",
+          "text": "시간이 날 때 책을 읽는 것을 좋아해요. 정말 편안해요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_4",
+      "id": "level1",
       "no": 4,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨1)I enjoy...",
+      "sentence_translation": " 나는 ...을 즐겨해요...",
+      "similar": [
+        "I enjoy spending time with my pets.",
+        "I enjoy listening to music while I work.",
+        "I enjoy going for walks in the park."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 애완동물과 시간을 보는 것을 즐겨해요.",
+        "일할 때 음악을 듣는 것을 즐겨해요.",
+        "공원에서 산책하는 것을 즐겨해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What brings you joy?" },
+        {
+          "speaker": "B",
+          "text": "I enjoy spending time with my pets. They always make me happy."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇이 당신에게 기쁨을 주나요?" },
+        {
+          "speaker": "B",
+          "text": "애완동물과 시간을 보는 것을 즐겨해요. 항상 기분이 좋아져요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_5",
+      "id": "level1",
       "no": 5,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨1)I like...",
+      "sentence_translation": " 나는 ...을 좋아해요...",
+      "similar": [
+        "I like to drink coffee in the morning.",
+        "I like to watch movies on weekends.",
+        "I like to go shopping with my friends."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 아침에 커피를 마시는 것을 좋아해요.",
+        "주말에 영화를 보는 것을 좋아해요.",
+        "친구들과 함께 쇼핑을 가는 것을 좋아해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you like doing?" },
+        {
+          "speaker": "B",
+          "text": "I like to watch movies on weekends. It's a great way to relax."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 좋아 하나요?" },
+        {
+          "speaker": "B",
+          "text": "주말에 영화를 보는 것을 좋아해요. 휴식하기에 좋은 방법이에요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_6",
+      "id": "level1",
       "no": 6,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨1)I prefer...",
+      "sentence_translation": " 나는 ...을 선호해요...",
+      "similar": [
+        "I prefer to eat at home rather than going to a restaurant.",
+        "I prefer reading books to watching TV.",
+        "I prefer walking to taking the bus."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 외식하는 대신 집에서 먹는 것을 선호해요.",
+        "나는 TV를 보는 대신 책을 읽는 것을 선호해요.",
+        "나는 버스를 타는 대신 걷는 것을 선호해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you prefer?" },
+        {
+          "speaker": "B",
+          "text": "I prefer reading books to watching TV. It's more relaxing."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 선호 하나요?" },
+        {
+          "speaker": "B",
+          "text": "TV를 보는 대신 책을 읽는 것을 선호해요. 더 편안해요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_7",
+      "id": "level1",
       "no": 7,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨1)I enjoy...",
+      "sentence_translation": " 나는 ...을 즐겨해요...",
+      "similar": [
+        "I enjoy playing soccer with my friends.",
+        "I enjoy cooking meals for my family.",
+        "I enjoy spending time outdoors."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 친구들과 축구를 하는 것을 즐겨해요.",
+        "나는 가족을 위해 식사를 만드는 것을 즐겨해요.",
+        "나는 야외에서 시간을 보는 것을 즐겨해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you find enjoyable?" },
+        {
+          "speaker": "B",
+          "text": "I enjoy spending time outdoors. It's refreshing."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 즐겁다고 생각하나요?" },
+        {
+          "speaker": "B",
+          "text": "나는 야외에서 시간을 보는 것을 즐겨해요. 상쾌해요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_8",
+      "id": "level1",
       "no": 8,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨1)I am interested in...",
+      "sentence_translation": " 나는 ...에 관심이 있어요...",
+      "similar": [
+        "I am interested in learning about different cultures.",
+        "I am interested in studying psychology.",
+        "I am interested in improving my cooking skills."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 다른 문화에 대해 배우는 것에 관심이 있어요.",
+        "나는 심리학을 공부하는 것에 관심이 있어요.",
+        "나는 요리 실력을 향상시키는 것에 관심이 있어요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What are you interested in?" },
+        {
+          "speaker": "B",
+          "text": "I am interested in learning about different cultures. It's fascinating."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇에 관심이 있나요?" },
+        {
+          "speaker": "B",
+          "text": "나는 다른 문화에 대해 배우는 것에 관심이 있어요. 신기해요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_9",
+      "id": "level1",
       "no": 9,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨1)I am excited to...",
+      "sentence_translation": " 나는 ...하기를 기대해요...",
+      "similar": [
+        "I am excited to start my new job next week.",
+        "I am excited to visit a new country this summer.",
+        "I am excited to see my friends at the party tonight."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 다음 주에 새로운 직장을 시작하기를 기대해요.",
+        "나는 이번 여름에 새로운 나라를 방문하기를 기대해요.",
+        "나는 오늘 밤 파티에서 친구들을 보기를 기대해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What are you excited about?" },
+        {
+          "speaker": "B",
+          "text": "I am excited to start my new job next week. It's a great opportunity."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇에 기대하고 있나요?" },
+        {
+          "speaker": "B",
+          "text": "나는 다음 주에 새로운 직장을 시작하기를 기대해요. 좋은 기회에요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_10",
-      "no": 10,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
-      ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
-      ],
-      "used": false
-    }
-  ],
-  "level2": [
-    {
-      "id": "level0_0",
+      "id": "level2",
       "no": 0,
-      "sentence": "레벨2 I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨2)I am trying to...",
+      "sentence_translation": "나는 노력하고 있어요...",
+      "similar": [
+        "I am trying to learn a new language.",
+        "I am trying to fix the broken computer.",
+        "I am trying to finish my homework before dinner."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 새로운 언어를 배우려고 노력하고 있어요.",
+        "나는 고장난 컴퓨터를 고치려고 노력하고 있어요.",
+        "나는 저녁 식사 전에 숙제를 끝내려고 노력하고 있어요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What are you doing?" },
+        {
+          "speaker": "B",
+          "text": "I am trying to solve this puzzle. It's quite challenging."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 하고 있니?" },
+        {
+          "speaker": "B",
+          "text": "이 퍼즐을 풀려고 노력하고 있어요. 꽤 도전적이에요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_1",
+      "id": "level2",
       "no": 1,
-      "sentence": "She has a cat.",
-      "similarSentences": [
-        "She owns a cat.",
-        "There is a cat in her house.",
-        "A cat belongs to her."
+      "sentence": "(레벨2)I need to...",
+      "sentence_translation": " 나는 ...이 필요해요...",
+      "similar": [
+        "I need to buy some groceries.",
+        "I need to finish this report by tomorrow.",
+        "I need to call my parents."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "Does she have any pets?" },
-        { "speaker": "B", "text": "Yes, she has a cat." }
+      "similar_translation": [
+        "나는 장을 사러 가야 해요.",
+        "내일까지 이 보고서를 끝내야 해요.",
+        "부모님께 전화해야 해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you need to do?" },
+        {
+          "speaker": "B",
+          "text": "I need to buy some groceries. We're running out of food."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 해야 하나요?" },
+        {
+          "speaker": "B",
+          "text": "장을 사러 가야 해요. 음식이 부족해져서요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_2",
+      "id": "level2",
       "no": 2,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨2)I want to...",
+      "sentence_translation": " 나는 ... 하고 싶어요...",
+      "similar": [
+        "I want to learn how to play the guitar.",
+        "I want to travel around the world.",
+        "I want to spend more time with my family."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 기타를 배우고 싶어요.",
+        "나는 세계 일주를 하고 싶어요.",
+        "나는 가족과 더 많은 시간을 보내고 싶어요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you want to do?" },
+        {
+          "speaker": "B",
+          "text": "I want to learn how to play the guitar. It's been a dream of mine for a long time."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 하고 싶나요?" },
+        {
+          "speaker": "B",
+          "text": "기타를 배우고 싶어요. 오랜 시간 동안 꿈이었어요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_3",
+      "id": "level2",
       "no": 3,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨2)I love to...",
+      "sentence_translation": " 나는 ...을 좋아해요...",
+      "similar": [
+        "I love to read books in my free time.",
+        "I love to go hiking on weekends.",
+        "I love to cook for my friends."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 시간이 날 때 책을 읽는 것을 좋아해요.",
+        "주말에 하이킹을 가는 것을 좋아해요.",
+        "친구들을 위해 요리하는 것을 좋아해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you enjoy doing?" },
+        {
+          "speaker": "B",
+          "text": "I love to read books in my free time. It's very relaxing."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 즐겨 하나요?" },
+        {
+          "speaker": "B",
+          "text": "시간이 날 때 책을 읽는 것을 좋아해요. 정말 편안해요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_4",
+      "id": "level2",
       "no": 4,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨2)I enjoy...",
+      "sentence_translation": " 나는 ...을 즐겨해요...",
+      "similar": [
+        "I enjoy spending time with my pets.",
+        "I enjoy listening to music while I work.",
+        "I enjoy going for walks in the park."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 애완동물과 시간을 보는 것을 즐겨해요.",
+        "일할 때 음악을 듣는 것을 즐겨해요.",
+        "공원에서 산책하는 것을 즐겨해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What brings you joy?" },
+        {
+          "speaker": "B",
+          "text": "I enjoy spending time with my pets. They always make me happy."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇이 당신에게 기쁨을 주나요?" },
+        {
+          "speaker": "B",
+          "text": "애완동물과 시간을 보는 것을 즐겨해요. 항상 기분이 좋아져요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_5",
+      "id": "level2",
       "no": 5,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨2)I like...",
+      "sentence_translation": " 나는 ...을 좋아해요...",
+      "similar": [
+        "I like to drink coffee in the morning.",
+        "I like to watch movies on weekends.",
+        "I like to go shopping with my friends."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 아침에 커피를 마시는 것을 좋아해요.",
+        "주말에 영화를 보는 것을 좋아해요.",
+        "친구들과 함께 쇼핑을 가는 것을 좋아해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you like doing?" },
+        {
+          "speaker": "B",
+          "text": "I like to watch movies on weekends. It's a great way to relax."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 좋아 하나요?" },
+        {
+          "speaker": "B",
+          "text": "주말에 영화를 보는 것을 좋아해요. 휴식하기에 좋은 방법이에요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_6",
+      "id": "level2",
       "no": 6,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨2)I prefer...",
+      "sentence_translation": " 나는 ...을 선호해요...",
+      "similar": [
+        "I prefer to eat at home rather than going to a restaurant.",
+        "I prefer reading books to watching TV.",
+        "I prefer walking to taking the bus."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 외식하는 대신 집에서 먹는 것을 선호해요.",
+        "나는 TV를 보는 대신 책을 읽는 것을 선호해요.",
+        "나는 버스를 타는 대신 걷는 것을 선호해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you prefer?" },
+        {
+          "speaker": "B",
+          "text": "I prefer reading books to watching TV. It's more relaxing."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 선호 하나요?" },
+        {
+          "speaker": "B",
+          "text": "TV를 보는 대신 책을 읽는 것을 선호해요. 더 편안해요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_7",
+      "id": "level2",
       "no": 7,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨2)I enjoy...",
+      "sentence_translation": " 나는 ...을 즐겨해요...",
+      "similar": [
+        "I enjoy playing soccer with my friends.",
+        "I enjoy cooking meals for my family.",
+        "I enjoy spending time outdoors."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 친구들과 축구를 하는 것을 즐겨해요.",
+        "나는 가족을 위해 식사를 만드는 것을 즐겨해요.",
+        "나는 야외에서 시간을 보는 것을 즐겨해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you find enjoyable?" },
+        {
+          "speaker": "B",
+          "text": "I enjoy spending time outdoors. It's refreshing."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 즐겁다고 생각하나요?" },
+        {
+          "speaker": "B",
+          "text": "나는 야외에서 시간을 보는 것을 즐겨해요. 상쾌해요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_8",
+      "id": "level2",
       "no": 8,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨2)I am interested in...",
+      "sentence_translation": " 나는 ...에 관심이 있어요...",
+      "similar": [
+        "I am interested in learning about different cultures.",
+        "I am interested in studying psychology.",
+        "I am interested in improving my cooking skills."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 다른 문화에 대해 배우는 것에 관심이 있어요.",
+        "나는 심리학을 공부하는 것에 관심이 있어요.",
+        "나는 요리 실력을 향상시키는 것에 관심이 있어요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What are you interested in?" },
+        {
+          "speaker": "B",
+          "text": "I am interested in learning about different cultures. It's fascinating."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇에 관심이 있나요?" },
+        {
+          "speaker": "B",
+          "text": "나는 다른 문화에 대해 배우는 것에 관심이 있어요. 신기해요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_9",
+      "id": "level2",
       "no": 9,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨2)I am excited to...",
+      "sentence_translation": " 나는 ...하기를 기대해요...",
+      "similar": [
+        "I am excited to start my new job next week.",
+        "I am excited to visit a new country this summer.",
+        "I am excited to see my friends at the party tonight."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 다음 주에 새로운 직장을 시작하기를 기대해요.",
+        "나는 이번 여름에 새로운 나라를 방문하기를 기대해요.",
+        "나는 오늘 밤 파티에서 친구들을 보기를 기대해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What are you excited about?" },
+        {
+          "speaker": "B",
+          "text": "I am excited to start my new job next week. It's a great opportunity."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇에 기대하고 있나요?" },
+        {
+          "speaker": "B",
+          "text": "나는 다음 주에 새로운 직장을 시작하기를 기대해요. 좋은 기회에요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_10",
-      "no": 10,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
-      ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
-      ],
-      "used": false
-    }
-  ],
-  "level3": [
-    {
-      "id": "level0_0",
+      "id": "level3",
       "no": 0,
-      "sentence": "레벨3 I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "(레벨3)I am trying to...",
+      "sentence_translation": "나는 노력하고 있어요...",
+      "similar": [
+        "I am trying to learn a new language.",
+        "I am trying to fix the broken computer.",
+        "I am trying to finish my homework before dinner."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 새로운 언어를 배우려고 노력하고 있어요.",
+        "나는 고장난 컴퓨터를 고치려고 노력하고 있어요.",
+        "나는 저녁 식사 전에 숙제를 끝내려고 노력하고 있어요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What are you doing?" },
+        {
+          "speaker": "B",
+          "text": "I am trying to solve this puzzle. It's quite challenging."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 하고 있니?" },
+        {
+          "speaker": "B",
+          "text": "이 퍼즐을 풀려고 노력하고 있어요. 꽤 도전적이에요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_1",
+      "id": "level3",
       "no": 1,
-      "sentence": "She has a cat.",
-      "similarSentences": [
-        "She owns a cat.",
-        "There is a cat in her house.",
-        "A cat belongs to her."
+      "sentence": "I need to...",
+      "sentence_translation": " 나는 ...이 필요해요...",
+      "similar": [
+        "I need to buy some groceries.",
+        "I need to finish this report by tomorrow.",
+        "I need to call my parents."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "Does she have any pets?" },
-        { "speaker": "B", "text": "Yes, she has a cat." }
+      "similar_translation": [
+        "나는 장을 사러 가야 해요.",
+        "내일까지 이 보고서를 끝내야 해요.",
+        "부모님께 전화해야 해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you need to do?" },
+        {
+          "speaker": "B",
+          "text": "I need to buy some groceries. We're running out of food."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 해야 하나요?" },
+        {
+          "speaker": "B",
+          "text": "장을 사러 가야 해요. 음식이 부족해져서요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_2",
+      "id": "level3",
       "no": 2,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "I want to...",
+      "sentence_translation": " 나는 ... 하고 싶어요...",
+      "similar": [
+        "I want to learn how to play the guitar.",
+        "I want to travel around the world.",
+        "I want to spend more time with my family."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 기타를 배우고 싶어요.",
+        "나는 세계 일주를 하고 싶어요.",
+        "나는 가족과 더 많은 시간을 보내고 싶어요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you want to do?" },
+        {
+          "speaker": "B",
+          "text": "I want to learn how to play the guitar. It's been a dream of mine for a long time."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 하고 싶나요?" },
+        {
+          "speaker": "B",
+          "text": "기타를 배우고 싶어요. 오랜 시간 동안 꿈이었어요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_3",
+      "id": "level3",
       "no": 3,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "I love to...",
+      "sentence_translation": " 나는 ...을 좋아해요...",
+      "similar": [
+        "I love to read books in my free time.",
+        "I love to go hiking on weekends.",
+        "I love to cook for my friends."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 시간이 날 때 책을 읽는 것을 좋아해요.",
+        "주말에 하이킹을 가는 것을 좋아해요.",
+        "친구들을 위해 요리하는 것을 좋아해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you enjoy doing?" },
+        {
+          "speaker": "B",
+          "text": "I love to read books in my free time. It's very relaxing."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 즐겨 하나요?" },
+        {
+          "speaker": "B",
+          "text": "시간이 날 때 책을 읽는 것을 좋아해요. 정말 편안해요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_4",
+      "id": "level3",
       "no": 4,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "I enjoy...",
+      "sentence_translation": " 나는 ...을 즐겨해요...",
+      "similar": [
+        "I enjoy spending time with my pets.",
+        "I enjoy listening to music while I work.",
+        "I enjoy going for walks in the park."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 애완동물과 시간을 보는 것을 즐겨해요.",
+        "일할 때 음악을 듣는 것을 즐겨해요.",
+        "공원에서 산책하는 것을 즐겨해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What brings you joy?" },
+        {
+          "speaker": "B",
+          "text": "I enjoy spending time with my pets. They always make me happy."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇이 당신에게 기쁨을 주나요?" },
+        {
+          "speaker": "B",
+          "text": "애완동물과 시간을 보는 것을 즐겨해요. 항상 기분이 좋아져요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_5",
+      "id": "level3",
       "no": 5,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "I like...",
+      "sentence_translation": " 나는 ...을 좋아해요...",
+      "similar": [
+        "I like to drink coffee in the morning.",
+        "I like to watch movies on weekends.",
+        "I like to go shopping with my friends."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 아침에 커피를 마시는 것을 좋아해요.",
+        "주말에 영화를 보는 것을 좋아해요.",
+        "친구들과 함께 쇼핑을 가는 것을 좋아해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you like doing?" },
+        {
+          "speaker": "B",
+          "text": "I like to watch movies on weekends. It's a great way to relax."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 좋아 하나요?" },
+        {
+          "speaker": "B",
+          "text": "주말에 영화를 보는 것을 좋아해요. 휴식하기에 좋은 방법이에요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_6",
+      "id": "level3",
       "no": 6,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "I prefer...",
+      "sentence_translation": " 나는 ...을 선호해요...",
+      "similar": [
+        "I prefer to eat at home rather than going to a restaurant.",
+        "I prefer reading books to watching TV.",
+        "I prefer walking to taking the bus."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 외식하는 대신 집에서 먹는 것을 선호해요.",
+        "나는 TV를 보는 대신 책을 읽는 것을 선호해요.",
+        "나는 버스를 타는 대신 걷는 것을 선호해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you prefer?" },
+        {
+          "speaker": "B",
+          "text": "I prefer reading books to watching TV. It's more relaxing."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 선호 하나요?" },
+        {
+          "speaker": "B",
+          "text": "TV를 보는 대신 책을 읽는 것을 선호해요. 더 편안해요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_7",
+      "id": "level3",
       "no": 7,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "I enjoy...",
+      "sentence_translation": " 나는 ...을 즐겨해요...",
+      "similar": [
+        "I enjoy playing soccer with my friends.",
+        "I enjoy cooking meals for my family.",
+        "I enjoy spending time outdoors."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 친구들과 축구를 하는 것을 즐겨해요.",
+        "나는 가족을 위해 식사를 만드는 것을 즐겨해요.",
+        "나는 야외에서 시간을 보는 것을 즐겨해요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What do you find enjoyable?" },
+        {
+          "speaker": "B",
+          "text": "I enjoy spending time outdoors. It's refreshing."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇을 즐겁다고 생각하나요?" },
+        {
+          "speaker": "B",
+          "text": "나는 야외에서 시간을 보는 것을 즐겨해요. 상쾌해요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_8",
+      "id": "level3",
       "no": 8,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "I am interested in...",
+      "sentence_translation": " 나는 ...에 관심이 있어요...",
+      "similar": [
+        "I am interested in learning about different cultures.",
+        "I am interested in studying psychology.",
+        "I am interested in improving my cooking skills."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 다른 문화에 대해 배우는 것에 관심이 있어요.",
+        "나는 심리학을 공부하는 것에 관심이 있어요.",
+        "나는 요리 실력을 향상시키는 것에 관심이 있어요."
+      ],
+      "dialogue": [
+        { "speaker": "A", "text": "What are you interested in?" },
+        {
+          "speaker": "B",
+          "text": "I am interested in learning about different cultures. It's fascinating."
+        }
+      ],
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇에 관심이 있나요?" },
+        {
+          "speaker": "B",
+          "text": "나는 다른 문화에 대해 배우는 것에 관심이 있어요. 신기해요."
+        }
       ],
       "used": false
     },
     {
-      "id": "level0_9",
+      "id": "level3",
       "no": 9,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "sentence": "I am excited to...",
+      "sentence_translation": " 나는 ...하기를 기대해요...",
+      "similar": [
+        "I am excited to start my new job next week.",
+        "I am excited to visit a new country this summer.",
+        "I am excited to see my friends at the party tonight."
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "similar_translation": [
+        "나는 다음 주에 새로운 직장을 시작하기를 기대해요.",
+        "나는 이번 여름에 새로운 나라를 방문하기를 기대해요.",
+        "나는 오늘 밤 파티에서 친구들을 보기를 기대해요."
       ],
-      "used": false
-    },
-    {
-      "id": "level0_10",
-      "no": 10,
-      "sentence": "I am a student.",
-      "similarSentences": [
-        "I study at school.",
-        "I go to school as a student.",
-        "I am enrolled in school."
+      "dialogue": [
+        { "speaker": "A", "text": "What are you excited about?" },
+        {
+          "speaker": "B",
+          "text": "I am excited to start my new job next week. It's a great opportunity."
+        }
       ],
-      "conversation": [
-        { "speaker": "A", "text": "What do you do?" },
-        { "speaker": "B", "text": "I am a student." }
+      "dialogue_translation": [
+        { "speaker": "A", "text": "무엇에 기대하고 있나요?" },
+        {
+          "speaker": "B",
+          "text": "나는 다음 주에 새로운 직장을 시작하기를 기대해요. 좋은 기회에요."
+        }
       ],
       "used": false
     }

@@ -17,7 +17,6 @@ export default function Learn() {
 
   return (
     <section>
-      <h2 className='list-title'>학습하기</h2>
       {tabs.map((tab) => (
         <TabButton
           key={tab.id}
@@ -28,6 +27,7 @@ export default function Learn() {
           isActive={activeTab === tab.id}
         />
       ))}
+      <h2 className='list-title'>{tabs[activeTab].label}</h2>
       <TabContent content={tabs.find((tab) => tab.id === activeTab)?.content} />
     </section>
   );

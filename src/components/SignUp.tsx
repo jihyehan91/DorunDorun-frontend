@@ -54,6 +54,8 @@ export default function SignUp() {
     } catch (error) {
       console.log('오류 발생:', error);
     }
+
+    console.log(userIdRedundancy)
   };
 
   //아이디 실시간 체크
@@ -87,7 +89,7 @@ export default function SignUp() {
         }
       }
       setPasswordError(errorMessage);
-    }, 500);
+    }, 100);
   
     return () => clearTimeout(timer);
   }, [watch('password')]);
@@ -104,11 +106,10 @@ export default function SignUp() {
         }
       }
       setConfirmPasswordError(errorMessage);
-    }, 500);
+    }, 100);
   
     return () => clearTimeout(timer);
   }, [watch('confirmPassword'), watch('password')]);
-
 
   return (
     <div className='form-container'>
@@ -277,9 +278,11 @@ export default function SignUp() {
                   </span>
                 )}
               </div>
-              <button className='auth-btn' type='submit'>
-                가입하기
-              </button>
+              <button
+                className={userIdRedundancy === true || userIdRedundancy === null ? 'auth-btn bg-neutral-400' : 'auth-btn'}
+                type='submit'
+                disabled={userIdRedundancy === true || userIdRedundancy === null}
+              >가입하기</button>
             </form>
           </div>
         </div>

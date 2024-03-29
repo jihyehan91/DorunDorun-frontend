@@ -1,6 +1,6 @@
 import '../assets/css/talk.css';
 import { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import datas from '../../datas.json'; //임시 데이터
 import axios from 'axios';
 // import { RiThumbUpFill, RiThumbDownFill } from 'react-icons/ri';
@@ -25,12 +25,25 @@ import { FaArrowLeft } from 'react-icons/fa6';
 import { Popup } from './(talk)/Popup';
 import { ChatHistory } from './(talk)/ChatList';
 
+import useUserData from '../components/UserData';
+
 // 파비콘 출천 : http://si.serverzero.kr/main/pc/index.php#five
 // 이미지 출처 : https://m.blog.naver.com/sinnam88/221375405075
 
-function Talk() {
+function Talk2() {
 	const { id } = useParams();
-	const [account] = useState('test');
+	const { pathname } = useLocation();
+	const navigate = useNavigate();
+  const [authuser,setAuthUser] = useState({})
+	/* const [authuser] = useState({
+		result: true,
+		nickname: 'test_nick1',
+		userId: 'test',
+		newToken: null,
+	}); */
+	const { user, setUser, userCheck, setUserCheck, profileImage, setProfileImage } = useUserData();
+	console.log('userCheck:',user,userCheck);
+
 	// const [beforeMessage, setBeforeMessage] = useState([]);//api로 사용예정
 	// const [beforeMessage] = useState(datas.chats.filter((chat) => chat.roomId === id)); //임시:기존 대화한 내역 메세지
 
@@ -57,7 +70,8 @@ function Talk() {
 	const [isFinishPop, setIsFinishPop] = useState(false); //대화 종료 팝업 체크
 	const [isFinish, setIsFinish] = useState(false); //대화 종료
 
-	const [userInfo] = useState(datas.users.find((user) => user.userid === account)); //임시
+	// const [userInfo] = useState(datas.users.find((user) => user.userid === authuser.userId)); //임시
+	// const [userInfo,setUserInfo] = useState(); //임시
 	const [characterInfo] = useState(datas.characters.filter((character) => character.id === id)); //임시
 	const [bgNum, setBgNum] = useState(Math.floor(Math.random() * 3));
 	const [characterDesc, setCharacterDesc] = useState(false);
@@ -102,6 +116,20 @@ function Talk() {
 	);
 
 	useEffect(() => {
+		async function auth() {
+			const res = await axios.get('https://43.203.227.36.sslip.io/server/user/authuser');
+			const result = res.data;
+      console.log('유저정보 확인:',result);
+			setAuthUser(result);
+			// setAuthUser({
+      //   result: true,
+      //   nickname: 'test_nick1',
+      //   userId: 'test',
+      //   newToken: null,
+      // });
+      // console.log(datas.users.find((user) => user.userId === 'test'));
+		}
+		auth();
 		setMic(false);
 	}, []);
 
@@ -113,17 +141,17 @@ function Talk() {
 
 	const fetchAndPlayAudio = async (inputText) => {
 		try {
-			const response = await axios.post(
-				'https://43.203.227.36.sslip.io/server/chat/SendChat',
-				{
-					messages: [`user: ${inputText}`],
-				},
-				{ withCredentials: true }
-			);
-			const result = await response.data;
-			setEmotion(result.emotion);
-			setTalkMessages((prevData) => [...prevData, `pooh: ${result.aimsg}`]);
-			setAiMsg((prevData) => ({ ...prevData, result: result }));
+			// const response = await axios.post(
+			// 	'https://43.203.227.36.sslip.io/server/chat/SendChat',
+			// 	{
+			// 		messages: [`user: ${inputText}`],
+			// 	},
+			// 	{ withCredentials: true }
+			// );
+			// const result = await response.data;
+			// setEmotion(result.emotion);
+			// setTalkMessages((prevData) => [...prevData, `pooh: ${result.aimsg}`]);
+			// setAiMsg((prevData) => ({ ...prevData, result: result }));
 			setAudioLoad(false);
 			const file = await fetch('/pooh.wav', { withCredentials: true });
 			const blob = await file.blob();
@@ -178,8 +206,15 @@ function Talk() {
 	};
 	const finishChat = async () => {
 		const todayMissionCount = missions.filter((data) => data.complete).length;
+		// const todayMissionCount = 3;
 		let allMsg = [];
 		if (todayMissionCount < 3 && !window.confirm('오늘의 학습 미션을 달성하지 못하였습니다. 그만하시겠습니까?')) return;
+
+		if (!authuser.result && !window.confirm('학습된 기록은 로그인 후 이용 가능합니다. 로그인 하시겠습니까?')) {
+			return;
+		}
+		if (!authuser.result) navigate(`/login?redirect=${pathname}`); //
+
 		console.log(talkMessages, correctList);
 		try {
 			setCorrectLoad(true);
@@ -209,8 +244,9 @@ function Talk() {
 					console.error('에러 발생:', error);
 				});
 
-        console.log('allMsg 전:',allMsg);
-			await axios
+			console.log('allMsg 전:', allMsg);
+
+			/* await axios
 				.post(
 					'https://43.203.227.36.sslip.io/server/room/newRoom',
 					{
@@ -222,12 +258,12 @@ function Talk() {
 				.then(function (response) {
 					console.log(response.data);
 					roomid = response.data;
-				});
-      console.log('allMsg 후:',allMsg);
+				}); */
+			console.log('allMsg 후:', allMsg);
 			setIsFinishPop(true);
 			setCorrectLoad(false);
 			setFirstAudioMsg(false);
-			setTodayMission(true); //오늘의 학습 목표 3개 완료시 체크
+			// setTodayMission(true); //오늘의 학습 목표 3개 완료시 체크
 		} catch (error) {
 			console.error('Fetch and play audio error:', error);
 		}
@@ -344,7 +380,7 @@ function Talk() {
 				</div>
 
 				<div className={`history ${history ? '' : 'hidden'}`}>
-					<ChatHistory talkMessages={talkMessages} userInfo={userInfo} characterInfo={characterInfo} />
+					<ChatHistory talkMessages={talkMessages} userInfo={authuser} characterInfo={characterInfo} />
 				</div>
 				{/* foot */}
 				<div className="foot-talking-wrap ">
@@ -450,4 +486,4 @@ function Talk() {
 	);
 }
 
-export default Talk;
+export default Talk2;

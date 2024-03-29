@@ -147,7 +147,7 @@
   }
 
   .list-title {
-    @apply text-3xl font-semibold mb-2 pb-6;
+    @apply text-2xl font-semibold mb-2 pb-6;
   }
   .list-title ~ .list-title {
     @apply mt-4;
