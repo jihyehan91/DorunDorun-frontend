@@ -365,7 +365,7 @@ function Talk() {
 							<dt className="flex justify-between">
 								<button id="charName" className="btn-char" onClick={() => setCharacterDesc(!characterDesc)}>
 									{characterDesc ? <PiUserListFill className="text-lg" /> : <PiUserListDuotone className="text-lg" />}{' '}
-									{characterInfo[0].name} {emotion}
+									{characterInfo[0].name}
 									<div className={`voiceContainer ${playState ? 'on' : 'off'}`}>
 										<div>
 											<div className="voice voice1"></div>
