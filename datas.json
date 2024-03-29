@@ -129,19 +129,19 @@
   "users": [
     {
       "id": 1,
-      "userid": "test",
+      "userId": "test",
       "profile": "/image1.png",
       "chats": ["aaa111"]
     },
     {
       "id": 2,
-      "userid": "hong",
+      "userId": "hong",
       "profile": "/image1.png",
       "chats": ["aaa333"]
     },
     {
       "id": 3,
-      "userid": "oh",
+      "userId": "oh",
       "profile": "/image1.png",
       "chats": ["aaa444"]
     }

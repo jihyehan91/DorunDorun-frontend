@@ -1,14 +1,18 @@
 import { useState, useEffect } from 'react';
 import { IoMdCloseCircle } from 'react-icons/io';
+import { useNavigate } from 'react-router-dom';
 
 export const Popup = ({ title, datas, isPop, setIsPop }) => {
+	const navigate = useNavigate();
+
 	const [mssCount, setMssCount] = useState(0);
+	// const completedCount = datas.filter((data) => data.complete).length;
+	const completedCount = 3;
 	useEffect(() => {
-		const completedCount = datas.filter((data) => data.complete).length;
 		if (completedCount === 3 && mssCount < 1) {
 			setMssCount((prevMss) => prevMss + 1);
 		}
-	}, [datas, mssCount]);
+	}, [datas, mssCount,completedCount]);
 
 	function List({ title }) {
 		switch (title) {
@@ -66,7 +70,11 @@ export const Popup = ({ title, datas, isPop, setIsPop }) => {
 				<div className="ly-inner">
 					<div className="ly-head">
 						<strong>{title}</strong>
-						<button type="button" onClick={() => setIsPop(false)}>
+						<button
+							type="button"
+							onClick={() => (
+								setIsPop(false), title === '교정 목록' && completedCount >= 3 && (confirm('복습하기 페이지로 이동하시겠습니까?')&& navigate(`/mylog`)
+							))}>
 							<IoMdCloseCircle className="text-[var(--highlight-color)]" />
 						</button>
 					</div>
