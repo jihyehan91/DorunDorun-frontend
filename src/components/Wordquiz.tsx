@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 export default function Wordquiz() {
+  const [showQuestions, setShowQuestions] = useState(false);
   const enAnswers = [
     {
       sentence: 'This is a sample sentence for shuffling',
@@ -122,8 +123,24 @@ export default function Wordquiz() {
   }
 
   return (
+    
     <div className='mx-auto mt-10 text-center p-5 border border-[var(--border-divide-color)] shadow rounded-xl'>
-      <p className='text-2xl font-semibold text-gray-800 mb-3 py-4'>
+       {!showQuestions && (
+        <div className='text-center'>
+        <h2 className='text-2xl font-semibold mb-4'>문장 완성</h2>
+        <p className='text-lg text-blue-500 font-semibold mb-4'>단어들을 클릭해서 문장을 완성해보세요~</p>
+        <button
+          onClick={() => setShowQuestions(true)}
+          className='mt-8 inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105'
+        >
+          시작
+        </button>
+      </div>
+      )}
+
+      {showQuestions && (
+        <div>
+          <p className='text-2xl font-semibold text-gray-800 mb-3 py-4'>
   <span className="bg-blue-100 px-2 py-1 rounded-lg shadow-md mr-2">{krAnswer}</span>
       </p>
       <input
@@ -181,6 +198,9 @@ export default function Wordquiz() {
           되돌리기
         </button>
       )}
+        </div>
+      )
+      }
     </div>
   );
 }
