@@ -124,14 +124,14 @@ export default function Mypage() {
       }));
     }
   };
-
-  useEffect(() => {
-    console.log('프로필 이미지가 업데이트되었습니다:', getUser.profileImage);
-  }, [getUser.profileImage]); 
-
+ 
   useEffect(() => {
     setValue('nickname', getUser.nickname);
-  }, [getUser.nickname, setValue]);
+    setValue('email', getUser.email);
+    setValue('password', getUser.password);
+    setValue('profileImage', getUser.profileImage);
+    console.log('프로필 이미지가 업데이트되었습니다:', getUser.profileImage)
+  }, [getUser.nickname, getUser.email , getUser.password, getUser.profileImage,setValue]);
 
   return (
     <div className='form-container'>
