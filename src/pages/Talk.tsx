@@ -2,8 +2,6 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import datas from '../../datas.json'; //임시 데이터
 import axios from 'axios';
-// import { RiThumbUpFill, RiThumbDownFill } from 'react-icons/ri';
-// import { BiSolidUserDetail } from 'react-icons/bi';
 import { PiUserListFill } from 'react-icons/pi';
 import { PiUserListDuotone } from 'react-icons/pi';
 
@@ -15,12 +13,8 @@ import { BsShiftFill } from 'react-icons/bs';
 import { IoStop } from 'react-icons/io5';
 import { IoPlay } from 'react-icons/io5';
 import { PiListMagnifyingGlassDuotone } from 'react-icons/pi';
-// import { MdChecklist } from 'react-icons/md';
 import { RiLoader2Fill } from 'react-icons/ri';
-// import { FaFileArrowDown } from 'react-icons/fa6';
 import { FaArrowLeft } from 'react-icons/fa6';
-// import wavfile from '/test.wav';
-// import { type } from './../store/store';
 import { Popup } from './(talk)/Popup';
 import { ChatHistory } from './(talk)/ChatList';
 
@@ -29,10 +23,7 @@ import { ChatHistory } from './(talk)/ChatList';
 
 function Talk() {
 	const { id } = useParams();
-	// const [account] = useState("test");
 	const [authuser, setAuthUser] = useState({});
-	// const [beforeMessage, setBeforeMessage] = useState([]);//api로 사용예정
-	// const [beforeMessage] = useState(datas.chats.filter((chat) => chat.roomId === id)); //임시:기존 대화한 내역 메세지
 
 	const [mic, setMic] = useState(false); //마이크 활성 체크
 	const [history, setHistory] = useState(false); //대화 내역
@@ -45,8 +36,6 @@ function Talk() {
 	const [duration, setDuration] = useState(0); //오디오 재생 중
 	const [isPop, setIsPop] = useState(false); //대화내역 활성 체크
 	const [isTyped, setIsTyped] = useState(false); //음성입력(텍스트입력) 완료 체크
-	// const [audioEnd, setAudioEnd] = useState(false); //오디오 종료 체크
-	// const [isAudioFetched, setIsAudioFetched] = useState(false); //오디오 파일 fetch 체크
 	const [correctLoad, setCorrectLoad] = useState(false); //교정 fetching 체크
 	const [audioLoad, setAudioLoad] = useState(false); //오디오 fetching 체크
 	const [firstAudioMsg, setFirstAudioMsg] = useState(false); //첫 대화시 오디오 파일 체크
@@ -54,92 +43,48 @@ function Talk() {
 	const [aiMsg, setAiMsg] = useState({}); //
 	const [talkMessages, setTalkMessages] = useState([]); //전송의 응답 메세지([user: .., pooh: ..])
 	const [correctList, setCorrectList] = useState([]); //교정 할 리스트
-  const [allMsg, setAllMsg] = useState([]); //대화 전체 메세지
-  const [isFinishPop, setIsFinishPop] = useState(false); //대화 종료 팝업 체크
+	// const [allMsg, setAllMsg] = useState([]); //대화 전체 메세지
+	const [isFinishPop, setIsFinishPop] = useState(false); //대화 종료 팝업 체크
 	const [isFinish, setIsFinish] = useState(false); //대화 종료
 
 	const [characterInfo] = useState(datas.characters.filter((character) => character.id === id)); //임시
 	const [bgNum, setBgNum] = useState(Math.floor(Math.random() * 3));
 	const [characterDesc, setCharacterDesc] = useState(false);
-	/* const [getData] = useState([
-		//더미
-		{
-			id: 'review_1',
-			messages: [
-				{ speaker: 'ai', message: 'I have to go.' },
-				{ speaker: 'user', message: 'why?' },
-				{ speaker: 'ai', message: 'He goed to the store.' },
-				{ speaker: 'user', message: 'Why do you think so?' },
-			],
-			wrongSentence: 'He goed to the store.',
-			correctedSentence: 'He went to the store.',
-		},
-		{
-			id: 'review_2',
-			messages: [
-				{ speaker: 'ai', message: 'God bless you' },
-				{ speaker: 'user', message: 'what?' },
-				{ speaker: 'ai', message: 'He goed to the store.' },
-				{ speaker: 'user', message: 'Why do you think so?' },
-				{ speaker: 'ai', message: 'He goed to the store.' },
-				{ speaker: 'user', message: 'Why do you think so?' },
-			],
-			wrongSentence: 'He goed to the store.',
-			correctedSentence: 'He went to the store..',
-		},
-		{
-			id: 'review_3',
-			messages: [
-				{ speaker: 'ai', message: "That's ok." },
-				{ speaker: 'user', message: 'why?' },
-			],
-			wrongSentence: 'He goed to the store.',
-			correctedSentence: 'He went to the store!',
-		},
-	]); */
-	/* const [missions, setMissions] = useState(
-		getData.map((data, i) => ({
-			id: i,
-			message: data.correctedSentence,
-			complete: false,
-		}))
-	); */
 	const [missions, setMissions] = useState([]);
 
 	type Mission = {
-        mission_id: string;
-        mission: string;
-        meaning: string;
-        complete: boolean;
-      };
-      
-      // 데이터
-      const data: Mission[] = [
-        {
-          mission_id: "lv1_1",
-          mission: "I am trying to",
-          meaning: "~ 해 보려고 하는 중이에요",
-          complete: false
-        },
-        {
-          mission_id: "lv1_2",
-          mission: "I am ready to",
-          meaning: "~ 할 준비가 되었어요",
-          complete: false
-        },
-        {
-          mission_id: "lv1_3",
-          mission: "I am just about to",
-          meaning: "지금 막 ~ 하려는 참이에요",
-          complete: false
-        }
-      ];
-    
+		mission_id: string;
+		mission: string;
+		meaning: string;
+		complete: boolean;
+	};
+
+	// 데이터
+	const data: Mission[] = [
+		{
+			mission_id: 'lv1_1',
+			mission: 'I am trying to',
+			meaning: '~ 해 보려고 하는 중이에요',
+			complete: false,
+		},
+		{
+			mission_id: 'lv1_2',
+			mission: 'I am ready to',
+			meaning: '~ 할 준비가 되었어요',
+			complete: false,
+		},
+		{
+			mission_id: 'lv1_3',
+			mission: 'I am just about to',
+			meaning: '지금 막 ~ 하려는 참이에요',
+			complete: false,
+		},
+	];
 
 	const getMissions = async () => {
 		try {
 			const response = await axios.get('https://43.203.227.36.sslip.io/server/missions');
-			console.log("미션 데이터:", response.data);
+			console.log('미션 데이터:', response.data);
 			setMissions(response.data);
 			/* setMissions([ // 더미
         {
@@ -164,7 +109,7 @@ function Talk() {
 		} catch (error) {
 			console.error('Fetch and play audio error:', error);
 		}
-	}
+	};
 
 	useEffect(() => {
 		async function auth() {
@@ -223,47 +168,43 @@ function Talk() {
 	}
 
 	const checkMission = async (inputText) => {
-        // const missionData = data.map(item => `mission_id: ${item.mission_id}\nmission: ${item.mission}\n`).join('\n')
-        // const postData =`${missionData}\nchat:${inputText}`;
-        // const postData = {
-        //  missions: data.map(item => ({ mission_id: item.mission_id, mission: item.mission })),
-        //  chat: inputText
-        // };
-        const reducedMissions = data.map(({ mission_id, mission }) => ({ mission_id, mission }));
+		// const missionData = data.map(item => `mission_id: ${item.mission_id}\nmission: ${item.mission}\n`).join('\n')
+		// const postData =`${missionData}\nchat:${inputText}`;
+		// const postData = {
+		//  missions: data.map(item => ({ mission_id: item.mission_id, mission: item.mission })),
+		//  chat: inputText
+		// };
+		const reducedMissions = data.map(({ mission_id, mission }) => ({ mission_id, mission }));
 
-        // console.log('postData',reducedMissions);
-        try {  
-            const response = await axios.post('http://localhost:8080/checkMission', 
-            {
-                missions: reducedMissions,
-                chat: inputText
+		// console.log('postData',reducedMissions);
+		try {
+      const response = await axios.post('http://localhost:8080/checkMission',
+      {
+				missions: reducedMissions,
+				chat: inputText,
+			});
+			const checkData = response.data;
+			console.log('중간 데이터', checkData);
 
-            })
-            const checkData = response.data;
-            console.log("중간 데이터", checkData);
+			// if (Array.isArray(checkData)) {
+			//  console.log('data는 배열입니다.');
+			// } else {
+			//  console.log('data는 배열이 아닙니다.');
+			// }
 
-            // if (Array.isArray(checkData)) {
-            //  console.log('data는 배열입니다.');
-            // } else {
-            //  console.log('data는 배열이 아닙니다.');
-            // }
-            
-            if (checkData != " none") {
-                let dataArray: string[] = [];
-                try {
-                    dataArray = JSON.parse(checkData.replace(/'/g, '"'));
-                    console.log("배열 변환 완료: ", dataArray);
-                } catch (error) {
-                    console.error("배열 변환 에러: ", error)
-                }
-            }
-            
-        } catch (error) {
-            console.error("missionError: ",error)
-        }
-    }
-
-
+			if (checkData != ' none') {
+				let dataArray: string[] = [];
+				try {
+					dataArray = JSON.parse(checkData.replace(/'/g, '"'));
+					console.log('배열 변환 완료: ', dataArray);
+				} catch (error) {
+					console.error('배열 변환 에러: ', error);
+				}
+			}
+		} catch (error) {
+			console.error('missionError: ', error);
+		}
+	};
 
 	const sendMessage = async (e) => {
 		e.preventDefault();
@@ -280,8 +221,8 @@ function Talk() {
 				audioRef.current.src = audioSrc;
 			}
 			playAudio();
-      //미션 체크 할 AI 요청 부분
-      //여기에 작성
+			//미션 체크 할 AI 요청 부분
+			//여기에 작성
 			setFirstAudioMsg(true);
 			setMissions((prevData) =>
 				prevData.map((mission) => (mission.mission === inputText ? { ...mission, complete: true } : mission))
@@ -297,18 +238,17 @@ function Talk() {
 	};
 	const finishChat = async () => {
 		const todayMissionCount = missions.filter((data) => data.complete).length;
-		if (todayMissionCount < 3 && !window.confirm('오늘의 학습 미션을 달성하지 못하였습니다. 그만하시겠습니까?')) return;
+		if ( todayMissionCount > 0 && todayMissionCount < 3 && !window.confirm('오늘의 학습 미션을 달성하지 못하였습니다. 그만하시겠습니까?') ) return;
 		try {
+			setCorrectLoad(true);
 			const resCorrect = await axios.post(
 				'https://43.203.227.36.sslip.io/server/chat/getCorrection',
 				{ messages: talkMessages },
 				{ withCredentials: true }
 			);
 			const correctedMsg = await resCorrect.data;
-			setAllMsg((prevData) => [...prevData, correctedMsg]);// 서버에 전달할 내용
+			// setAllMsg((prevData) => [...prevData, correctedMsg]);// 서버에 전달할 내용
 
-			// console.log('resCorrect: ', correctedMsg);
-			// allMsg = correctedMsg;
 			correctedMsg.forEach(function (msg) {
 				if (msg.includes('->')) {
 					setCorrectList((prevData) => [...prevData, msg]);
@@ -321,32 +261,25 @@ function Talk() {
 			setIsFinish(true);
 			setIsFinishPop(true);
 			setCorrectLoad(false);
-			// if (isPop) {
-			// 	if (!authuser.result && !window.confirm('학습된 기록은 로그인 후 이용 가능합니다. 로그인 하시겠습니까?')) {
-			// 		return;
-			// 	} else {
-			// 		historySave(allMsg); //서버 저장
-			// 		if (!authuser.result) navigate(`/login?ㅌrect=${pathname}`); //
-			// 	}
-			// }
+
+			if (authuser.result) {
+				await axios
+					.post(
+						'https://43.203.227.36.sslip.io/server/room/newRoom',
+						{
+							ai: 'pooh',
+							messages: correctedMsg,
+						},
+						{ withCredentials: true }
+					)
+					.then(function (response) {
+						console.log(response.data);
+						// roomid = response.data;
+					});
+			}
 		} catch (error) {
 			console.error('에러 발생:', error);
 		}
-
-		await axios
-			.post(
-				'https://43.203.227.36.sslip.io/server/room/newRoom',
-				{
-					ai: 'pooh',
-					messages: allMsg,
-				},
-				{ withCredentials: true }
-			)
-			.then(function (response) {
-				console.log(response.data);
-				// roomid = response.data;
-			});
-
 		setFirstAudioMsg(false);
 	};
 	const inputHandler = () => {
@@ -439,17 +372,11 @@ function Talk() {
 							<FaArrowLeft />
 						</button>
 						<button type="button" className="btn-mission btn-chat " onClick={() => setIsPop(!isPop)}>
-							{/* <MdChecklist /> */}미션
+							미션
 						</button>
 					</div>
 
-					<Popup
-						title={'오늘의 학습 미션'}
-						datas={missions}
-						isPop={isPop}
-						setIsPop={setIsPop}
-						allMsg={allMsg}
-					/>
+					<Popup title={'오늘의 학습 미션'} datas={missions} isPop={isPop} setIsPop={setIsPop} />
 				</div>
 				<div ref={innerRef} className="inner">
 					<div className="bg-char" style={{ backgroundImage: `url(/bg_${bgNum}.jpg)` }}></div>
@@ -566,7 +493,14 @@ function Talk() {
 									disabled={firstAudioMsg || isFinishPop ? false : true}>
 									대화 종료 {correctLoad && <RiLoader2Fill className="animate-spin" />}
 								</button>
-								<Popup title={'교정 목록'} datas={correctList} isPop={isFinishPop} setIsPop={setIsFinishPop} />
+								<Popup
+									title={'교정 목록'}
+									authUser={authuser}
+									missions={missions}
+									datas={correctList}
+									isPop={isFinishPop}
+									setIsPop={setIsFinishPop}
+								/>
 							</div>
 						</div>
 					</form>
