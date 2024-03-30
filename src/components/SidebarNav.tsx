@@ -12,25 +12,7 @@ const navMenu = [
   { id: 3, link: "/learning", icon: <MdLibraryBooks />, text: "학습하기" },
 ];
 
-const checkRefreshToken = () => {
-  const refreshToken = document.cookie
-    .split(";")
-    .map((cookie) => cookie.trim())
-    .find((cookie) => cookie.startsWith("RefreshToken="));
-
-  return refreshToken !== undefined;
-};
-
 export default function SidebarNav() {
-  const handleNavLinkClick = (event, link) => {
-    if (link === "/chat" || link === "/mylog" || link === "/learning") {
-      if (!checkRefreshToken()) {
-        event.preventDefault();
-        alert("로그인 후 이용할 수 있습니다.");
-      }
-    }
-  };
-
   return (
     <nav className="sidebar-nav">
       <div className="container">
@@ -47,7 +29,6 @@ export default function SidebarNav() {
                 <NavLink
                   to={link}
                   className={({ isActive }) => (isActive ? "active" : "")}
-                  onClick={(event) => handleNavLinkClick(event, link)}
                 >
                   <div className="icon-text-group">
                     <div className="icon">{icon}</div>
