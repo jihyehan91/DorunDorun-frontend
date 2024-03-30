@@ -72,6 +72,7 @@ export default function Mypage() {
         console.log('잘가라', response.data);
         console.log('잘가라 2', response.data.data);
         console.log('잘가라 이것은', response.data.userId);
+        alert('안녕히 가시오~')
         navigate('/');
       } catch (error) {
         console.error('에러:', error);
@@ -84,59 +85,58 @@ export default function Mypage() {
   }
 
   // 사용자 정보 수정
-  const emailChangeHandler: SubmitHandler<FormData> = async (userdata) => {
-    const requestData = {
-      userid: userdata.userId,
-      email: userdata.email,
-      inputpw: userdata.password
-    };
+  const emailChangeHandler = async () => {
     try {
-      if (userdata.email) {
-        const response = await axios.patch(`${API_URL}/user/changeEmail`, requestData, {
+      const response = await axios.patch(
+        `${API_URL}/user/changeEmail`,
+        {
+          userid: getUser.userId,
+          email: getUser.email,
+          inputpw: getUser.password
+        },
+        {
           withCredentials: true,
           headers: {
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json'
           }
-        });
-        console.log('이메일 변경:', response.data);
-        if (response.data.result === false) {
-          alert(response.data.msg);
-        } else {
-          alert('이메일이 변경되었습니다');
         }
-        return response.data;
-      } 
+      );
+      console.log('이메일 변경:', response.data);
+      if (response.data.result === false) {
+        alert(response.data.msg);
+      } else {
+        alert('이메일이 변경되었습니다');
+      }
     } catch (error) {
       console.error('에러:', error);
     }
   };
 
-  const passwordChangeHandler: SubmitHandler<FormData> = async (userdata) => {
-    const requestData = {
-      userid: userdata.userId,
-      email: userdata.email,
-      inputpw: userdata.password
-    };
-  
-    if (userdata.password) { // if문 밖으로 이동
-      try {
-        const response = await axios.patch(`${API_URL}/user/changePW`, requestData, {
+  const passwordChangeHandler = async () => {
+    try {
+      const response = await axios.patch(
+        `${API_URL}/user/changePW`,
+        {
+          userid: getUser.userId,
+          email: getUser.email,
+          inputpw: getUser.password
+        },
+        {
           withCredentials: true,
           headers: {
             'Content-Type': 'application/json'
           }
-        });
-        console.log('비밀번호 변경:', response.data);
-        if (response.data.result === false) {
-          alert(response.data.msg);
-        } else {
-          alert('비밀번호가 변경되었습니다');
         }
-        return response.data;
-      } catch (error) {
-        console.error('에러:', error);
+      );
+      console.log('비밀번호 변경:', response.data);
+      if (response.data.result === false) {
+        alert(response.data.msg);
+      } else {
+        alert('비밀번호가 변경되었습니다');
       }
-    } 
+    } catch (error) {
+      console.error('에러:', error);
+    }
   };
 
   return (
