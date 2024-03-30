@@ -17,43 +17,26 @@
 
   /* 예문 */
   .preview-sentence {
+    width: 80%;
+    min-width: 360px;
+    /* padding: 5rem 10rem; */
     margin: 0 auto;
   }
 
-  .preview-sentence .container {
-    @apply flex flex-col items-start min-w-[360px];
-  }
-
   button.exit-btn {
-    @apply w-10 h-10 p-0 text-left;
+    @apply w-10 h-10 p-0 text-center bg-gray-200 rounded-full;
   }
 
-  .number-btn-group {
-    @apply pt-5;
-  }
-
-  .number-btn {
-    @apply w-6 h-6 p-0 bg-[var(--btn-sub-bg)] text-sm rounded-full hover:bg-[var(--btn-bg-hover)] hover:text-white;
-  }
-
-  .number-btn.active {
-    @apply bg-[var(--btn-bg)] text-white;
-  }
-
-  .today-sentence {
-    @apply pt-6 pb-8;
+  button.exit-btn > svg {
+    margin-bottom: 3px;
   }
 
   .sentence-sub-title {
-    @apply text-[var(--sub-font-color)] text-sm pb-3 pr-2;
-  }
-
-  .key-sentence > p {
-    @apply pb-2;
+    @apply text-[var(--sub-font-color)] text-sm py-3 pr-2;
   }
 
   .key-sentence-english {
-    @apply text-3xl font-bold;
+    @apply text-3xl font-bold py-6;
   }
 
   .preview-text-btn {
@@ -64,11 +47,15 @@
     @apply p-1;
   }
 
-  .dialogue-english {
-    @apply pb-4 text-xl font-medium;
+  .example > div {
+    @apply my-6;
   }
 
-  .dialogue-korea {
+  .english {
+    @apply pb-1 text-lg;
+  }
+
+  .korean {
     @apply text-[var(--sub-font-color)];
   }
 
@@ -82,5 +69,13 @@
 
   .three-sentence-group .number-btn {
     @apply inline-block mr-2 text-center;
+  }
+
+  .number-btn {
+    @apply inline-block w-6 h-6 p-0w mr-2 bg-[var(--btn-sub-bg)] text-sm rounded-full hover:bg-[var(--btn-bg-hover)] hover:text-white;
+  }
+
+  .number-btn.active {
+    @apply bg-[var(--btn-bg)] text-white;
   }
 }

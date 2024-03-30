@@ -2,51 +2,37 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../assets/css/review.css';
+import datas from '../../datas.json';
 
-interface Data {
-  id: string;
-  img: string;
-  name: string;
-  startTime: string;
-  finishTime: string;
-  incorrectSentences: string[];
-}
-
-interface Room {
-  id: string;
-  userid: string;
+interface ReviewData {
   ai: string;
-  createdAt: Date;
-}
-interface ReviewData extends Data {
-  date: Date;
+  createdAt: string;
+  id: string;
+  message: string;
+  userid: string;
 }
 
+interface DummyData {
+  img?: string;
+}
 interface Props {
-  data: Data;
+  data: ReviewData;
+  dummy: DummyData[];
 }
 
-function ReviewItem({ data }: Props) {
+function ReviewItem({ data, dummy }: Props) {
+  const dateString = data.createdAt;
+  const [date, time] = dateString.split(' ');
+
   return (
     <Link to={`/mylog/${data.id}`}>
       <div className='mr-6'>
-        <img className='character-img' src={data.img} alt={`${data.name}`} />
+        {/* <img className='character-img' src={dummy.} alt={`${data.ai}`} /> */}
       </div>
       <div className='flex flex-col justify-center'>
-        {/* 복습 목록 - 캐릭터 이름, 시간 표기 */}
         <div className='review-character'>
-          <span className='character-name'>{data.name}</span>
-          <span className='start-time ml-2'>{data.startTime}</span>
-          <span className='finish-time'>{data.finishTime}</span>
-        </div>
-        {/* 틀린 문장 보기 */}
-        <div className='review-sentence my-2 flex items-center'>
-          <div className='corrected-sentence-count mr-2'>
-            {data.incorrectSentences.length}
-          </div>
-          <div className='incorrect-first text-lg truncate-1'>
-            {data.incorrectSentences[0]}
-          </div>
+          <span className='character-name'>{data.ai}</span>
+          <span className='start-time ml-2'>{time}</span>
         </div>
       </div>
     </Link>
@@ -54,29 +40,33 @@ function ReviewItem({ data }: Props) {
 }
 
 export default function Review() {
-  const [sortBy, setSortBy] = useState<string>('latest');
   const [reviewDatas, setReviewDatas] = useState<ReviewData[]>([]);
+  const [dummyDatas, setDummyDatas] = useState<DummyData[]>([]);
+  const [sortBy, setSortBy] = useState<string>('latest');
+
   const uniqueDates: string[] = [
     ...new Set(
-      reviewDatas.map((data) => data.date.toISOString().split('T')[0])
+      reviewDatas.map((data) => {
+        const [date] = data.createdAt.split(' ');
+        return date;
+      })
     ),
   ];
-  let rooms: Room[] = [];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get<string>(
+        const response = await axios.get(
           'https://43.203.227.36.sslip.io/server/room/getRooms'
         );
-        console.log(response.data);
-        // rooms = JSON.parse(response.data);
-        console.log(rooms);
+        setReviewDatas(response.data);
+        // dummyDatas를 적절한 방식으로 설정해야 합니다.
+        // 예를 들어, JSON 파일에서 가져온 데이터를 사용할 수 있습니다.
+        setDummyDatas(datas.reviewDatas);
       } catch (error) {
         console.error('Error fetching review data:', error);
       }
     };
-
     fetchData();
   }, []);
 
@@ -105,10 +95,10 @@ export default function Review() {
               <div className='date'>{date}</div>
               <ul className='review-list'>
                 {reviewDatas
-                  .filter((data) => date === data.date)
+                  .filter((data) => date === data.createdAt.split(' ')[0])
                   .map((data) => (
                     <li key={data.id} className='review-item'>
-                      <ReviewItem data={data} />
+                      <ReviewItem data={data} dummy={dummyDatas} />
                     </li>
                   ))}
               </ul>

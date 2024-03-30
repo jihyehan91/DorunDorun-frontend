@@ -19,41 +19,46 @@ interface ConversationData {
 
 export default function ReviewContent() {
   // 임시 데이터
-  const dummyData = datas.chat;
+  // const dummyData = datas.chat;
 
   const { id } = useParams<{ id: string }>();
   // const [conversationData, setConversationData] =
   //   useState<ConversationData | null>(null);
-  const [conversationData, setConversationData] = useState(dummyData);
-  const [error, setError] = useState<string | null>(null);
+  // const [conversationData, setConversationData] = useState(dummyData);
+  // const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const response = await axios.get<ConversationData>(`URL/${id}`);
+        const response = await axios.get<ConversationData>(
+          `https://43.203.227.36.sslip.io/server/message/getMessagesByRoomid`,
+          { params: { roomid: id } }
+        );
+        console.log(response.data);
+
         // setConversationData(response.data);
       } catch (error) {
         console.error('Error fetching conversation data:', error);
-        setError('대화 데이터를 가져오는 도중 오류가 발생했습니다.');
+        // setError('대화 데이터를 가져오는 도중 오류가 발생했습니다.');
       }
     };
 
     fetchData();
   }, [id]);
 
-  if (error) {
-    return <div>{error}</div>; // 에러 메시지 표시
-  }
+  // if (error) {
+  //   return <div>{error}</div>; // 에러 메시지 표시
+  // }
 
-  if (!conversationData) {
-    return <div>대화를 찾을 수 없습니다.</div>;
-  }
+  // if (!conversationData) {
+  //   return <div>대화를 찾을 수 없습니다.</div>;
+  // }
 
-  const { messages, wrongSentence, correctedSentence } = conversationData;
+  // const { messages, wrongSentence, correctedSentence } = conversationData;
 
   return (
     <div className='list-talk1'>
-      <div className='history'>
+      {/* <div className='history'>
         <ul>
           {messages.map((talkMessage, i) => (
             <li
@@ -91,7 +96,7 @@ export default function ReviewContent() {
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 }

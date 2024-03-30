@@ -14,7 +14,7 @@ import Chat from './pages/Chat';
 import Learn from './pages/Learn';
 import Auth from './components/Mypage';
 import Spinner from './components/Spinner';
-import ReviewContent from './components/temporaily';
+import ReviewContent from './components/ReviewContent';
 import './App.css';
 
 function App() {
