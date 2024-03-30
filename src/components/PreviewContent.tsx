@@ -156,6 +156,25 @@ export default function PreviewContent() {
             )}
           </div>
         </div>
+
+        {/* 지혜님 이부분은 학습 완료처리가 된 애들만 푸 랑 대화할때 미션 리스트에 정렬되도록 체크 해주는 부분이에요. 세연님이랑 소통할 부분이니까 그러려니 하십시옹. css 건드시는건 아무 상관 없습니다.*/}
+        <button
+          onClick={async () => {
+            const index = sentences.findIndex(
+              (sentence) => sentence.mission === selectedSentenceData?.sentence
+            );
+            await axios
+              .post("https://43.203.227.36.sslip.io/server/missionComplete", {
+                mission_id: sentences[index].missionId,
+              })
+              .then
+              //뭔가 부트스트랩 체크표시 같은 애니메이션 효과..?
+              ();
+          }}
+        >
+          학습 완료
+        </button>
+
         <div className="three-sentence-area">
           <h3 className="sentence-sub-title">하루 3문장</h3>
           <ul>
