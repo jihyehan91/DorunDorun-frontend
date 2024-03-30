@@ -168,43 +168,46 @@ function Talk() {
 	}
 
 	const checkMission = async (inputText) => {
-		// const missionData = data.map(item => `mission_id: ${item.mission_id}\nmission: ${item.mission}\n`).join('\n')
-		// const postData =`${missionData}\nchat:${inputText}`;
-		// const postData = {
-		//  missions: data.map(item => ({ mission_id: item.mission_id, mission: item.mission })),
-		//  chat: inputText
-		// };
-		const reducedMissions = data.map(({ mission_id, mission }) => ({ mission_id, mission }));
+        // const missionData = data.map(item => `mission_id: ${item.mission_id}\nmission: ${item.mission}\n`).join('\n')
+        // const postData =`${missionData}\nchat:${inputText}`;
+        // const postData = {
+        //  missions: data.map(item => ({ mission_id: item.mission_id, mission: item.mission })),
+        //  chat: inputText
+        // };
+        const reducedMissions = data.map(({ mission_id, mission }) => ({ mission_id, mission }));
 
-		// console.log('postData',reducedMissions);
-		try {
-      const response = await axios.post('http://localhost:8080/checkMission',
-      {
-				missions: reducedMissions,
-				chat: inputText,
-			});
-			const checkData = response.data;
-			console.log('중간 데이터', checkData);
+        // console.log('postData',reducedMissions);
+        try {  
+            const response = await axios.post('https://43.203.227.36.sslip.io/server/checkMission', 
+            {
+                missions: reducedMissions,
+                chat: inputText
 
-			// if (Array.isArray(checkData)) {
-			//  console.log('data는 배열입니다.');
-			// } else {
-			//  console.log('data는 배열이 아닙니다.');
-			// }
+            })
+            const checkData = response.data;
+            console.log("중간 데이터", checkData);
 
-			if (checkData != ' none') {
-				let dataArray: string[] = [];
-				try {
-					dataArray = JSON.parse(checkData.replace(/'/g, '"'));
-					console.log('배열 변환 완료: ', dataArray);
-				} catch (error) {
-					console.error('배열 변환 에러: ', error);
-				}
-			}
-		} catch (error) {
-			console.error('missionError: ', error);
-		}
-	};
+            // if (Array.isArray(checkData)) {
+            //  console.log('data는 배열입니다.');
+            // } else {
+            //  console.log('data는 배열이 아닙니다.');
+            // }
+            
+            if (checkData != " none") {
+                let dataArray: string[] = [];
+                try {
+                    dataArray = JSON.parse(checkData.replace(/'/g, '"'));
+                    console.log("배열 변환 완료: ", dataArray);
+                } catch (error) {
+                    console.error("배열 변환 에러: ", error)
+                }
+            }
+            
+        } catch (error) {
+            console.error("missionError: ",error)
+        }
+    }
+
 
 	const sendMessage = async (e) => {
 		e.preventDefault();
