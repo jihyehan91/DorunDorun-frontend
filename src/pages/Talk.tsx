@@ -57,7 +57,7 @@ function Talk() {
 	const [isFinishPop, setIsFinishPop] = useState(false); //대화 종료 팝업 체크
 	const [isFinish, setIsFinish] = useState(false); //대화 종료
 
-	const [userInfo] = useState(datas.users.find((user) => user.userid === account)); //임시
+	const [userInfo] = useState(datas.users.find((user) => user.userId === account)); //임시
 	const [characterInfo] = useState(datas.characters.filter((character) => character.id === id)); //임시
 	const [bgNum, setBgNum] = useState(Math.floor(Math.random() * 3));
 	const [characterDesc, setCharacterDesc] = useState(false);
