@@ -6,7 +6,6 @@ import NotFound from './components/NotFound';
 import Home from './pages/Home';
 import Mypage from './pages/MyLog';
 import Talk from './pages/Talk';
-import Talk2 from './pages/Talk2';
 import Myroom from './pages/Myroom';
 import About from './pages/About';
 import PreviewContent from './components/PreviewContent';
