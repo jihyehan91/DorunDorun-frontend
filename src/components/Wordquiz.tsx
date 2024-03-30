@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 export default function Wordquiz() {
   const [showQuestions, setShowQuestions] = useState(false);
+  //LEVEL 1
   const enAnswers = [
     {
       sentence: 'This is a sample sentence for shuffling',
@@ -131,8 +132,7 @@ export default function Wordquiz() {
         <p className='text-lg text-blue-500 font-semibold mb-4'>단어들을 클릭해서 문장을 완성해보세요~</p>
         <button
           onClick={() => setShowQuestions(true)}
-          className='mt-8 inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105'
-        >
+          className='mt-8 inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105'>
           시작
         </button>
       </div>

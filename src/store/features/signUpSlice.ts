@@ -5,7 +5,6 @@ import signupApi from '../../api/signUp';
 interface User {
   username: string;
   userId: string;
-  nickname: string;
   email: string;
   password: string;
   confirmPassword: string;

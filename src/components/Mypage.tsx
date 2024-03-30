@@ -1,6 +1,4 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useAppDispatch } from '../hooks';
-import { userNicknameCheck } from '../store/features/userIdCheck';
 import '../assets/css/auth.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -10,14 +8,12 @@ import useUserData from './UserData';
 type FormData = {
   username: string;
   userId: string;
-  nickname: string;
   email: string;
   password: string;
   profileImage: string;
 };
 
 export default function Mypage() {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { userCheck } = useUserData();
 
@@ -26,7 +22,6 @@ export default function Mypage() {
     handleSubmit,
     setValue,
     formState: { errors },
-    watch
   } = useForm<FormData>();
 
   const API_URL = 'https://43.203.227.36.sslip.io/server';
@@ -34,7 +29,6 @@ export default function Mypage() {
   const [getUser, setGetUser] = useState<FormData>({
     username: '',
     userId: '',
-    nickname: '',
     email: '',
     password: '',
     profileImage: ''
@@ -44,13 +38,12 @@ export default function Mypage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_URL}/user/info`);
+        const response = await axios.get(`${API_URL}/user/info`, { withCredentials: true });
         console.log('마이페이지:', response.data);
         const userData = response.data; 
         setGetUser(userData); 
         setValue('username', userData.username);
         setValue('userId', userData.userId);
-        setValue('nickname', userData.nickname);
         setValue('email', userData.email);
         setValue('password', userData.password);
         if (userData.profileImage) {
@@ -65,18 +58,19 @@ export default function Mypage() {
 
   // 회원탈퇴
   const handleWithdraw = async () => {
-    try {
-      const response = await axios.delete(`${API_URL}/user/withdraw`);
-      console.log('잘가라', response.data);
-      navigate('/')
-    } catch (error) {
-      console.error('에러:', error);
+    const confirmdraw = window.confirm('정말로 회원탈퇴를 하시겠습니까?');
+    if(confirmdraw){
+      try {
+        const response = await axios.delete(`${API_URL}/user/withdraw`, { withCredentials: true } ); // withCredentials 추가
+        console.log('잘가라', response.data);
+        navigate('/')
+      } catch (error) {
+        console.error('에러:', error);
+      }
     }
   };
 
-  useEffect(() => {
-    handleWithdraw();
-  }, []);
+  // useEffect로 handleWithdraw() 호출하는 부분 삭제
 
   // 사용자 정보 수정
   const onSubmit: SubmitHandler<FormData> = async (userdata) => {
@@ -85,7 +79,10 @@ export default function Mypage() {
       if (userdata.email) {
         formData.append('email', userdata.email);
         const response = await axios.patch(`${API_URL}/user/changeEmail`, formData, {
-          withCredentials: true
+          withCredentials: true,
+          headers:{
+            'Content-Type' : 'multipart/form-data'
+          }
         });
         console.log('이메일 변경:', response.data);
         if (response.data.result === false) {
@@ -114,12 +111,6 @@ export default function Mypage() {
     }
   };
 
-  const nickname = watch('nickname');
-
-  // 닉네임 중복 체크
-  useEffect(() => {
-    dispatch(userNicknameCheck(nickname));
-  }, [nickname, dispatch]);
 
   // 프로필 이미지 변경
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,7 +119,7 @@ export default function Mypage() {
       formData.append('image', e.target.files[0]);
   
       try {
-        const response = await axios.post(`${API_URL}/upload`, formData, {
+        const response = await axios.post(`${API_URL}/upload`, formData,{ withCredentials: true } ,{ 
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -187,29 +178,6 @@ export default function Mypage() {
                 id='userId'
                 disabled
               />
-
-              <label className='auth-label' htmlFor='nickname'>
-                닉네임
-              </label>
-              <input
-                className='auth-input'
-                type='text'
-                id='nickname'
-                placeholder='닉네임을 변경해주세요'
-                {...register('nickname', {
-                  required: '닉네임을 입력해주세요'
-                })}
-              />
-              {errors.nickname && (
-                <span className='authSpan' role='alert'>
-                  {errors.nickname.message}
-                </span>
-              )}
-              {nickname && (
-                <span className='text-blue-500 text-xs'>
-                  {nickname}은(는) 사용 가능한 닉네임입니다.
-                </span>
-              )}
 
               <label className='auth-label' htmlFor='email'>
                 이메일

@@ -4,7 +4,6 @@ const API_URL: string = 'https://43.203.227.36.sslip.io/server';
 interface UserData {
   username: string;
   userId: string;
-  nickname: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -13,7 +12,7 @@ interface UserData {
 
 const signupApi = async (userdata: UserData) => {
   try {
-    const response = await axios.post(`${API_URL}/user/register`, userdata);
+    const response = await axios.post(`${API_URL}/user/register`, userdata, { withCredentials: true });
     if (response.data) {
       window.location.href = `${API_URL}`;
       alert(`안녕하세요! 회원가입 환영합니다!`);

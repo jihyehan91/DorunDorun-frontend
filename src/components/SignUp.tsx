@@ -10,7 +10,6 @@ import '../assets/css/auth.css';
 type FormData = {
   username: string;
   userId: string;
-  nickname: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -185,11 +184,11 @@ export default function SignUp() {
                 </span>
               )}
                  {userIdCheck && <span className='auth-span' role='alert'>{userIdCheck}</span>}
-              {/* {userIdRedundancy !== null && (
+              {userIdRedundancy !== null && (
                 <span className={!userIdRedundancy ? 'text-blue-500 text-xs' : 'text-red-500 text-xs'}>
                   {!userIdRedundancy ? '사용 가능한 아이디입니다.' : '이미 사용 중인 아이디입니다.'}
                 </span>
-              )}               */}
+              )} 
 
               <label className='auth-label' htmlFor='email'>
                 이메일
