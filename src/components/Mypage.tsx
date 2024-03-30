@@ -57,8 +57,6 @@ export default function Mypage() {
 
   // 회원탈퇴
   const handleWithdraw = async (userdata: FormData) => {
-    console.log('이것은 userdata', userdata);
-    console.log('이것은 userdata의 userId', userdata.userId);
     const confirmdraw = window.confirm('정말로 회원탈퇴를 하시겠습니까?');
     if (confirmdraw) {
       try {
@@ -70,8 +68,6 @@ export default function Mypage() {
           withCredentials: true,
         });
         console.log('잘가라', response.data);
-        console.log('잘가라 2', response.data.data);
-        console.log('잘가라 이것은', response.data.userId);
         alert('안녕히 가시오~')
         navigate('/');
       } catch (error) {
@@ -85,14 +81,14 @@ export default function Mypage() {
   }
 
   // 사용자 정보 수정
-  const emailChangeHandler = async () => {
+  const emailChangeHandler = async (userdata: FormData) => {
     try {
       const response = await axios.patch(
-        `${API_URL}/user/changeEmail`,
+        `${API_URL}/user/changeEmail`, 
         {
-          userid: getUser.userId,
-          email: getUser.email,
-          inputpw: getUser.password
+          userid: userdata.userId,
+          email: userdata.email,
+          inputpw: userdata.password
         },
         {
           withCredentials: true,
@@ -112,32 +108,38 @@ export default function Mypage() {
     }
   };
 
-  const passwordChangeHandler = async () => {
-    try {
-      const response = await axios.patch(
-        `${API_URL}/user/changePW`,
-        {
-          userid: getUser.userId,
-          email: getUser.email,
-          inputpw: getUser.password
-        },
-        {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json'
+  const passwordChangeHandler = async (userdata : FormData) => {
+    const requestData = {
+      userid: userdata.userId,
+      email: userdata.email,
+      inputpw: userdata.password
+    };
+  
+    if (userdata.password) { 
+      try {
+        const response = await axios.patch(
+          `${API_URL}/user/changePW`, 
+          requestData,
+          {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json'
+            }
           }
+        );
+        console.log('비밀번호 변경:', response.data);
+        if (response.data.result === false) {
+          alert(response.data.msg);
+        } else {
+          alert('비밀번호가 변경되었습니다');
         }
-      );
-      console.log('비밀번호 변경:', response.data);
-      if (response.data.result === false) {
-        alert(response.data.msg);
-      } else {
-        alert('비밀번호가 변경되었습니다');
+        return response.data;
+      } catch (error) {
+        console.error('에러:', error);
       }
-    } catch (error) {
-      console.error('에러:', error);
-    }
+    } 
   };
+  
 
   return (
     <div className='form-container'>
@@ -149,7 +151,7 @@ export default function Mypage() {
             </Link>
           </div>
           {
-            // userCheck ?
+            userCheck ?
             <div className='form-box'>
             <form className='auth-form' onSubmit={handleSubmit(onSubmit)}>
               <label className='auth-label' htmlFor='userId'>
@@ -237,13 +239,13 @@ export default function Mypage() {
               <button className='auth-input mt-11' type='submit'>
                 홈으로 돌아가기
               </button>
-              <p onClick={handleWithdraw} className='auth-span font-black opacity-60 mb-2 text-right cursor-pointer' role='alert'>
-                회원탈퇴
-              </p>
+              <p onClick={() => handleWithdraw(getUser)} className='auth-span font-black opacity-60 mb-2 text-right cursor-pointer' role='alert'>
+  회원탈퇴
+</p>
             </form>
           </div> 
-          // :
-          // <Notfound/>
+          :
+          <Notfound/>
           }
         </div>
       </div>
