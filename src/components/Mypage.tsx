@@ -119,7 +119,10 @@ export default function Mypage() {
       formData.append('image', e.target.files[0]);
   
       try {
-        const response = await axios.post(`${API_URL}/upload`, formData,{ withCredentials: true } ,{ 
+        const response = await axios.post(`${API_URL}/upload`, 
+        formData,
+        { withCredentials: true } ,
+        { 
           headers: {
             'Content-Type': 'multipart/form-data'
           }

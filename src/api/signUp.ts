@@ -2,12 +2,10 @@ import axios from "axios";
 
 const API_URL: string = 'https://43.203.227.36.sslip.io/server';
 interface UserData {
-  username: string;
+  // username: string;
   userId: string;
   email: string;
   password: string;
-  confirmPassword: string;
-  agree: boolean;
 }
 
 const signupApi = async (userdata: UserData) => {

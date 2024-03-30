@@ -8,12 +8,12 @@ import { signUpUser } from '../store/features/signUpSlice';
 import '../assets/css/auth.css';
 
 type FormData = {
-  username: string;
+  // username: string;
   userId: string;
   email: string;
   password: string;
-  confirmPassword: string;
-  agree: boolean;
+  // confirmPassword: string;
+  // agree: boolean;
 };
 
 export default function SignUp() {
