@@ -61,7 +61,7 @@ function Talk() {
 	const [characterInfo] = useState(datas.characters.filter((character) => character.id === id)); //임시
 	const [bgNum, setBgNum] = useState(Math.floor(Math.random() * 3));
 	const [characterDesc, setCharacterDesc] = useState(false);
-	const [getData] = useState([
+	/* const [getData] = useState([
 		//더미
 		{
 			id: 'review_1',
@@ -96,20 +96,41 @@ function Talk() {
 			wrongSentence: 'He goed to the store.',
 			correctedSentence: 'He went to the store!',
 		},
-	]);
-	const [missions, setMissions] = useState(
+	]); */
+	/* const [missions, setMissions] = useState(
 		getData.map((data, i) => ({
 			id: i,
 			message: data.correctedSentence,
 			complete: false,
 		}))
-	);
+	); */
+	const [missions, setMissions] = useState([]);
 
 	async function getMissions() {
 		try {
 			const response = await axios.get('https://43.203.227.36.sslip.io/server/missions');
 			console.log(response.data);
 			setMissions(response.data);
+			/* setMissions([ // 더미
+        {
+          mission_id: "lv1_1",
+          mission: "I am trying to",
+          meaning: "~ 해 보려고 하는 중이에요",
+          complete: false
+        },
+        {
+          mission_id: "lv1_2",
+          mission: "I am ready to",
+          meaning: "~ 할 준비가 되었어요",
+          complete: false
+        },
+        {
+          mission_id: "lv1_3",
+          mission: "I am just about to",
+          meaning: "지금 막 ~ 하려는 참이에요",
+          complete: false
+        }
+        ]); */
 		} catch (error) {
 			console.error('Fetch and play audio error:', error);
 		}
@@ -186,10 +207,11 @@ function Talk() {
 				audioRef.current.src = audioSrc;
 			}
 			playAudio();
+      //미션 체크 할 AI 요청 부분
+      //여기에 작성
 			setFirstAudioMsg(true);
-
 			setMissions((prevData) =>
-				prevData.map((mission) => (mission.message === inputText ? { ...mission, complete: true } : mission))
+				prevData.map((mission) => (mission.mission === inputText ? { ...mission, complete: true } : mission))
 			);
 			textareaRef.current.value = '';
 			micRef.current.focus();
@@ -208,6 +230,7 @@ function Talk() {
 			);
 			const correctedMsg = await resCorrect.data;
 			setAllMsg((prevData) => [...prevData, correctedMsg]);// 서버에 전달할 내용
+
 			// console.log('resCorrect: ', correctedMsg);
 			// allMsg = correctedMsg;
 			correctedMsg.forEach(function (msg) {

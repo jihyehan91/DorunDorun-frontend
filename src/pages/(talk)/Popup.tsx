@@ -9,6 +9,7 @@ export const Popup = ({ title, allMsg, datas, isPop, setIsPop }) => {
 	const [authUser, setAuthUser] = useState({});
 	const completedCount = datas.filter((data) => data.complete).length;
 	// const completedCount = 3;
+  console.log(datas);
 	useEffect(() => {
 		if (completedCount === 3 && mssCount < 1) {
 			setMssCount((prevMss) => prevMss + 1);
@@ -77,8 +78,8 @@ export const Popup = ({ title, allMsg, datas, isPop, setIsPop }) => {
 								) : (
 									datas.map((mission) => {
 										return (
-											<li key={mission.id} className={`${mission.complete ? 'complete' : ''}`}>
-												<span>{mission.message}</span>
+											<li key={mission.mission_id} className={`${mission.complete ? 'complete' : ''}`}>
+												<span>{mission.mission}</span>
 											</li>
 										);
 									})
