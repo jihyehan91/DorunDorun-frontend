@@ -233,7 +233,7 @@ function Talk() {
 
         // console.log('postData',reducedMissions);
         try {  
-            const response = await axios.post('http://localhost:8080/checkMission', 
+            const response = await axios.post('https://43.203.227.36.sslip.io/server/checkMission', 
             {
                 missions: reducedMissions,
                 chat: inputText
