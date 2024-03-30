@@ -179,7 +179,6 @@ function Talk() {
 		const todayMissionCount = missions.filter((data) => data.complete).length;
 		let allMsg = [];
 		if (todayMissionCount < 3 && !window.confirm('오늘의 학습 미션을 달성하지 못하였습니다. 그만하시겠습니까?')) return;
-		console.log(talkMessages, correctList);
 		try {
 			setCorrectLoad(true);
 			await axios
@@ -208,7 +207,6 @@ function Talk() {
 					console.error('에러 발생:', error);
 				});
 
-        console.log('allMsg 전:',allMsg);
 			await axios
 				.post(
 					'https://43.203.227.36.sslip.io/server/room/newRoom',
@@ -222,7 +220,6 @@ function Talk() {
 					console.log(response.data);
 					// roomid = response.data;
 				});
-      console.log('allMsg 후:',allMsg);
 			setIsFinishPop(true);
 			setCorrectLoad(false);
 			setFirstAudioMsg(false);
