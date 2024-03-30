@@ -82,6 +82,11 @@ export default function Mypage() {
 
   // 사용자 정보 수정
   const emailChangeHandler = async (userdata: FormData) => {
+    if (!userdata.password) {
+      alert('비밀번호를 입력해주세요');
+      return;
+    }
+  
     try {
       const response = await axios.patch(
         `${API_URL}/user/changeEmail`, 
