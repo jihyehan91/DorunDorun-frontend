@@ -83,6 +83,8 @@ export default function Mypage() {
   // 사용자 정보 수정
   const emailChangeHandler = async (userdata: FormData) => {
     if (!userdata.password) {
+      console.log('이것은', userdata)
+      console.log('이것은', userdata.password)
       alert('비밀번호를 입력해주세요');
       return;
     }
@@ -101,9 +103,12 @@ export default function Mypage() {
             'Content-Type': 'application/json'
           }
         }
+        
       );
       console.log('이메일 변경:', response.data);
       if (response.data.result === false) {
+        console.log('이것은', userdata)
+      console.log('이것은', userdata.password)
         alert(response.data.msg);
       } else {
         alert('이메일이 변경되었습니다');
