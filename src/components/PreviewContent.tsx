@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { LuRepeat } from 'react-icons/lu';
 import { HiSpeakerWave } from 'react-icons/hi2';
 import { FaArrowLeft } from 'react-icons/fa6';
-import datas from '../../datas.json';
 import { useParams } from 'react-router-dom';
+import datas from '../../datas.json';
 
 interface Sentence {
   speaker: string;
@@ -22,16 +22,42 @@ interface PreviewData {
   used: boolean;
 }
 
+interface Params {
+  expression: string;
+  meaning: string;
+  level: Number;
+}
+
 export default function PreviewContent() {
   const [levelData, setLevelData] = useState<PreviewData[]>([]);
   const [sentences, setSentences] = useState<string[]>([]);
   const [selectedSentenceData, setSelectedSentenceData] =
     useState<PreviewData | null>(null);
   const { id: urlID } = useParams<{ id: string }>();
-
+  // const [params, setParams] = useState();
+  // const data = [
+  //   {
+  //     mission_id: 'lv1_1',
+  //     mission: 'I am trying to',
+  //     meaning: '~ 해 보려고 하는 중이에요',
+  //     complete: false,
+  //   },
+  //   {
+  //     mission_id: 'lv1_2',
+  //     mission: 'I am ready to',
+  //     meaning: '~ 할 준비가 되었어요',
+  //     complete: false,
+  //   },
+  //   {
+  //     mission_id: 'lv1_3',
+  //     mission: 'I am just about to',
+  //     meaning: '지금 막 ~ 하려는 참이에요',
+  //     complete: false,
+  //   },
+  // ];
   useEffect(() => {
     const fetchData = async () => {
-      // 여기서 실제 API 호출이 이루어져야 하지만, 현재는 데이터를 직접 가져옴
+      // 더미데이터 > 나중에 api 호출
       const dummyData = datas.level;
 
       // URL의 id와 데이터의 id가 일치하는 것만 필터링하여 설정
@@ -75,64 +101,69 @@ export default function PreviewContent() {
     }
   };
 
-  // 새로운 랜덤 문장 선택 및 렌더링 함수
-  const handleNewRandomSentence = () => {
-    const availableSentences = levelData
-      .filter((sentence) => !sentence.used)
-      .map((sentence) => sentence.sentence);
-    const randomIndex = Math.floor(Math.random() * availableSentences.length);
-    const randomSentence = availableSentences[randomIndex];
-    sentenceHandler(randomSentence);
+  // 뒤로가기 버튼
+  const backHandler = () => {
+    window.history.back();
+    // 탭이 있다면 예문 탭이 보이게
   };
 
   return (
     <section className='preview-sentence'>
-      <div className='container'>
-        {/* 하루3문장 연결 탭 */}
-        <button type='button' className='exit-btn'>
+      <div className='preview-sentence-container'>
+        <button
+          className='exit-btn'
+          type='button'
+          onClick={backHandler}
+          aria-label='뒤로가기'
+        >
           <FaArrowLeft />
         </button>
         <div className='sample-sentence-area'>
           {/* 랜덤으로 선택된 문장들 렌더링 */}
-          <p>{selectedSentenceData && selectedSentenceData.sentence}</p>
+          <div className='key-sentence-english'>
+            <p>{selectedSentenceData && selectedSentenceData.sentence}</p>
+            <p>
+              {selectedSentenceData &&
+                selectedSentenceData.sentence_translation}
+            </p>
+          </div>
           {/* 예시 대화문 */}
           <div className='sample-sentence'>
-            <div className='preview-text-btn'>
-              <span className='sentence-sub-title'>예문</span>
-              <button type='button' onClick={handleNewRandomSentence}>
-                <LuRepeat />
-              </button>
-              <button type='button'>
-                <HiSpeakerWave />
-              </button>
-            </div>
             {selectedSentenceData && (
               <div className='example' key={selectedSentenceData.id}>
-                <div>
-                  <p>문장 패턴</p>
+                <div className='pattern-sentence'>
+                  <div className='flex p-0'>
+                    <p className='sentence-sub-title'>문장 패턴</p>
+                    <button type='button'>
+                      <LuRepeat />
+                    </button>
+                    <button type='button'>
+                      <HiSpeakerWave />
+                    </button>
+                  </div>
                   <ul>
                     {selectedSentenceData.similar.map((similar, index) => (
                       <li key={index}>
-                        <p>{similar}</p>
-                        <p>{selectedSentenceData.similar_translation[index]}</p>
+                        <p className='english'>{similar}</p>
+                        <p className='korean'>
+                          {selectedSentenceData.similar_translation[index]}
+                        </p>
                       </li>
                     ))}
                   </ul>
                 </div>
                 <div className='dialog'>
-                  <br />
-                  <br />
-                  <p>대화문</p>
-                  <p className='dialog-english'>
+                  <p className='sentence-sub-title'>대화문</p>
+                  <p className='english'>
                     {selectedSentenceData.dialogue[0].text}
                   </p>
-                  <p className='dialog-korea'>
+                  <p className='korean'>
                     {selectedSentenceData.dialogue_translation[0].text}
                   </p>
-                  <p className='dialog-english'>
+                  <p className='english'>
                     {selectedSentenceData.dialogue[1].text}
                   </p>
-                  <p className='dialog-korea'>
+                  <p className='korean'>
                     {selectedSentenceData.dialogue_translation[1].text}
                   </p>
                 </div>
@@ -140,13 +171,13 @@ export default function PreviewContent() {
             )}
           </div>
         </div>
-        {/* 하루 3구문 */}
         <div className='three-sentence-area'>
           <h3 className='sentence-sub-title'>하루 3문장</h3>
           <ul>
             {sentences.map((sentence, i) => (
               <li key={i} onClick={() => sentenceHandler(sentence)}>
-                {i + 1}. {sentence}
+                <span className='number-btn'>{i + 1}</span>
+                <span>{sentence}</span>
               </li>
             ))}
           </ul>

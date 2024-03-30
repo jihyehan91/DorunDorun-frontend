@@ -19,7 +19,6 @@
   .preview-sentence {
     width: 80%;
     min-width: 360px;
-    /* padding: 5rem 10rem; */
     margin: 0 auto;
   }
 
@@ -72,7 +71,7 @@
   }
 
   .number-btn {
-    @apply inline-block w-6 h-6 p-0w mr-2 bg-[var(--btn-sub-bg)] text-sm rounded-full hover:bg-[var(--btn-bg-hover)] hover:text-white;
+    @apply inline-block w-6 h-6 p-0 mr-2 bg-[var(--btn-sub-bg)] text-sm rounded-full hover:bg-[var(--btn-bg-hover)] hover:text-white;
   }
 
   .number-btn.active {
