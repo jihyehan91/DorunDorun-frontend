@@ -136,10 +136,10 @@ function Talk() {
       ];
     
 
-	async function getMissions() {
+	const getMissions = async () => {
 		try {
 			const response = await axios.get('https://43.203.227.36.sslip.io/server/missions');
-			console.log(response.data);
+			console.log("미션 데이터:", response.data);
 			setMissions(response.data);
 			/* setMissions([ // 더미
         {
@@ -174,7 +174,7 @@ function Talk() {
 		}
 		auth();
 		setMic(false);
-		getMissions();
+		getMissions()
 	}, []);
 
 	// 뒤로가기 버튼
@@ -233,7 +233,7 @@ function Talk() {
 
         // console.log('postData',reducedMissions);
         try {  
-            const response = await axios.post('https://43.203.227.36.sslip.io/server/checkMission', 
+            const response = await axios.post('http://localhost:8080/checkMission', 
             {
                 missions: reducedMissions,
                 chat: inputText
