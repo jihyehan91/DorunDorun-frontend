@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import useUserData from './UserData';
+import Notfound from './NotFound';
 
 type FormData = {
   userId: string;
@@ -56,33 +57,42 @@ export default function Mypage() {
 
   // 회원탈퇴
   const handleWithdraw = async (userdata: FormData) => {
-    console.log('이것은 usedata', userdata)
+    console.log('이것은 userdata', userdata);
+    console.log('이것은 userdata의 userId', userdata.userId);
+
     const confirmdraw = window.confirm('정말로 회원탈퇴를 하시겠습니까?');
     if (confirmdraw) {
       try {
         const response = await axios.delete(`${API_URL}/user/withdraw`, {
-          data: userdata.userId,
+          params: {
+            userId: userdata.userId
+          },
           withCredentials: true,
         });
         console.log('잘가라', response.data);
+        console.log('잘가라 2', response.data.data);
         console.log('잘가라 이것은', response.data.userId);
         navigate('/');
       } catch (error) {
         console.error('에러:', error);
       }
     }
-  };
+};
+
 
   // 사용자 정보 수정
   const onSubmit: SubmitHandler<FormData> = async (userdata) => {
+    const requestData = {
+      userid: userdata.userId,
+      email: userdata.email,
+      inputpw: userdata.password
+    };
     try {
-      const formData = new FormData();
       if (userdata.email) {
-        formData.append('email', userdata.email);
-        const response = await axios.patch(`${API_URL}/user/changeEmail`, formData, {
+        const response = await axios.patch(`${API_URL}/user/changeEmail`, requestData, {
           withCredentials: true,
-          headers:{
-            'Content-Type' : 'multipart/form-data'
+          headers: {
+            'Content-Type': 'application/json' // 수정된 Content-Type
           }
         });
         console.log('이메일 변경:', response.data);
@@ -94,9 +104,11 @@ export default function Mypage() {
         }
         return response.data;
       } else if (userdata.password) {
-        formData.append('password', userdata.password);
-        const response = await axios.patch(`${API_URL}/user/changePW`, formData, {
-          withCredentials: true
+        const response = await axios.patch(`${API_URL}/user/changePW`, requestData, {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json' // 수정된 Content-Type
+          }
         });
         console.log('비밀번호 변경:', response.data);
         if (response.data.result === false) {
@@ -111,6 +123,7 @@ export default function Mypage() {
       console.error('에러:', error);
     }
   };
+  
 
 
   // 프로필 이미지 변경
@@ -154,7 +167,7 @@ export default function Mypage() {
             </Link>
           </div>
           {
-            
+            userCheck ?
             <div className='form-box'>
             <form className='auth-form' onSubmit={handleSubmit(onSubmit)}>
               {/* <div>
@@ -257,7 +270,9 @@ export default function Mypage() {
         회원탈퇴
       </p>
             </form>
-          </div>
+          </div> 
+          :
+          <Notfound/>
           }
         </div>
       </div>
