@@ -4,6 +4,7 @@ import { HiSpeakerWave } from "react-icons/hi2";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
 import datas from "../../datas.json";
+import axios from "axios";
 
 interface Sentence {
   speaker: string;
@@ -35,6 +36,8 @@ export default function PreviewContent() {
     useState<PreviewData | null>(null);
   const { id: urlID } = useParams<{ id: string }>();
   // const [params, setParams] = useState();
+
+  const setParamData = () => {};
   const data = [
     {
       mission_id: "lv1_1",
@@ -55,6 +58,25 @@ export default function PreviewContent() {
       complete: false,
     },
   ];
+  async function getLearningSentence() {
+    try {
+      const level = "lv" + urlID![5];
+      const response = await axios.get(
+        "https://43.203.227.36.sslip.io/server/learn",
+        {
+          params: { course: level },
+        }
+      );
+      console.log(response.data);
+      // setMissions(response.data);
+    } catch (error) {
+      console.error("Fetch and play audio error:", error);
+    }
+  }
+
+  useEffect(() => {
+    getLearningSentence();
+  }, []);
   useEffect(() => {
     const fetchData = async () => {
       // 더미데이터 > 나중에 api 호출
