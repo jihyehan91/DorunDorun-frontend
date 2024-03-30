@@ -119,7 +119,6 @@ function Talk() {
 		async function auth() {
 			const res = await axios.get('https://43.203.227.36.sslip.io/server/user/authuser');
 			const result = res.data;
-			console.log('유저정보 확인:', result);
 			setAuthUser(result);
 		}
 		auth();
@@ -208,8 +207,8 @@ function Talk() {
 				{ withCredentials: true }
 			);
 			const correctedMsg = await resCorrect.data;
-			setAllMsg((prevData) => [...prevData, correctedMsg]);
-			console.log('resCorrect: ', correctedMsg);
+			setAllMsg((prevData) => [...prevData, correctedMsg]);// 서버에 전달할 내용
+			// console.log('resCorrect: ', correctedMsg);
 			// allMsg = correctedMsg;
 			correctedMsg.forEach(function (msg) {
 				if (msg.includes('->')) {
