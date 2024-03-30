@@ -42,7 +42,7 @@ function Talk2() {
 		newToken: null,
 	}); */
 	const { user, setUser, userCheck, setUserCheck, profileImage, setProfileImage } = useUserData();
-	console.log('userCheck:',user,userCheck);
+	console.log('user:',user, 'userCheck:',userCheck,'profileImage:',profileImage);
 
 	// const [beforeMessage, setBeforeMessage] = useState([]);//api로 사용예정
 	// const [beforeMessage] = useState(datas.chats.filter((chat) => chat.roomId === id)); //임시:기존 대화한 내역 메세지

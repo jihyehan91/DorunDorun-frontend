@@ -1,4 +1,3 @@
-import '../assets/css/talk.css';
 import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import datas from '../../datas.json'; //임시 데이터
