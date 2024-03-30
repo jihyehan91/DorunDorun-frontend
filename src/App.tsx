@@ -23,7 +23,6 @@ function App() {
       <Route element={<Layout />}>
         <Route path='/' element={<Home />} />
         <Route path='/talk/:id' element={<Talk />} />
-        <Route path='/talk2/:id' element={<Talk2 />} />
         <Route path='/myroom' element={<Myroom />} />
         <Route path='/about' element={<About />} />
         <Route path='/mylog' element={<Mypage />} />
