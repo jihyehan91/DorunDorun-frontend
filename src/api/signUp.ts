@@ -10,6 +10,7 @@ interface UserData {
 
 const signupApi = async (userdata: UserData) => {
   try {
+    console.log(userdata);
     const response = await axios.post(`${API_URL}/user/register`, userdata, { withCredentials: true });
     if (response.data) {
       window.location.href = `${API_URL}`;

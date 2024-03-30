@@ -8,12 +8,12 @@ import { signUpUser } from '../store/features/signUpSlice';
 import '../assets/css/auth.css';
 
 type FormData = {
-  // username: string;
+  username: string;
   userId: string;
   email: string;
   password: string;
-  // confirmPassword: string;
-  // agree: boolean;
+  confirmPassword: string;
+  agree: boolean;
 };
 
 export default function SignUp() {
@@ -31,8 +31,14 @@ export default function SignUp() {
   } = useForm<FormData>();
 
   const onSubmit: SubmitHandler<FormData> = (userdata) => {
+    const requestData = {
+      userId: userdata.userId,
+      email: userdata.email,
+      password: userdata.password,
+    };
+
     console.log('onSubmit', userdata);
-    dispatch(signUpUser(userdata));
+    dispatch(signUpUser(requestData));
   }
 
   const onError: SubmitErrorHandler<FormData> = (errors) => {
@@ -97,7 +103,7 @@ export default function SignUp() {
     return () => clearTimeout(timer);
   }, [watch('password')]);
 
-  //비빌번호 확인 실시간 체크
+  // 비빌번호 확인 실시간 체크
   useEffect(() => {
     const timer = setTimeout(() => {
       const confirmPassword = watch('confirmPassword');
