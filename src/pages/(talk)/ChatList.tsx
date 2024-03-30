@@ -16,7 +16,7 @@ export const ChatHistory = ({ talkMessages, userInfo, characterInfo }) => {
 							</div>
 							<div className="info">
 								<div className="name">
-									{talkMessage?.includes('user:') ? userInfo.userId : talkMessage.split(': ')[0]}
+									{talkMessage?.includes('user:') ? (userInfo.result ? userInfo.nickname : '사용자') : talkMessage.split(': ')[0]}
 								</div>
 								<div className="msg">{talkMessage.split(': ')[1]}</div>
 							</div>
