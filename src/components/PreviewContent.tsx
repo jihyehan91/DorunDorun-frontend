@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { LuRepeat } from 'react-icons/lu';
-import { HiSpeakerWave } from 'react-icons/hi2';
-import { FaArrowLeft } from 'react-icons/fa6';
-import { useParams } from 'react-router-dom';
-import datas from '../../datas.json';
+import { useState, useEffect } from "react";
+import { LuRepeat } from "react-icons/lu";
+import { HiSpeakerWave } from "react-icons/hi2";
+import { FaArrowLeft } from "react-icons/fa6";
+import { useParams } from "react-router-dom";
+import datas from "../../datas.json";
 
 interface Sentence {
   speaker: string;
@@ -35,26 +35,26 @@ export default function PreviewContent() {
     useState<PreviewData | null>(null);
   const { id: urlID } = useParams<{ id: string }>();
   // const [params, setParams] = useState();
-  // const data = [
-  //   {
-  //     mission_id: 'lv1_1',
-  //     mission: 'I am trying to',
-  //     meaning: '~ 해 보려고 하는 중이에요',
-  //     complete: false,
-  //   },
-  //   {
-  //     mission_id: 'lv1_2',
-  //     mission: 'I am ready to',
-  //     meaning: '~ 할 준비가 되었어요',
-  //     complete: false,
-  //   },
-  //   {
-  //     mission_id: 'lv1_3',
-  //     mission: 'I am just about to',
-  //     meaning: '지금 막 ~ 하려는 참이에요',
-  //     complete: false,
-  //   },
-  // ];
+  const data = [
+    {
+      mission_id: "lv1_1",
+      mission: "I am trying to",
+      meaning: "~ 해 보려고 하는 중이에요",
+      complete: false,
+    },
+    {
+      mission_id: "lv1_2",
+      mission: "I am ready to",
+      meaning: "~ 할 준비가 되었어요",
+      complete: false,
+    },
+    {
+      mission_id: "lv1_3",
+      mission: "I am just about to",
+      meaning: "지금 막 ~ 하려는 참이에요",
+      complete: false,
+    },
+  ];
   useEffect(() => {
     const fetchData = async () => {
       // 더미데이터 > 나중에 api 호출
@@ -108,19 +108,19 @@ export default function PreviewContent() {
   };
 
   return (
-    <section className='preview-sentence'>
-      <div className='preview-sentence-container'>
+    <section className="preview-sentence">
+      <div className="preview-sentence-container">
         <button
-          className='exit-btn'
-          type='button'
+          className="exit-btn"
+          type="button"
           onClick={backHandler}
-          aria-label='뒤로가기'
+          aria-label="뒤로가기"
         >
           <FaArrowLeft />
         </button>
-        <div className='sample-sentence-area'>
+        <div className="sample-sentence-area">
           {/* 랜덤으로 선택된 문장들 렌더링 */}
-          <div className='key-sentence-english'>
+          <div className="key-sentence-english">
             <p>{selectedSentenceData && selectedSentenceData.sentence}</p>
             <p>
               {selectedSentenceData &&
@@ -128,42 +128,42 @@ export default function PreviewContent() {
             </p>
           </div>
           {/* 예시 대화문 */}
-          <div className='sample-sentence'>
+          <div className="sample-sentence">
             {selectedSentenceData && (
-              <div className='example' key={selectedSentenceData.id}>
-                <div className='pattern-sentence'>
-                  <div className='flex p-0'>
-                    <p className='sentence-sub-title'>문장 패턴</p>
-                    <button type='button'>
+              <div className="example" key={selectedSentenceData.id}>
+                <div className="pattern-sentence">
+                  <div className="flex p-0">
+                    <p className="sentence-sub-title">문장 패턴</p>
+                    <button type="button">
                       <LuRepeat />
                     </button>
-                    <button type='button'>
+                    <button type="button">
                       <HiSpeakerWave />
                     </button>
                   </div>
                   <ul>
                     {selectedSentenceData.similar.map((similar, index) => (
                       <li key={index}>
-                        <p className='english'>{similar}</p>
-                        <p className='korean'>
+                        <p className="english">{similar}</p>
+                        <p className="korean">
                           {selectedSentenceData.similar_translation[index]}
                         </p>
                       </li>
                     ))}
                   </ul>
                 </div>
-                <div className='dialog'>
-                  <p className='sentence-sub-title'>대화문</p>
-                  <p className='english'>
+                <div className="dialog">
+                  <p className="sentence-sub-title">대화문</p>
+                  <p className="english">
                     {selectedSentenceData.dialogue[0].text}
                   </p>
-                  <p className='korean'>
+                  <p className="korean">
                     {selectedSentenceData.dialogue_translation[0].text}
                   </p>
-                  <p className='english'>
+                  <p className="english">
                     {selectedSentenceData.dialogue[1].text}
                   </p>
-                  <p className='korean'>
+                  <p className="korean">
                     {selectedSentenceData.dialogue_translation[1].text}
                   </p>
                 </div>
@@ -171,12 +171,12 @@ export default function PreviewContent() {
             )}
           </div>
         </div>
-        <div className='three-sentence-area'>
-          <h3 className='sentence-sub-title'>하루 3문장</h3>
+        <div className="three-sentence-area">
+          <h3 className="sentence-sub-title">하루 3문장</h3>
           <ul>
             {sentences.map((sentence, i) => (
               <li key={i} onClick={() => sentenceHandler(sentence)}>
-                <span className='number-btn'>{i + 1}</span>
+                <span className="number-btn">{i + 1}</span>
                 <span>{sentence}</span>
               </li>
             ))}
