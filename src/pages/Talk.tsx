@@ -221,13 +221,13 @@ function Talk() {
 				)
 				.then(function (response) {
 					console.log(response.data);
-					roomid = response.data;
+					// roomid = response.data;
 				});
       console.log('allMsg 후:',allMsg);
 			setIsFinishPop(true);
 			setCorrectLoad(false);
 			setFirstAudioMsg(false);
-			setTodayMission(true); //오늘의 학습 목표 3개 완료시 체크
+			// setTodayMission(true); //오늘의 학습 목표 3개 완료시 체크
 		} catch (error) {
 			console.error('Fetch and play audio error:', error);
 		}
