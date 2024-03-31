@@ -24,7 +24,14 @@ import { firework } from '../utils/firework';
 // 파비콘 출천 : http://si.serverzero.kr/main/pc/index.php#five
 // 이미지 출처 : https://m.blog.naver.com/sinnam88/221375405075
 
-interface AuthUser {
+export interface Mission {
+    mission_id: string;
+    mission: string;
+    meaning: string;
+    complete: boolean;
+}
+
+export interface AuthUser {
 	result?: boolean;
 	nickname?: string;
 	userId?: string;
@@ -39,7 +46,7 @@ interface AiMsg {
 	aimsg: string;
 }
 
-interface Character {
+export interface Character {
 	id: string;
 	name: string;
 	img: string;
@@ -48,7 +55,7 @@ interface Character {
 
 function Talk() {
 	const { id } = useParams();
-	const [authuser, setAuthUser] = useState<AuthUser>({});
+	const [authuser, setAuthUser] = useState<AuthUser>({result: false});
 
 	const [mic, setMic] = useState<boolean>(false); //마이크 활성 체크
 	const [history, setHistory] = useState<boolean>(false); //대화 내역
@@ -81,13 +88,6 @@ function Talk() {
 	const [bgNum, setBgNum] = useState<number>(Math.floor(Math.random() * 3));
 	const [characterDesc, setCharacterDesc] = useState<boolean>(false);
 	const [missions, setMissions] = useState<Mission[]>([]);
-
-	type Mission = {
-		mission_id: string;
-		mission: string;
-		meaning: string;
-		complete: boolean;
-	};
 
 	// 데이터
 	const data: Mission[] = [
@@ -414,7 +414,7 @@ function Talk() {
 						<img src={`/mission/pooh_mission_on.png`} alt="" />{' '}
 						{missions?.length > 0 ? `${missions?.filter((data) => data.complete).length}/${missions.length}` : '미션'}
 					</button>
-					<Popup title={'오늘의 학습 미션'} datas={missions} isPop={isPop} setIsPop={setIsPop} />
+					<Popup title={'오늘의 학습 미션'} mssDatas={missions} isPop={isPop} setIsPop={setIsPop} />
 
 					<div className={`profile ${emotion}`}>
 						<img src={`/pooh_${emotion}.png`} alt="" />
@@ -445,7 +445,7 @@ function Talk() {
 										</div>
 									</div>
 								</button>
-								<Popup title={'캐릭터 소개'} datas={characterInfo} isPop={characterDesc} setIsPop={setCharacterDesc} />
+								<Popup title={'캐릭터 소개'} charDatas={characterInfo} isPop={characterDesc} setIsPop={setCharacterDesc} />
 
 								<button className="btn-history" onClick={() => setHistory(!history)}>
 									<PiListMagnifyingGlassDuotone
@@ -522,7 +522,7 @@ function Talk() {
 									title={'교정 목록'}
 									authUser={authuser}
 									missions={missions}
-									datas={correctList}
+									correctDatas={correctList}
 									isPop={isFinishPop}
 									setIsPop={setIsFinishPop}
 								/>
