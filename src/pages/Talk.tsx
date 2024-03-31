@@ -86,7 +86,7 @@ function Talk() {
 			const response = await axios.get('https://43.203.227.36.sslip.io/server/missions');
 			console.log('미션 데이터:', response.data);
 			setMissions(response.data);
-			// setMissions(data);// 더미 데이터
+			setMissions(data);// 더미 데이터
 		} catch (error) {
 			console.error('Fetch and play audio error:', error);
 		}
@@ -169,19 +169,18 @@ function Talk() {
 			console.log('중간 데이터', checkData);
 
 			if (Array.isArray(checkData)) {
-			 console.log('data는 배열입니다.');
+				console.log('data는 배열입니다.');
 			} else {
-			 console.log('data는 배열이 아닙니다.');
-			 if (checkData != ' none') {
-				let dataArray: string[] = [];
-				try {
-					dataArray = JSON.parse(checkData.replace(/'/g, '"'));
-					console.log('배열 변환 완료: ', dataArray);
-				} catch (error) {
-					console.error('배열 변환 에러: ', error);
+				console.log('data는 배열이 아닙니다.');
+				if (checkData != ' none') {
+					let dataArray: string[] = [];
+					try {
+						dataArray = JSON.parse(checkData.replace(/'/g, '"'));
+						console.log('배열 변환 완료: ', dataArray);
+					} catch (error) {
+						console.error('배열 변환 에러: ', error);
+					}
 				}
-			}
-			
 			}
 		} catch (error) {
 			console.error('missionError: ', error);
@@ -256,6 +255,23 @@ function Talk() {
 					.then(function (response) {
 						console.log(response.data);
 						// roomid = response.data;
+					})
+					.catch((error) => {
+						console.log('룸생성 에러:', error);
+					});
+
+				const completedMissionIds = missions?.filter((item) => item.complete).map((item) => item.mission_id);
+				await axios
+					.post(
+						'https://43.203.227.36.sslip.io/server/missionComplete',
+						{ mission_id: completedMissionIds },
+						{ withCredentials: true }
+					)
+					.then(function (response) {
+						console.log(response.data);
+					})
+					.catch((error) => {
+						console.log('미션완료 에러:', error);
 					});
 			}
 		} catch (error) {
@@ -359,12 +375,10 @@ function Talk() {
 
 					<button type="button" className="btn-mission " onClick={() => setIsPop(!isPop)}>
 						<img src={`/mission/pooh_mission_on.png`} alt="" />{' '}
-						{missions?.length > 0
-							? `${missions?.filter((data) => data.complete).length}/${missions.length}`
-							: '미션'
-            }
+						{missions?.length > 0 ? `${missions?.filter((data) => data.complete).length}/${missions.length}` : '미션'}
 					</button>
 					<Popup title={'오늘의 학습 미션'} datas={missions} isPop={isPop} setIsPop={setIsPop} />
+
 					<div className={`profile ${emotion}`}>
 						<img src={`/pooh_${emotion}.png`} alt="" />
 					</div>
