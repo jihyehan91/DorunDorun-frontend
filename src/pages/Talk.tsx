@@ -86,7 +86,7 @@ function Talk() {
 			const response = await axios.get('https://43.203.227.36.sslip.io/server/missions');
 			console.log('미션 데이터:', response.data);
 			setMissions(response.data);
-			setMissions(data);// 더미 데이터
+			// setMissions(data);// 더미 데이터
 		} catch (error) {
 			console.error('Fetch and play audio error:', error);
 		}
