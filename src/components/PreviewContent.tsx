@@ -69,10 +69,13 @@ export default function PreviewContent() {
   }
 
   useEffect(() => {
-    getLearningSentence().then(function () {
-      getAiExample(sentences[0]);
-    });
+    getLearningSentence();
   }, []);
+
+  useEffect(() => {
+    console.log("sentences22 :", sentences);
+    getAiExample(sentences[0]);
+  }, [sentences]);
 
   // 문장 패턴 클릭하면 예문 보이기
   // const sentenceHandler = (clickedSentence: string) => {
