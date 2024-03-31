@@ -15,15 +15,20 @@
 	.list-talk .head {
 		@apply flex justify-center items-center flex-col;
 	}
-	.list-talk .head .btn-mission {
-		@apply px-6 text-white text-lg  rounded-full bg-[var(--btn-bg)];
+	.list-talk .btn-mission {
+		@apply flex gap-1  items-center absolute bottom-[10px] right-[10px] text-[#855c52] text-lg font-bold  rounded-full bg-white;
 	}
-
+	.list-talk .btn-mission img {
+		@apply flex w-[30px] h-[30px];
+	}
 	.list-talk .profile {
 		@apply relative shrink-0 h-full flex items-end;
 	}
 	.list-talk .profile {
 		@apply bottom-[-20%];
+	}
+	.list-talk .profile.sad {
+		@apply bottom-[-17%];
 	}
 	.list-talk .profile img {
 		@apply w-full max-w-[500px] max-h-full;

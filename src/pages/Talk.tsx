@@ -1,3 +1,4 @@
+import '../assets/css/talk.css';
 import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import datas from '../../datas.json'; //임시 데이터
@@ -14,7 +15,6 @@ import { IoStop } from 'react-icons/io5';
 import { IoPlay } from 'react-icons/io5';
 import { PiListMagnifyingGlassDuotone } from 'react-icons/pi';
 import { RiLoader2Fill } from 'react-icons/ri';
-import { FaArrowLeft } from 'react-icons/fa6';
 import { Popup } from './(talk)/Popup';
 import { ChatHistory } from './(talk)/ChatList';
 
@@ -86,26 +86,7 @@ function Talk() {
 			const response = await axios.get('https://43.203.227.36.sslip.io/server/missions');
 			console.log('미션 데이터:', response.data);
 			setMissions(response.data);
-			/* setMissions([ // 더미
-        {
-          mission_id: "lv1_1",
-          mission: "I am trying to",
-          meaning: "~ 해 보려고 하는 중이에요",
-          complete: false
-        },
-        {
-          mission_id: "lv1_2",
-          mission: "I am ready to",
-          meaning: "~ 할 준비가 되었어요",
-          complete: false
-        },
-        {
-          mission_id: "lv1_3",
-          mission: "I am just about to",
-          meaning: "지금 막 ~ 하려는 참이에요",
-          complete: false
-        }
-        ]); */
+			// setMissions(data);// 더미 데이터
 		} catch (error) {
 			console.error('Fetch and play audio error:', error);
 		}
@@ -119,17 +100,13 @@ function Talk() {
 		}
 		auth();
 		setMic(false);
-		getMissions()
+		getMissions();
 	}, []);
-
-	// 뒤로가기 버튼
-	const backHandler = (talkMessages) => {
-		if (talkMessages.length !== 0 && !isFinish && !window.confirm('대화창을 나가면 내역은 저장되지 않습니다.')) return;
-		window.history.back();
-	};
 
 	const fetchAndPlayAudio = async (inputText) => {
 		try {
+			setAudioLoad(true);
+
 			const response = await axios.post(
 				'https://43.203.227.36.sslip.io/server/chat/SendChat',
 				{
@@ -141,11 +118,17 @@ function Talk() {
 			setEmotion(result.emotion);
 			setTalkMessages((prevData) => [...prevData, `pooh: ${result.aimsg}`]);
 			setAiMsg((prevData) => ({ ...prevData, result: result }));
+
 			setAudioLoad(false);
 			const file = await fetch('/pooh.wav', { withCredentials: true });
 			const blob = await file.blob();
 			const objectURL = URL.createObjectURL(blob);
-			return objectURL;
+
+			if (audioRef.current) {
+				audioRef.current.src = objectURL;
+			}
+			playAudio();
+			setFirstAudioMsg(true);
 		} catch (error) {
 			console.error('Fetch and play audio error:', error);
 		}
@@ -168,46 +151,42 @@ function Talk() {
 	}
 
 	const checkMission = async (inputText) => {
-        // const missionData = data.map(item => `mission_id: ${item.mission_id}\nmission: ${item.mission}\n`).join('\n')
-        // const postData =`${missionData}\nchat:${inputText}`;
-        // const postData = {
-        //  missions: data.map(item => ({ mission_id: item.mission_id, mission: item.mission })),
-        //  chat: inputText
-        // };
-        const reducedMissions = data.map(({ mission_id, mission }) => ({ mission_id, mission }));
+		// const missionData = data.map(item => `mission_id: ${item.mission_id}\nmission: ${item.mission}\n`).join('\n')
+		// const postData =`${missionData}\nchat:${inputText}`;
+		// const postData = {
+		//  missions: data.map(item => ({ mission_id: item.mission_id, mission: item.mission })),
+		//  chat: inputText
+		// };
+		const reducedMissions = data.map(({ mission_id, mission }) => ({ mission_id, mission }));
 
-        // console.log('postData',reducedMissions);
-        try {  
-            const response = await axios.post('https://43.203.227.36.sslip.io/server/checkMission', 
-            {
-                missions: reducedMissions,
-                chat: inputText
+		// console.log('postData',reducedMissions);
+		try {
+			const response = await axios.post('https://43.203.227.36.sslip.io/server/checkMission', {
+				missions: reducedMissions,
+				chat: inputText,
+			});
+			const checkData = response.data;
+			console.log('중간 데이터', checkData);
 
-            })
-            const checkData = response.data;
-            console.log("중간 데이터", checkData);
+			// if (Array.isArray(checkData)) {
+			//  console.log('data는 배열입니다.');
+			// } else {
+			//  console.log('data는 배열이 아닙니다.');
+			// }
 
-            // if (Array.isArray(checkData)) {
-            //  console.log('data는 배열입니다.');
-            // } else {
-            //  console.log('data는 배열이 아닙니다.');
-            // }
-            
-            if (checkData != " none") {
-                let dataArray: string[] = [];
-                try {
-                    dataArray = JSON.parse(checkData.replace(/'/g, '"'));
-                    console.log("배열 변환 완료: ", dataArray);
-                } catch (error) {
-                    console.error("배열 변환 에러: ", error)
-                }
-            }
-            
-        } catch (error) {
-            console.error("missionError: ",error)
-        }
-    }
-
+			if (checkData != ' none') {
+				let dataArray: string[] = [];
+				try {
+					dataArray = JSON.parse(checkData.replace(/'/g, '"'));
+					console.log('배열 변환 완료: ', dataArray);
+				} catch (error) {
+					console.error('배열 변환 에러: ', error);
+				}
+			}
+		} catch (error) {
+			console.error('missionError: ', error);
+		}
+	};
 
 	const sendMessage = async (e) => {
 		e.preventDefault();
@@ -217,52 +196,51 @@ function Talk() {
 			return false;
 		}
 		try {
-			await setAudioLoad(true);
 			setTalkMessages((prevData) => [...prevData, `user: ${inputText}`]);
-			const audioSrc = await fetchAndPlayAudio(inputText);
-			if (audioRef.current) {
-				audioRef.current.src = audioSrc;
-			}
-			playAudio();
-			//미션 체크 할 AI 요청 부분
-			//여기에 작성
-			setFirstAudioMsg(true);
+			await fetchAndPlayAudio(inputText);
+
 			setMissions((prevData) =>
 				prevData.map((mission) => (mission.mission === inputText ? { ...mission, complete: true } : mission))
 			);
-
-			await checkMission(inputText);
-
 			textareaRef.current.value = '';
 			micRef.current.focus();
+
+			await checkMission(inputText);
 		} catch (error) {
 			console.log(error);
 		}
 	};
 	const finishChat = async () => {
+		const todayMissionLength = missions.length;
 		const todayMissionCount = missions.filter((data) => data.complete).length;
-		if ( todayMissionCount > 0 && todayMissionCount < 3 && !window.confirm('오늘의 학습 미션을 달성하지 못하였습니다. 그만하시겠습니까?') ) return;
+		if (
+			authuser.result &&
+			todayMissionLength > 0 &&
+			todayMissionCount < todayMissionLength &&
+			!window.confirm('오늘의 학습 미션을 달성하지 못하였습니다. 그만하시겠습니까?')
+		)
+			return;
+
 		try {
 			setCorrectLoad(true);
+
 			const resCorrect = await axios.post(
 				'https://43.203.227.36.sslip.io/server/chat/getCorrection',
 				{ messages: talkMessages },
 				{ withCredentials: true }
 			);
 			const correctedMsg = await resCorrect.data;
-			// setAllMsg((prevData) => [...prevData, correctedMsg]);// 서버에 전달할 내용
-
 			correctedMsg.forEach(function (msg) {
 				if (msg.includes('->')) {
 					setCorrectList((prevData) => [...prevData, msg]);
 				}
 			});
-
 			if (correctedMsg.length === 0) {
 				setCorrectList(['Perfect Grammar']);
 			}
 			setIsFinish(true);
 			setIsFinishPop(true);
+
 			setCorrectLoad(false);
 
 			if (authuser.result) {
@@ -365,22 +343,6 @@ function Talk() {
 	return (
 		<>
 			<div className="list-talk bg-cover bg-no-repeat bg-center ">
-				<div className="head">
-					<div className="btn-area flex justify-between w-full py-2">
-						<button
-							type="button"
-							aria-label="뒤로가기"
-							className="p-0 text-2xl"
-							onClick={() => backHandler(talkMessages)}>
-							<FaArrowLeft />
-						</button>
-						<button type="button" className="btn-mission btn-chat " onClick={() => setIsPop(!isPop)}>
-							미션
-						</button>
-					</div>
-
-					<Popup title={'오늘의 학습 미션'} datas={missions} isPop={isPop} setIsPop={setIsPop} />
-				</div>
 				<div ref={innerRef} className="inner">
 					<div className="bg-char" style={{ backgroundImage: `url(/bg_${bgNum}.jpg)` }}></div>
 					<div className="bg-emo">
@@ -394,6 +356,15 @@ function Talk() {
 							<img src="/bg_2.jpg" alt="" />
 						</button>
 					</div>
+
+					<button type="button" className="btn-mission " onClick={() => setIsPop(!isPop)}>
+						<img src={`/mission/pooh_mission_on.png`} alt="" />{' '}
+						{missions?.length > 0
+							? `${missions?.filter((data) => data.complete).length}/${missions.length}`
+							: '미션'
+            }
+					</button>
+					<Popup title={'오늘의 학습 미션'} datas={missions} isPop={isPop} setIsPop={setIsPop} />
 					<div className={`profile ${emotion}`}>
 						<img src={`/pooh_${emotion}.png`} alt="" />
 					</div>
