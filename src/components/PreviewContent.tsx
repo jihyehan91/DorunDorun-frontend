@@ -18,8 +18,8 @@ interface PreviewData {
   sentence_translation: string;
   similar: string[];
   similar_translation: string[];
-  dialogue: String[];
-  dialogue_translation: String[];
+  dialogue: string[];
+  dialogue_translation: string[];
   used: boolean;
 }
 
@@ -38,9 +38,9 @@ export default function PreviewContent() {
           params: { course: level },
         }
       );
-      setSentences(response.data); //여기서 잘못 들어갔거나.... 배열문제일지도.
-      console.log("response.data", response.data);
-      console.log("sentences :", sentences);
+      await setSentences(response.data); //여기서 잘못 들어갔거나.... 배열문제일지도.
+      console.log("response.data222", response.data);
+      console.log("sentences22 :", sentences);
     } catch (error) {
       console.error("Fetch and play audio error:", error);
     }
