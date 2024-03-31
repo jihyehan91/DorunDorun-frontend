@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import datas from '../../datas.json'; //임시 데이터
 import axios from 'axios';
+
 import { PiUserListFill } from 'react-icons/pi';
 import { PiUserListDuotone } from 'react-icons/pi';
 
@@ -15,6 +16,7 @@ import { IoStop } from 'react-icons/io5';
 import { IoPlay } from 'react-icons/io5';
 import { PiListMagnifyingGlassDuotone } from 'react-icons/pi';
 import { RiLoader2Fill } from 'react-icons/ri';
+
 import { Popup } from './(talk)/Popup';
 import { ChatHistory } from './(talk)/ChatList';
 import { firework } from '../utils/firework';
@@ -22,36 +24,63 @@ import { firework } from '../utils/firework';
 // 파비콘 출천 : http://si.serverzero.kr/main/pc/index.php#five
 // 이미지 출처 : https://m.blog.naver.com/sinnam88/221375405075
 
+interface AuthUser {
+	result?: boolean;
+	nickname?: string;
+	userId?: string;
+	newToken?: string | null;
+}
+
+interface AiMsg {
+	nickname?: string | null;
+	userMsg: string;
+	result: boolean;
+	emotion: string;
+	aimsg: string;
+}
+
+interface Character {
+	id: string;
+	name: string;
+	img: string;
+	desc: string;
+}
+
 function Talk() {
 	const { id } = useParams();
-	const [authuser, setAuthUser] = useState({});
+	const [authuser, setAuthUser] = useState<AuthUser>({});
 
-	const [mic, setMic] = useState(false); //마이크 활성 체크
-	const [history, setHistory] = useState(false); //대화 내역
+	const [mic, setMic] = useState<boolean>(false); //마이크 활성 체크
+	const [history, setHistory] = useState<boolean>(false); //대화 내역
 
-	const textareaRef = useRef();
-	const innerRef = useRef();
-	const audioRef = useRef();
-	const micRef = useRef();
-	const [playState, setPlayState] = useState(false); //오디오 재생 중인지 체크
-	const [duration, setDuration] = useState(0); //오디오 재생 중
-	const [isPop, setIsPop] = useState(false); //대화내역 활성 체크
-	const [isTyped, setIsTyped] = useState(false); //음성입력(텍스트입력) 완료 체크
-	const [correctLoad, setCorrectLoad] = useState(false); //교정 fetching 체크
-	const [audioLoad, setAudioLoad] = useState(false); //오디오 fetching 체크
-	const [firstAudioMsg, setFirstAudioMsg] = useState(false); //첫 대화시 오디오 파일 체크
-	const [emotion, setEmotion] = useState('happy'); //
-	const [aiMsg, setAiMsg] = useState({}); //
-	const [talkMessages, setTalkMessages] = useState([]); //전송의 응답 메세지([user: .., pooh: ..])
-	const [correctList, setCorrectList] = useState([]); //교정 할 리스트
-	// const [allMsg, setAllMsg] = useState([]); //대화 전체 메세지
-	const [isFinishPop, setIsFinishPop] = useState(false); //대화 종료 팝업 체크
-	const [isFinish, setIsFinish] = useState(false); //대화 종료
+	const textareaRef = useRef<HTMLTextAreaElement>(null);
+	const innerRef = useRef<HTMLDivElement>(null);
+	const audioRef = useRef<HTMLAudioElement>(null);
+	const micRef = useRef<HTMLButtonElement>(null);
+	const [playState, setPlayState] = useState<boolean>(false); //오디오 재생 중인지 체크
+	const [duration, setDuration] = useState<number>(0); //오디오 재생 중
+	const [isPop, setIsPop] = useState<boolean>(false); //대화내역 활성 체크
+	const [isTyped, setIsTyped] = useState<boolean>(false); //음성입력(텍스트입력) 완료 체크
+	const [correctLoad, setCorrectLoad] = useState<boolean>(false); //교정 fetching 체크
+	const [audioLoad, setAudioLoad] = useState<boolean>(false); //오디오 fetching 체크
+	const [firstAudioMsg, setFirstAudioMsg] = useState<boolean>(false); //첫 대화시 오디오 파일 체크
+	const [emotion, setEmotion] = useState<string>('happy'); //
+	const [aiMsg, setAiMsg] = useState<AiMsg>({
+		nickname: null,
+		userMsg: '',
+		result: false,
+		emotion: '',
+		aimsg: '',
+	}); //
+	const [talkMessages, setTalkMessages] = useState<string[]>([]); //전송의 응답 메세지([user: .., pooh: ..])
+	const [correctList, setCorrectList] = useState<string[]>([]); //교정 할 리스트
+	const [isFinishPop, setIsFinishPop] = useState<boolean>(false); //대화 종료 팝업 체크
+	const [isFinish, setIsFinish] = useState<boolean>(false); //대화 종료
 
-	const [characterInfo] = useState(datas.characters.filter((character) => character.id === id)); //임시
-	const [bgNum, setBgNum] = useState(Math.floor(Math.random() * 3));
-	const [characterDesc, setCharacterDesc] = useState(false);
-	const [missions, setMissions] = useState([]);
+	const [characterInfo] = useState<Character[]>(datas.characters.filter((character: Character) => character.id === id)); //임시
+	const [bgNum, setBgNum] = useState<number>(Math.floor(Math.random() * 3));
+	const [characterDesc, setCharacterDesc] = useState<boolean>(false);
+	const [missions, setMissions] = useState<Mission[]>([]);
 
 	type Mission = {
 		mission_id: string;
@@ -87,7 +116,7 @@ function Talk() {
 			const response = await axios.get('https://43.203.227.36.sslip.io/server/missions');
 			console.log('미션 데이터:', response.data);
 			setMissions(response.data);
-			// setMissions(data);// 더미 데이터
+			// setMissions(data); // 더미 데이터
 		} catch (error) {
 			console.error('Fetch and play audio error:', error);
 		}
@@ -104,7 +133,7 @@ function Talk() {
 		getMissions();
 	}, []);
 
-	const fetchAndPlayAudio = async (inputText) => {
+	const fetchAndPlayAudio = async (inputText: string) => {
 		try {
 			setAudioLoad(true);
 
@@ -118,10 +147,10 @@ function Talk() {
 			const result = await response.data;
 			setEmotion(result.emotion);
 			setTalkMessages((prevData) => [...prevData, `pooh: ${result.aimsg}`]);
-			setAiMsg((prevData) => ({ ...prevData, result: result }));
+			setAiMsg((prevData: AiMsg) => ({ ...prevData, ...result }));
 
 			setAudioLoad(false);
-			const file = await fetch('/pooh.wav', { withCredentials: true });
+			const file = await fetch('/pooh.wav', { credentials: 'include' });
 			const blob = await file.blob();
 			const objectURL = URL.createObjectURL(blob);
 
@@ -137,21 +166,24 @@ function Talk() {
 
 	function playAudio() {
 		const player = audioRef.current;
-		setPlayState(!playState);
-		playState ? player.pause() : player.play();
-		player.addEventListener('timeupdate', function () {
-			const currentTime = player.currentTime;
-			const end = player.duration;
-			const percentage = Math.floor((currentTime / end) * 100);
-			setDuration(percentage);
-			if (percentage >= 100) {
-				setPlayState(false); //오디오 재생 중인 상태 체크
-				micRef.current.focus();
-			}
-		});
+		if (player) {
+			setPlayState(!playState);
+			playState ? player.pause() : player.play();
+
+			player.addEventListener('timeupdate', function () {
+				const currentTime = player.currentTime;
+				const end = player.duration;
+				const percentage = Math.floor((currentTime / end) * 100);
+				setDuration(percentage);
+				if (percentage >= 100) {
+					setPlayState(false); //오디오 재생 중인 상태 체크
+					micRef.current && micRef.current.focus();
+				}
+			});
+		}
 	}
 
-	const checkMission = async (inputText) => {
+	const checkMission = async (inputText: string) => {
 		// const missionData = data.map(item => `mission_id: ${item.mission_id}\nmission: ${item.mission}\n`).join('\n')
 		// const postData =`${missionData}\nchat:${inputText}`;
 		// const postData = {
@@ -188,9 +220,9 @@ function Talk() {
 		}
 	};
 
-	const sendMessage = async (e) => {
+	const sendMessage = async (e: React.FormEvent) => {
 		e.preventDefault();
-		const inputText = textareaRef.current.value;
+		const inputText = textareaRef.current?.value || '';
 		if (inputText.trim().length === 0) {
 			alert('입력된 대화 내용이 없습니다.');
 			return false;
@@ -203,15 +235,16 @@ function Talk() {
 				prevData.map((mission) => (mission.mission === inputText ? { ...mission, complete: true } : mission))
 			);
 
-      if (missions?.filter((item) => item.mission === inputText && !item.complete).length) firework();
-			textareaRef.current.value = '';
-			micRef.current.focus();
+			if (missions?.filter((item) => item.mission === inputText && !item.complete).length) firework();
+			textareaRef.current!.value = '';
+			micRef.current!.focus();
 
 			await checkMission(inputText);
 		} catch (error) {
 			console.log(error);
 		}
 	};
+
 	const finishChat = async () => {
 		const todayMissionLength = missions.length;
 		const todayMissionCount = missions.filter((data) => data.complete).length;
@@ -232,7 +265,7 @@ function Talk() {
 				{ withCredentials: true }
 			);
 			const correctedMsg = await resCorrect.data;
-			correctedMsg.forEach(function (msg) {
+			correctedMsg.forEach(function (msg: string) {
 				if (msg.includes('->')) {
 					setCorrectList((prevData) => [...prevData, msg]);
 				}
@@ -283,7 +316,8 @@ function Talk() {
 		setFirstAudioMsg(false);
 	};
 	const inputHandler = () => {
-		return (textareaRef.current.parentNode.dataset.value = textareaRef.current.value);
+		const parentNode = textareaRef.current!.parentNode as HTMLElement;
+		return (parentNode.dataset.value = textareaRef.current!.value);
 	};
 
 	// 마이크 캡처
@@ -291,7 +325,7 @@ function Talk() {
 	const chunksRef = useRef<Blob[]>([]);
 
 	const handleStartRecording = async () => {
-		micRef.current.focus();
+		micRef.current!.focus();
 		playState && playAudio();
 		try {
 			const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -347,15 +381,15 @@ function Talk() {
 			});
 
 			console.log('Audio data sent successfully:', response.data);
-			textareaRef.current.value = response.data;
+			textareaRef.current!.value = response.data;
 			setIsTyped(false);
-			textareaRef.current.focus();
+			textareaRef.current!.focus();
 		} catch (error) {
 			console.error('Error sending audio data:', error);
 		}
 	};
 
-	const emoHandler = (idx) => {
+	const emoHandler = (idx: number) => {
 		setBgNum(idx);
 	};
 
@@ -419,7 +453,7 @@ function Talk() {
 									/>
 								</button>
 							</dt>
-							<dd className="message">{aiMsg.result ? aiMsg.result.aimsg : '대화를 시작 해보세요~'}</dd>
+							<dd className="message">{aiMsg.result ? aiMsg.aimsg : '대화를 시작 해보세요~'}</dd>
 							<dd className="hidden">
 								<audio id="myAudio" ref={audioRef}></audio>
 							</dd>
