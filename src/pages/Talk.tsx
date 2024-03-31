@@ -17,6 +17,7 @@ import { PiListMagnifyingGlassDuotone } from 'react-icons/pi';
 import { RiLoader2Fill } from 'react-icons/ri';
 import { Popup } from './(talk)/Popup';
 import { ChatHistory } from './(talk)/ChatList';
+import { firework } from '../utils/firework';
 
 // 파비콘 출천 : http://si.serverzero.kr/main/pc/index.php#five
 // 이미지 출처 : https://m.blog.naver.com/sinnam88/221375405075
@@ -201,6 +202,8 @@ function Talk() {
 			setMissions((prevData) =>
 				prevData.map((mission) => (mission.mission === inputText ? { ...mission, complete: true } : mission))
 			);
+
+      if (missions?.filter((item) => item.mission === inputText && !item.complete).length) firework();
 			textareaRef.current.value = '';
 			micRef.current.focus();
 
