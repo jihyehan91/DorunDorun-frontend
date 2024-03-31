@@ -8,7 +8,7 @@ import axios from "axios";
 interface Sentence {
   meaning: string;
   mission: string;
-  missionId: String;
+  missionId: string;
 }
 
 interface PreviewData {
@@ -38,7 +38,7 @@ export default function PreviewContent() {
           params: { course: level },
         }
       );
-      setSentences(response.data);
+      setSentences(response.data); //여기서 잘못 들어갔거나.... 배열문제일지도.
       console.log("response.data", response.data);
       console.log("sentences :", sentences);
     } catch (error) {
