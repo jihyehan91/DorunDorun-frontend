@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { LuRepeat } from "react-icons/lu";
 import { HiSpeakerWave } from "react-icons/hi2";
 import { FaArrowLeft } from "react-icons/fa6";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 
 interface Sentence {
@@ -41,12 +41,13 @@ export default function PreviewContent() {
       );
       await setSentences(response.data); //여기서 잘못 들어갔거나.... 배열문제일지도.
       console.log("response.data222", response.data);
-      console.log("sentences22 :", sentences);
+      console.log("sentences23 :", sentences);
     } catch (error) {
       console.error("getLearningSentence 받기 에러", error);
     }
   }
   //Number(missionId.split('_')[0].substring(2))
+
   async function getAiExample(sentence: Sentence) {
     console.log("sentence_input in getAiExample:", sentence);
     try {
@@ -75,7 +76,9 @@ export default function PreviewContent() {
 
   useEffect(() => {
     console.log("sentences22 :", sentences);
-    getAiExample(sentences[0]);
+    if (!sentences[0].learned) {
+      getAiExample(sentences[0]);
+    }
   }, [sentences]);
 
   // 문장 패턴 클릭하면 예문 보이기
@@ -115,7 +118,8 @@ export default function PreviewContent() {
         (sentence) => !sentence.learned
       );
       if (remainingUnlearnedSentences.length === 0) {
-        alert("오늘 학습 완료!");
+        alert("오늘 학습 완료! 캐릭터와 오늘 배운 내용을 사용해보세요!");
+        return <Link to="/chat" />;
       } else {
         const nextUnlearnedSentence = remainingUnlearnedSentences[0];
         getAiExample(nextUnlearnedSentence);
