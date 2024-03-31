@@ -38,9 +38,7 @@ export default function PreviewContent() {
           params: { course: level },
         }
       );
-      await setSentences(response.data); //여기서 잘못 들어갔거나.... 배열문제일지도.
-      console.log("response.data222", response.data);
-      console.log("sentences22 :", sentences);
+      setSentences(response.data);
     } catch (error) {
       console.error("Fetch and play audio error:", error);
     }
@@ -69,10 +67,13 @@ export default function PreviewContent() {
   }
 
   useEffect(() => {
-    getLearningSentence().then(function () {
-      getAiExample(sentences[0]);
-    });
+    getLearningSentence();
   }, []);
+
+  useEffect(() => {
+    console.log("sentences22 :", sentences);
+    getAiExample(sentences[0]);
+  }, [sentences]);
 
   // 문장 패턴 클릭하면 예문 보이기
   // const sentenceHandler = (clickedSentence: string) => {
