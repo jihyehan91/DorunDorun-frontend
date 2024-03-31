@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react';
 import { LuRepeat } from 'react-icons/lu';
 import { HiSpeakerWave } from 'react-icons/hi2';
 import { FaArrowLeft } from 'react-icons/fa6';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 
 interface Sentence {
   meaning: string;
   mission: string;
   missionId: string;
-  // complete: boolean;
+  learned: boolean;
 }
 
 interface PreviewData {
@@ -41,12 +41,13 @@ export default function PreviewContent() {
       );
       await setSentences(response.data); //여기서 잘못 들어갔거나.... 배열문제일지도.
       console.log('response.data222', response.data);
-      console.log('sentences22 :', sentences);
+      console.log('sentences23 :', sentences);
     } catch (error) {
       console.error('getLearningSentence 받기 에러', error);
     }
   }
   //Number(missionId.split('_')[0].substring(2))
+
   async function getAiExample(sentence: Sentence) {
     console.log('sentence_input in getAiExample:', sentence);
     try {
@@ -75,13 +76,47 @@ export default function PreviewContent() {
 
   useEffect(() => {
     console.log('sentences22 :', sentences);
-    getAiExample(sentences[0]);
+    if (sentences.length > 0 && !sentences[0].learned) {
+      getAiExample(sentences[0]);
+    }
   }, [sentences]);
 
   // 뒤로가기 버튼
   const backHandler = () => {
     window.history.back();
     // 탭이 있다면 예문 탭이 보이게
+  };
+
+  const handleLearnedButtonClick = async () => {
+    try {
+      const index = sentences.findIndex(
+        (sentence) =>
+          sentence.mission === selectedSentenceData?.sentence.substring(5)
+      );
+      await axios.post('https://43.203.227.36.sslip.io/server/learned', {
+        mission_id: sentences[index].missionId,
+      });
+
+      const updatedSentences = [...sentences];
+      updatedSentences[index] = {
+        ...updatedSentences[index],
+        learned: true,
+      };
+      await setSentences(updatedSentences);
+
+      const remainingUnlearnedSentences = updatedSentences.filter(
+        (sentence) => !sentence.learned
+      );
+      if (remainingUnlearnedSentences.length === 0) {
+        alert('오늘 학습 완료! 캐릭터와 오늘 배운 내용을 사용해보세요!');
+        return <Link to='/chat' />;
+      } else {
+        const nextUnlearnedSentence = remainingUnlearnedSentences[0];
+        getAiExample(nextUnlearnedSentence);
+      }
+    } catch (error) {
+      console.error('학습 완료 처리 실패', error);
+    }
   };
 
   return (
@@ -116,7 +151,7 @@ export default function PreviewContent() {
                           const index = sentences.findIndex(
                             (sentence) =>
                               sentence.mission ===
-                              selectedSentenceData?.sentence
+                              selectedSentenceData?.sentence.substring(5)
                           );
                           getAiExample(sentences[index]);
                         }}
