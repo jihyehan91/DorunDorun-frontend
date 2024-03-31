@@ -296,7 +296,10 @@ function Talk() {
 						console.log('룸생성 에러:', error);
 					});
 
-				const completedMissionIds = missions?.filter((item) => item.complete).map((item) => item.mission_id);
+        const completedMissionIds = missions?.filter((item) => item.complete).reduce((acc, item) => {
+          acc.push(item.mission_id);
+          return acc;
+          }, []);
 				await axios
 					.post(
 						'https://43.203.227.36.sslip.io/server/missionComplete',
