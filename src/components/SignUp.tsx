@@ -64,7 +64,7 @@ export default function SignUp() {
       console.log('오류 발생:', error);
     }
   };
-  
+
   const userIdValid = userIdCheck === '' && watch('userId').length >= 6 && /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(watch('userId'));
 
   //아이디 실시간 체크
@@ -81,7 +81,7 @@ export default function SignUp() {
       }
       setUserIdCheck(errorMessage);
     }, 100);
-    
+
     return () => clearTimeout(timer);
   }, [watch('userId')]);
 
@@ -99,7 +99,7 @@ export default function SignUp() {
       }
       setPasswordError(errorMessage);
     }, 100);
-  
+
     return () => clearTimeout(timer);
   }, [watch('password')]);
 
@@ -116,7 +116,7 @@ export default function SignUp() {
       }
       setConfirmPasswordError(errorMessage);
     }, 100);
-  
+
     return () => clearTimeout(timer);
   }, [watch('confirmPassword'), watch('password')]);
 
@@ -178,7 +178,7 @@ export default function SignUp() {
                 })}
               />
               <button
-                className={`py-0.5 rounded border-0 text-white font-medium text-sm ${!userIdValid ? 'bg-gray-400' : 'bg-[var(--btn-bg)]'}`}
+                className={`py-0.5 rounded border-0 text-white font-medium text-sm whitespace-nowrap ${!userIdValid ? 'bg-gray-400' : 'bg-[var(--btn-bg)]'}`}
                 type='button'
                 onClick={checkUserId}
                 disabled={!userIdValid}>아이디 중복 검사</button>
@@ -194,7 +194,7 @@ export default function SignUp() {
                 <span className={!userIdRedundancy ? 'text-blue-500 text-xs' : 'text-red-500 text-xs'}>
                   {!userIdRedundancy ? '사용 가능한 아이디입니다.' : '이미 사용 중인 아이디입니다.'}
                 </span>
-              )} 
+              )}
 
               <label className='auth-label' htmlFor='email'>
                 이메일

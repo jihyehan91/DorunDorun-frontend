@@ -39,8 +39,8 @@
 }
 
 .site-map {
-  @apply rounded-xl;
   width: 40%;
+  @apply rounded-xl;
 }
 
 .banner-link-chat {
