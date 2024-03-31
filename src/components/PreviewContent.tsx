@@ -76,7 +76,7 @@ export default function PreviewContent() {
 
   useEffect(() => {
     console.log("sentences22 :", sentences);
-    if (!sentences[0].learned) {
+    if (sentences.length > 0 && !sentences[0].learned) {
       getAiExample(sentences[0]);
     }
   }, [sentences]);
