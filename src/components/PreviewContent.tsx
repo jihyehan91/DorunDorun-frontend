@@ -94,6 +94,37 @@ export default function PreviewContent() {
     // 탭이 있다면 예문 탭이 보이게
   };
 
+  const handleLearnedButtonClick = async () => {
+    try {
+      const index = sentences.findIndex(
+        (sentence) =>
+          sentence.mission === selectedSentenceData?.sentence.substring(5)
+      );
+      await axios.post("https://43.203.227.36.sslip.io/server/learned", {
+        mission_id: sentences[index].missionId,
+      });
+
+      const updatedSentences = [...sentences];
+      updatedSentences[index] = {
+        ...updatedSentences[index],
+        learned: true,
+      };
+      await setSentences(updatedSentences);
+
+      const remainingUnlearnedSentences = updatedSentences.filter(
+        (sentence) => !sentence.learned
+      );
+      if (remainingUnlearnedSentences.length === 0) {
+        alert("오늘 학습 완료!");
+      } else {
+        const nextUnlearnedSentence = remainingUnlearnedSentences[0];
+        getAiExample(nextUnlearnedSentence);
+      }
+    } catch (error) {
+      console.error("학습 완료 처리 실패", error);
+    }
+  };
+
   return (
     <section className="preview-sentence">
       <div className="preview-sentence-container">
@@ -164,23 +195,7 @@ export default function PreviewContent() {
         </div>
 
         {/* 지혜님 이부분은 학습 완료처리가 된 애들만 푸 랑 대화할때 미션 리스트에 정렬되도록 체크 해주는 부분이에요. 세연님이랑 소통할 부분이니까 그러려니 하십시옹. css 건드시는건 아무 상관 없습니다.*/}
-        <button
-          onClick={async () => {
-            const index = sentences.findIndex(
-              (sentence) =>
-                sentence.mission === selectedSentenceData?.sentence.substring(5)
-            );
-            await axios
-              .post("https://43.203.227.36.sslip.io/server/missionComplete", {
-                mission_id: sentences[index].missionId,
-              })
-              .then
-              //뭔가 부트스트랩 체크표시 같은 애니메이션 효과..?
-              ();
-          }}
-        >
-          학습 완료
-        </button>
+        <button onClick={handleLearnedButtonClick}>학습 완료</button>
 
         <div className="three-sentence-area">
           <h3 className="sentence-sub-title">하루 3문장</h3>
@@ -192,6 +207,7 @@ export default function PreviewContent() {
                   getAiExample(sentence);
                 }}
               >
+                {/* 지혜님 여기↓ nuumber-btn확인할때 sentence.learned가 ture이면 버튼 배경 연두색으로 바꿔주실수 있나요? */}
                 <span className="number-btn">{i + 1}</span>
                 <span>{sentence.mission}</span>
               </li>
