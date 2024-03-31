@@ -8,7 +8,7 @@ import axios from 'axios';
 interface Sentence {
   meaning: string;
   mission: string;
-  missionId: String;
+  missionId: string;
 }
 
 interface PreviewData {
@@ -18,8 +18,8 @@ interface PreviewData {
   sentence_translation: string;
   similar: string[];
   similar_translation: string[];
-  dialogue: String[];
-  dialogue_translation: String[];
+  dialogue: string[];
+  dialogue_translation: string[];
   used: boolean;
 }
 
@@ -38,15 +38,16 @@ export default function PreviewContent() {
           params: { course: level },
         }
       );
-      console.log(response.data);
-
-      setSentences(response.data);
+      await setSentences(response.data); //여기서 잘못 들어갔거나.... 배열문제일지도.
+      console.log('response.data222', response.data);
+      console.log('sentences22 :', sentences);
     } catch (error) {
       console.error('getLearningSentence 받기 에러', error);
     }
   }
   //Number(missionId.split('_')[0].substring(2))
   async function getAiExample(sentence: Sentence) {
+    console.log('sentence_input in getAiExample:', sentence);
     try {
       //여기서 호성's 로딩 페이지 넣기.
       const response = await axios.get(

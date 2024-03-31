@@ -53,8 +53,8 @@ export default function ReviewContent() {
   }
 
   return (
-    <div className='list-talk1'>
-      <div className='history'>
+    <div className='list-talk' >
+      <div className='history !min-h-none !max-h-none'>
         <ul>
           {conversationData.map((talkMessage, i) => (
             <li

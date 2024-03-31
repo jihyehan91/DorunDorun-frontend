@@ -14,6 +14,7 @@ export const Popup = ({ title, datas, isPop, setIsPop, missions, authUser }) => 
 
 	function closeHandler() {
 		if (title === '교정 목록' && completedCount >= 3) {
+      console.log(authUser);
 			if (authUser?.result) {
 				if (!confirm('복습하기 페이지로 이동하시겠습니까?')) return;
 				navigate(`/mylog`);
@@ -46,7 +47,7 @@ export const Popup = ({ title, datas, isPop, setIsPop, missions, authUser }) => 
 						</p> */}
 						<ul className="list-mission">
 							{datas.length === 0 ? (
-								<li className="nodata">등록된 미션이 없습니다</li>
+								<li className="nodata">오늘의 미션이 없습니다</li>
 							) : (
 								datas.map((mission, i) => {
 									return (
