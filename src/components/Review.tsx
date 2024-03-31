@@ -13,6 +13,7 @@ interface ReviewData {
 }
 
 interface DummyData {
+  name: string;
   img?: string;
 }
 interface Props {
@@ -23,11 +24,13 @@ interface Props {
 function ReviewItem({ data, dummy }: Props) {
   const dateString = data.createdAt;
   const [date, time] = dateString.split(' ');
+  const selectedDummy = dummy.find((item) => item.name === data.ai);
+  const dummyImg = selectedDummy?.img;
 
   return (
     <Link to={`/mylog/${data.id}`}>
       <div className='mr-6'>
-        {/* <img className='character-img' src={dummy.} alt={`${data.ai}`} /> */}
+        <img className='character-img' src={dummyImg} alt={`${data.ai}`} />
       </div>
       <div className='flex flex-col justify-center'>
         <div className='review-character'>
@@ -60,8 +63,6 @@ export default function Review() {
           'https://43.203.227.36.sslip.io/server/room/getRooms'
         );
         setReviewDatas(response.data);
-        // dummyDatas를 적절한 방식으로 설정해야 합니다.
-        // 예를 들어, JSON 파일에서 가져온 데이터를 사용할 수 있습니다.
         setDummyDatas(datas.reviewDatas);
       } catch (error) {
         console.error('Error fetching review data:', error);
