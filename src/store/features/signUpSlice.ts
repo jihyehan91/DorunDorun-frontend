@@ -3,12 +3,9 @@ import { Dispatch } from '@reduxjs/toolkit';
 import signupApi from '../../api/signUp';
 
 interface User {
-  username: string;
   userId: string;
   email: string;
   password: string;
-  confirmPassword: string;
-  agree: boolean;
 }
 
 interface SignUpState {

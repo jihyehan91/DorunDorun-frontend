@@ -15,15 +15,20 @@
 	.list-talk .head {
 		@apply flex justify-center items-center flex-col;
 	}
-	.list-talk .head .btn-mission {
-		@apply px-6 text-white text-lg  rounded-full bg-[var(--btn-bg)];
+	.list-talk .btn-mission {
+		@apply flex gap-1 items-center absolute bottom-[10px] right-[10px] text-[#855c52] text-lg font-bold  rounded-full bg-white z-[1];
 	}
-
+	.list-talk .btn-mission img {
+		@apply flex w-[30px] h-[30px];
+	}
 	.list-talk .profile {
 		@apply relative shrink-0 h-full flex items-end;
 	}
 	.list-talk .profile {
 		@apply bottom-[-20%];
+	}
+	.list-talk .profile.sad {
+		@apply bottom-[-17%];
 	}
 	.list-talk .profile img {
 		@apply w-full max-w-[500px] max-h-full;
@@ -374,6 +379,12 @@
 		content: '';
 		background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23fff" viewBox="0 0 24 24" stroke-width="1.5" stroke="%2367c0cd" class="w-6 h-6"> <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>');
 		@apply shrink-0 w-[20px] h-[20px] align-middle items-center mt-1;
+	}
+	.ly-modal .list-mission li.nodata{
+		@apply my-6 w-full justify-center;
+	}
+	.ly-modal .list-mission li.nodata:before{
+		@apply hidden;
 	}
 	.ly-modal .list-mission li.complete {
 		@apply line-through;

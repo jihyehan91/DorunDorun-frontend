@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import useUserData from './UserData';
+import Notfound from './NotFound';
 
 type FormData = {
-  username: string;
   userId: string;
   email: string;
   password: string;
-  profileImage: string;
+  // profileImage: string;
 };
 
 export default function Mypage() {
@@ -27,11 +27,10 @@ export default function Mypage() {
   const API_URL = 'https://43.203.227.36.sslip.io/server';
 
   const [getUser, setGetUser] = useState<FormData>({
-    username: '',
     userId: '',
     email: '',
     password: '',
-    profileImage: ''
+    // profileImage: ''
   });
 
   // 사용자 정보 불러오기
@@ -42,13 +41,13 @@ export default function Mypage() {
         console.log('마이페이지:', response.data);
         const userData = response.data; 
         setGetUser(userData); 
-        setValue('username', userData.username);
+        // setValue('username', userData.username);
         setValue('userId', userData.userId);
         setValue('email', userData.email);
         setValue('password', userData.password);
-        if (userData.profileImage) {
-          setValue('profileImage', userData.profileImage);
-        }
+        // if (userData.profileImage) {
+        //   setValue('profileImage', userData.profileImage);
+        // }
       } catch (error) {
         console.error('에러:', error);
       }
@@ -57,31 +56,42 @@ export default function Mypage() {
   }, [setValue]);
 
   // 회원탈퇴
-  const handleWithdraw = async () => {
+  const handleWithdraw = async (userdata: FormData) => {
+    console.log('이것은 userdata', userdata);
+    console.log('이것은 userdata의 userId', userdata.userId);
     const confirmdraw = window.confirm('정말로 회원탈퇴를 하시겠습니까?');
-    if(confirmdraw){
+    if (confirmdraw) {
       try {
-        const response = await axios.delete(`${API_URL}/user/withdraw`, { withCredentials: true } ); // withCredentials 추가
+        const response = await axios.delete(`${API_URL}/user/withdraw`, {
+          headers: {
+            'Content-Type': 'application/json' 
+          },
+          withCredentials: true,
+        });
         console.log('잘가라', response.data);
-        navigate('/')
+        console.log('잘가라 2', response.data.data);
+        console.log('잘가라 이것은', response.data.userId);
+        navigate('/');
       } catch (error) {
         console.error('에러:', error);
       }
     }
-  };
+};
 
-  // useEffect로 handleWithdraw() 호출하는 부분 삭제
 
   // 사용자 정보 수정
   const onSubmit: SubmitHandler<FormData> = async (userdata) => {
+    const requestData = {
+      userid: userdata.userId,
+      email: userdata.email,
+      inputpw: userdata.password
+    };
     try {
-      const formData = new FormData();
       if (userdata.email) {
-        formData.append('email', userdata.email);
-        const response = await axios.patch(`${API_URL}/user/changeEmail`, formData, {
+        const response = await axios.patch(`${API_URL}/user/changeEmail`, requestData, {
           withCredentials: true,
-          headers:{
-            'Content-Type' : 'multipart/form-data'
+          headers: {
+            'Content-Type': 'application/json' 
           }
         });
         console.log('이메일 변경:', response.data);
@@ -93,9 +103,11 @@ export default function Mypage() {
         }
         return response.data;
       } else if (userdata.password) {
-        formData.append('password', userdata.password);
-        const response = await axios.patch(`${API_URL}/user/changePW`, formData, {
-          withCredentials: true
+        const response = await axios.patch(`${API_URL}/user/changePW`, requestData, {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json'
+          }
         });
         console.log('비밀번호 변경:', response.data);
         if (response.data.result === false) {
@@ -110,54 +122,58 @@ export default function Mypage() {
       console.error('에러:', error);
     }
   };
+  
 
 
   // 프로필 이미지 변경
-  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const formData = new FormData();
-      formData.append('image', e.target.files[0]);
+  // const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files) {
+  //     const formData = new FormData();
+  //     formData.append('image', e.target.files[0]);
   
-      try {
-        const response = await axios.post(`${API_URL}/upload`, formData,{ withCredentials: true } ,{ 
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
+  //     try {
+  //       const response = await axios.post(`${API_URL}/upload`, 
+  //       formData,
+  //       { withCredentials: true } ,
+  //       { 
+  //         headers: {
+  //           'Content-Type': 'multipart/form-data'
+  //         }
+  //       });
   
-        const imageUrl = response.data.imageUrl;
-        setGetUser(prevState => ({
-          ...prevState,
-          profileImage: imageUrl
-        }));
-      } catch (error) {
-        console.error('이미지 업로드 에러:', error);
-      }
-    }
-  };
+  //       const imageUrl = response.data.imageUrl;
+  //       setGetUser(prevState => ({
+  //         ...prevState,
+  //         profileImage: imageUrl
+  //       }));
+  //     } catch (error) {
+  //       console.error('이미지 업로드 에러:', error);
+  //     }
+  //   }
+  // };
  
-  useEffect(() => {
-    console.log('프로필 이미지가 업데이트되었습니다:', getUser.profileImage)
-  }, [getUser.profileImage]);
+  // useEffect(() => {
+  //   console.log('프로필 이미지가 업데이트되었습니다:', getUser.profileImage)
+  // }, [getUser.profileImage]);
 
   return (
     <div className='form-container'>
       <div className='form-area signup'>
         <div className='form-elements'>
-          <div className='form-title signup'>
+          <div className='form-title signup py-5'>
             <Link to='/'>
               <h1 className='logo'>DoRun-DoRun</h1>
             </Link>
           </div>
           {
-            userCheck && 
+            userCheck ?
             <div className='form-box'>
             <form className='auth-form' onSubmit={handleSubmit(onSubmit)}>
-              <div>
+              {/* <div>
                 <img src={getUser.profileImage} alt='프로필 이미지' />
-              </div>
+              </div> */}
 
-              <label className='auth-label' htmlFor='username'>
+              {/* <label className='auth-label' htmlFor='username'>
                 이름
               </label>
               <input
@@ -166,7 +182,7 @@ export default function Mypage() {
                 type='text'
                 id='username'
                 disabled
-              />
+              /> */}
 
               <label className='auth-label' htmlFor='userId'>
                 아이디
@@ -236,7 +252,7 @@ export default function Mypage() {
                 </span>
               )}
 
-              <label className='auth-label' htmlFor='profileImage'>
+              {/* <label className='auth-label' htmlFor='profileImage'>
                 프로필 업로드
               </label>
               <input
@@ -245,18 +261,20 @@ export default function Mypage() {
                 id='profileImage'
                 onChange={handleImageChange}
                 accept='image/*'
-              />
+              /> */}
               <button className='auth-input mt-11' type='submit'>
                 수정하기
               </button>
+              <p onClick={handleWithdraw} className='auth-span font-black opacity-60 mb-2 text-right cursor-pointer' role='alert'>
+        회원탈퇴
+      </p>
             </form>
-          </div>
+          </div> 
+          :
+          <Notfound/>
           }
         </div>
       </div>
-      <p onClick={handleWithdraw} className='auth-span font-black opacity-60 mb-2 text-right cursor-pointer' role='alert'>
-        회원탈퇴
-      </p>
     </div>
   );
 }

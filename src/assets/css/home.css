@@ -1,4 +1,8 @@
 /* Home */
+/* 공통 */
+.list-title.main-title {
+  @apply p-0 mb-1 mt-20;
+}
 
 /* 사이트 소개 배너 */
 .banner {
@@ -39,15 +43,18 @@
   width: 40%;
 }
 
-.banner-btn {
+.banner-link-chat {
+  display: block;
+  width: 180px;
   margin: 16px 0;
+  padding: 8px 0;
   border: 1px solid var(--sub-font-color);
   font-size: 16px;
   border-radius: 30px;
-  padding: 6px 12px;
+  text-align: center;
 }
 
-.banner-btn:hover {
+.banner-link-chat:hover {
   background-color: var(--highlight-color);
   color: #fff;
   border: 1px solid transparent;
@@ -69,19 +76,19 @@
   @apply relative flex flex-col text-[var(--btn)] hover:text-black rounded-lg bg-[--bg-highlight-color];
 }
 .list-char a.none {
-  @apply  cursor-default;
+  @apply cursor-default;
 }
-.list-char a.none:hover>* {
-  filter:blur(1px);
+.list-char a.none:hover > * {
+  filter: blur(1px);
   @apply text-gray-400;
 }
 .list-char a.none:after {
-  content:"준비 중입니다";
-  font-size:3vw;
+  content: '준비 중입니다';
+  font-size: 3vw;
   @apply absolute top-0 left-0 w-full h-full flex justify-center pt-[40%] text-gray-500 bg-[var(--bg-highlight-color)] opacity-0 transition-opacity sm:text-lg;
 }
 .list-char a.none:hover:after {
-  @apply  opacity-60;
+  @apply opacity-60;
 }
 .list-char li .img {
   @apply relative pt-[85%] rounded-xl object-cover overflow-hidden;
