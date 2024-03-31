@@ -86,7 +86,7 @@ function Talk() {
 			const response = await axios.get('https://43.203.227.36.sslip.io/server/missions');
 			console.log('미션 데이터:', response.data);
 			setMissions(response.data);
-			// setMissions(data);// 더미 데이터
+			setMissions(data);// 더미 데이터
 		} catch (error) {
 			console.error('Fetch and play audio error:', error);
 		}
@@ -168,13 +168,11 @@ function Talk() {
 			const checkData = response.data;
 			console.log('중간 데이터', checkData);
 
-			// if (Array.isArray(checkData)) {
-			//  console.log('data는 배열입니다.');
-			// } else {
-			//  console.log('data는 배열이 아닙니다.');
-			// }
-
-			if (checkData != ' none') {
+			if (Array.isArray(checkData)) {
+			 console.log('data는 배열입니다.');
+			} else {
+			 console.log('data는 배열이 아닙니다.');
+			 if (checkData != ' none') {
 				let dataArray: string[] = [];
 				try {
 					dataArray = JSON.parse(checkData.replace(/'/g, '"'));
@@ -182,6 +180,8 @@ function Talk() {
 				} catch (error) {
 					console.error('배열 변환 에러: ', error);
 				}
+			}
+			
 			}
 		} catch (error) {
 			console.error('missionError: ', error);
