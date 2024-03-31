@@ -39,12 +39,15 @@ export default function PreviewContent() {
         }
       );
       setSentences(response.data);
+      console.log("response.data", response.data);
+      console.log("sentences :", sentences);
     } catch (error) {
       console.error("Fetch and play audio error:", error);
     }
   }
   //Number(missionId.split('_')[0].substring(2))
   async function getAiExample(sentence: Sentence) {
+    console.log("sentence_input in getAiExample:", sentence);
     try {
       //여기서 호성's 로딩 페이지 넣기.
       const response = await axios.get(
