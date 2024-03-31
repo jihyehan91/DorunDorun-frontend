@@ -123,16 +123,11 @@ export default function PreviewContent() {
                     <button type="button">
                       <LuRepeat
                         onClick={() => {
-                          console.log("sentence0", sentences[0].mission);
-                          console.log("sentence1", sentences[1].mission);
-                          console.log("sentence2", sentences[2].mission);
                           const index = sentences.findIndex(
                             (sentence) =>
                               sentence.mission ===
-                              selectedSentenceData?.sentence
+                              selectedSentenceData?.sentence.substring(5)
                           );
-                          console.log(selectedSentenceData.sentence);
-                          console.log("몇번째?", index);
                           getAiExample(sentences[index]);
                         }}
                       />
@@ -172,7 +167,8 @@ export default function PreviewContent() {
         <button
           onClick={async () => {
             const index = sentences.findIndex(
-              (sentence) => sentence.mission === selectedSentenceData?.sentence
+              (sentence) =>
+                sentence.mission === selectedSentenceData?.sentence.substring(5)
             );
             await axios
               .post("https://43.203.227.36.sslip.io/server/missionComplete", {
