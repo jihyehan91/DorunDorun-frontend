@@ -23,6 +23,6 @@
   }
 
   .nav-login > a {
-    @apply block py-1.5 px-6 bg-[var(--highlight-color)] text-white text-right whitespace-nowrap rounded-3xl;
+    @apply block py-1.5 px-6 bg-[var(--highlight-color)] text-white text-right whitespace-nowrap rounded;
   }
 }

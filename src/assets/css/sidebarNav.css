@@ -26,15 +26,15 @@
   }
 
   .sidebar-nav-item a {
-    @apply flex w-full rounded-[32px] py-2 text-lg h-[50px] p-0 mb-2 rounded-full transition duration-300 ease-in-out lg:w-full sm:w-[50px];
+    @apply flex w-full py-2 text-lg h-[50px] p-0 mb-2 transition duration-300 ease-in-out lg:w-full sm:w-[50px];
   }
 
   .sidebar-nav-item a:hover {
-    @apply bg-[var(--highlight-color)] text-white brightness-95;
+    @apply text-[var(--highlight-color)] brightness-90;
   }
 
   .sidebar-nav-item a.active {
-    @apply bg-[var(--highlight-color)] text-white;
+    @apply text-[var(--highlight-color)];
   }
 
   .icon-text-group {

@@ -28,11 +28,9 @@ function Home() {
             </Link>
           </div>
           <div className='img-box'>
-            <img src='/image1.png' alt='푸우' />
+            {/* <img src='/image1.png' alt='푸우' /> */}
+            <img src='/pc-banner.png' alt='푸우' />
           </div>
-        </div>
-        <div className='bg-green-300 site-map'>
-          <h2>사이트 사용방법</h2>
         </div>
       </div>
       {/* 추천 캐릭터 */}
@@ -54,7 +52,7 @@ function Home() {
         </div>
         <div>
           <h2 className='list-title main-title'>문장 완성 퀴~즈</h2>
-          <p className='text-[var(--sub-font-color)] text-lg'>
+          <p className='text-[var(--sub-font-color)] text-lg mb-10'>
             문장을 완성하면 내 영어 실력도 완성!
           </p>
           <div>

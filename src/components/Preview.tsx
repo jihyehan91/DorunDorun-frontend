@@ -31,7 +31,6 @@ export default function Preview() {
 
   return (
     <>
-      <p>난이도에 따라 100문장씩 배워볼까요?</p>
       <ul className='preview-container'>
         {levelLinks.map((link) => (
           <li

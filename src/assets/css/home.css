@@ -6,14 +6,14 @@
 
 /* 사이트 소개 배너 */
 .banner {
-  @apply flex mr-5 rounded-xl bg-[var(--bg-highlight-color)];
+  @apply flex w-full rounded-xl bg-[var(--bg-highlight-color)];
   position: relative;
-  width: 60%;
 }
 
 .banner-text-area {
-  @apply px-8 py-4;
+  @apply pl-10 py-4;
   z-index: 1;
+  width: 40%;
 }
 
 .banner h3 {
@@ -25,10 +25,11 @@
 }
 
 .img-box {
+  @apply pr-10;
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 340px;
+  width: 60%;
 }
 
 .img-box img {
@@ -36,11 +37,6 @@
   max-width: 100%;
   object-position: center center;
   object-fit: cover;
-}
-
-.site-map {
-  @apply rounded-xl;
-  width: 40%;
 }
 
 .banner-link-chat {

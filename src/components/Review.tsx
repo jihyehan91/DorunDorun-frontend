@@ -29,7 +29,7 @@ function ReviewItem({ data, dummy }: Props) {
 
   return (
     <Link to={`/mylog/${data.id}`}>
-      <div className='mr-6'>
+      <div className='mx-6'>
         <img className='character-img' src={dummyImg} alt={`${data.ai}`} />
       </div>
       <div className='flex flex-col justify-center'>
@@ -73,7 +73,7 @@ export default function Review() {
 
   return (
     <section className='review'>
-      <div className='container'>
+      <div className='review-container'>
         <div className='conversation-controls'>
           <div className='sort-dropdown'>
             <label htmlFor='sort-select' className='hide'>

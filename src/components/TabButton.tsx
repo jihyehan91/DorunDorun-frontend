@@ -14,8 +14,8 @@ export default function TabButton({
       type='button'
       className={`tab-btn ${
         isActive
-          ? 'bg-[var(--highlight-color)] text-white'
-          : 'bg-[var(--btn-sub-bg)]'
+          ? 'rounded-none border-[var(--highlight-color)] border-b-4 text-[var(--main-font-color)]'
+          : ''
       }`}
       onClick={onClick}
     >

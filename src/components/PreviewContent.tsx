@@ -9,6 +9,7 @@ interface Sentence {
   meaning: string;
   mission: string;
   missionId: string;
+  // complete: boolean;
 }
 
 interface PreviewData {
@@ -73,19 +74,9 @@ export default function PreviewContent() {
   }, []);
 
   useEffect(() => {
-    console.log("sentences22 :", sentences);
+    console.log('sentences22 :', sentences);
     getAiExample(sentences[0]);
   }, [sentences]);
-
-  // 문장 패턴 클릭하면 예문 보이기
-  // const sentenceHandler = (clickedSentence: string) => {
-  //   const foundSentenceData = levelData.find(
-  //     (item) => item.sentence === clickedSentence
-  //   );
-  //   if (foundSentenceData) {
-  //     setSelectedSentenceData(foundSentenceData);
-  //   }
-  // };
 
   // 뒤로가기 버튼
   const backHandler = () => {
@@ -164,6 +155,8 @@ export default function PreviewContent() {
 
         {/* 지혜님 이부분은 학습 완료처리가 된 애들만 푸 랑 대화할때 미션 리스트에 정렬되도록 체크 해주는 부분이에요. 세연님이랑 소통할 부분이니까 그러려니 하십시옹. css 건드시는건 아무 상관 없습니다.*/}
         <button
+          type='button'
+          className='bg-[var(--highlight-color)] text-white'
           onClick={async () => {
             const index = sentences.findIndex(
               (sentence) => sentence.mission === selectedSentenceData?.sentence
@@ -183,6 +176,7 @@ export default function PreviewContent() {
         <div className='three-sentence-area'>
           <h3 className='sentence-sub-title'>하루 3문장</h3>
           <ul>
+            {/* sentence.learned가 true이면 초록 배경이 되도록 부탁드립니다 */}
             {sentences.map((sentence, i) => (
               <li
                 key={i}
@@ -190,7 +184,11 @@ export default function PreviewContent() {
                   getAiExample(sentence);
                 }}
               >
-                <span className='number-btn'>{i + 1}</span>
+                <span
+                  className={`number-btn ${sentence.learned ? 'active' : ''}`}
+                >
+                  {i + 1}
+                </span>
                 <span>{sentence.mission}</span>
               </li>
             ))}

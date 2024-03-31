@@ -2,11 +2,11 @@
 
 @layer components {
   .review {
-    @apply w-full flex justify-center;
+    @apply w-full flex;
   }
 
-  .review .container {
-    @apply flex-col p-0;
+  .review-container {
+    @apply flex flex-col w-full px-0;
   }
 
   .conversation-controls {
@@ -22,7 +22,7 @@
   }
 
   .review-item a {
-    @apply flex p-6 mb-3 shadow rounded-xl;
+    @apply flex py-6 mb-3 shadow rounded-xl;
   }
 
   .character-img {
