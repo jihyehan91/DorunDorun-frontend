@@ -10,10 +10,7 @@ import { PiUserListDuotone } from 'react-icons/pi';
 import { PiMicrophoneFill } from 'react-icons/pi';
 import { PiMicrophoneSlash } from 'react-icons/pi';
 import { RiSendPlaneFill } from 'react-icons/ri';
-import { MdOutlineKeyboardReturn } from 'react-icons/md';
-import { BsShiftFill } from 'react-icons/bs';
-import { IoStop } from 'react-icons/io5';
-import { IoPlay } from 'react-icons/io5';
+import { PiSpeakerHighDuotone } from "react-icons/pi";
 import { PiListMagnifyingGlassDuotone } from 'react-icons/pi';
 import { RiLoader2Fill } from 'react-icons/ri';
 
@@ -453,10 +450,14 @@ function Talk() {
 					<div className="talking">
 						<dl>
 							<dt className="flex justify-between">
-								<button id="charName" className="btn-char" onClick={() => setCharacterDesc(!characterDesc)}>
-									{characterDesc ? <PiUserListFill className="text-lg" /> : <PiUserListDuotone className="text-lg" />}{' '}
-									{characterInfo[0].name}
-									<div className={`voiceContainer ${playState ? 'on' : 'off'}`}>
+								<div className="flex items-center">
+									<button id="charName" className="btn-char" onClick={() => setCharacterDesc(!characterDesc)}>
+										{characterDesc ? <PiUserListFill className="text-lg" /> : <PiUserListDuotone className="text-lg" />}{' '}
+										{characterInfo[0].name}
+									</button>
+									<button className={`voiceContainer ${playState ? 'on' : 'off'}`} onClick={playAudio}
+									disabled={playState || firstAudioMsg ? false : true}>
+                    <PiSpeakerHighDuotone />{' '}
 										<div>
 											<div className="voice voice1"></div>
 											<div className="voice voice2"></div>
@@ -464,14 +465,14 @@ function Talk() {
 											<div className="voice voice4"></div>
 											<div className="voice voice5"></div>
 										</div>
-									</div>
-								</button>
-								<Popup
-									title={'캐릭터 소개'}
-									charDatas={characterInfo}
-									isPop={characterDesc}
-									setIsPop={setCharacterDesc}
-								/>
+									</button>
+									<Popup
+										title={'캐릭터 소개'}
+										charDatas={characterInfo}
+										isPop={characterDesc}
+										setIsPop={setCharacterDesc}
+									/>
+								</div>
 
 								<button className="btn-history" onClick={() => setHistory(!history)}>
 									<PiListMagnifyingGlassDuotone
@@ -513,30 +514,9 @@ function Talk() {
 								<button type="submit" className="btn-send" disabled={playState || isFinish ? true : false}>
 									{audioLoad ? <RiLoader2Fill className="animate-spin" /> : <RiSendPlaneFill />}
 								</button>
-								<button
-									type="button"
-									className="btn-stop"
-									onClick={playAudio}
-									disabled={playState || firstAudioMsg ? false : true}>
-									{playState ? <IoStop /> : <IoPlay />}
-								</button>
 							</div>
 
 							<div className="shortcuts">
-								<div className="shortcut hidden">
-									* Send:{' '}
-									<span>
-										<MdOutlineKeyboardReturn />
-									</span>{' '}
-									/ New Line:{' '}
-									<span>
-										<BsShiftFill />
-									</span>{' '}
-									+{' '}
-									<span>
-										<MdOutlineKeyboardReturn />
-									</span>
-								</div>
 								<button
 									type="button"
 									className="btn-finishchat"
