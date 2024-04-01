@@ -99,17 +99,15 @@ export default function Mypage() {
     }
   };
 
+  //회원탈퇴
   const handleWithdraw = async () => {
-    const confirmdraw = window.confirm('정말로 회원탈퇴를 하시겠습니까?');
-    if (confirmdraw) {
+    const confirmWithdraw = window.confirm('정말로 회원탈퇴를 하시겠습니까?');
+    if (confirmWithdraw) {
       try {
         const response = await axios.delete(`${API_URL}/user/withdraw`, {
-          headers: {
-            'Content-Type': 'application/json' 
-          },
-          withCredentials: true,
+          data: { userId: getUser.userId } 
         });
-        console.log(response.data)
+        console.log(response.data);
         navigate('/');
       } catch (error) {
         console.error('에러:', error);

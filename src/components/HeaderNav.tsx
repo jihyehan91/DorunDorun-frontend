@@ -18,8 +18,12 @@ export default function Header() {
     setProfileImage('');
     setUserCheck(false);
     navigate('/');
-    window.location.reload();
+    navigate('/', { replace: true }); 
   };
+
+  useEffect(() => {
+    window.location.reload();
+  }, [navigate]); 
 
   useEffect(() => {
     setUser('');

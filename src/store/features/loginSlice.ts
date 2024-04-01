@@ -49,8 +49,7 @@ const loginSlice = createSlice({
 
 
 
-export const loginUser =
-  (userdata: User) => async (dispatch: Dispatch) => {
+export const loginUser = (userdata: User) => async (dispatch: Dispatch) => {
     try {
       dispatch(loginStart());
       const user = await loginApi(userdata);
