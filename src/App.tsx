@@ -4,7 +4,7 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 import NotFound from './components/NotFound';
 import Home from './pages/Home';
-import Mypage from './pages/MyLog';
+import Review from './pages/Review';
 import Talk from './pages/Talk';
 import Myroom from './pages/Myroom';
 import About from './pages/About';
@@ -24,8 +24,8 @@ function App() {
         <Route path='/talk/:id' element={<Talk />} />
         <Route path='/myroom' element={<Myroom />} />
         <Route path='/about' element={<About />} />
-        <Route path='/mylog' element={<Mypage />} />
-        <Route path='/mylog/:id' element={<ReviewContent />} />
+        <Route path='/review' element={<Review />} />
+        <Route path='/review/:id' element={<ReviewContent />} />
         <Route path='/chat' element={<Chat />} />
         <Route path='/learning' element={<Learn />} />
         <Route path='/learning/:id' element={<PreviewContent />} />

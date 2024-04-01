@@ -45,8 +45,9 @@ function ReviewItem({ data, dummy }: Props) {
 export default function Review() {
   const [reviewDatas, setReviewDatas] = useState<ReviewData[]>([]);
   const [dummyDatas, setDummyDatas] = useState<DummyData[]>([]);
+  // 대화내역 정렬
   const [sortBy, setSortBy] = useState<string>('latest');
-
+  // 날짜추출
   const uniqueDates: string[] = [
     ...new Set(
       reviewDatas.map((data) => {
@@ -65,11 +66,13 @@ export default function Review() {
         setReviewDatas(response.data);
         setDummyDatas(datas.reviewDatas);
       } catch (error) {
-        console.error('Error fetching review data:', error);
+        console.error('revievDatas에 데이터 받아오기 실패', error);
       }
     };
     fetchData();
   }, []);
+
+  const handleChange = () => {};
 
   return (
     <section className='review'>
@@ -83,7 +86,7 @@ export default function Review() {
               id='sort-select'
               className='border-none'
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={handleChange}
             >
               <option value='latest'>최신순</option>
               <option value='oldest'>과거순</option>
@@ -91,6 +94,7 @@ export default function Review() {
           </div>
         </div>
         <div className='review-conversation-lists'>
+          <h2 className='list-title'>대화내역</h2>
           {uniqueDates.map((date) => (
             <div key={date}>
               <div className='date'>{date}</div>

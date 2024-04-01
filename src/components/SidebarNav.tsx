@@ -28,7 +28,7 @@ export default function SidebarNav() {
           {navMenu.map(({ id, link, icon, text }) => {
             return (
               <li className='sidebar-nav-item' key={id}>
-                <NavLink
+                {/* <NavLink
                   to={link}
                   className={({ isActive }) => (isActive ? 'active' : '')}
                   onClick={(e)=> (id > 1 && userCheck===false) && (e.preventDefault(), alert('회원 가입 후 이용 가능합니다'))}
@@ -37,7 +37,7 @@ export default function SidebarNav() {
                     <div className='icon'>{icon}</div>
                     <div className='text'>{text}</div>
                   </div>
-                </NavLink>
+                </NavLink> */}
               </li>
             );
           })}

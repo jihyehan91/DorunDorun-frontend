@@ -42,8 +42,8 @@ function Home() {
         <CharacterList data={recomm} />
       </div>
       {/* 예문, 퀴즈 */}
-      <div className='main-learn flex'>
-        <div className='main-preview-banner'>
+      <div className='main-learn'>
+        <div className='preview-banner'>
           <h2 className='list-title main-title'>새로운 표현을 배워볼까요?</h2>
           <p className='main-list-describe'>
             하루에 딱 3문장만 공부하면 실력이 UP!
@@ -52,19 +52,20 @@ function Home() {
             지금 학습하러 가기
           </Link>
         </div>
-        <div>
+        <div className='quiz-banner'>
           <h2 className='list-title main-title'>퀴즈 풀고 실력 높이기!</h2>
           <p className='main-list-describe'>
             문장 완성하는 퀴즈를 풀며 즐겁게 공부해요~
           </p>
-          <div className='flex bg-[var(--highlight-color)]'>
-            <div>
+          <div className='banner-img-txt'>
+            <div className='banner-txt'>
+              <p>"I'm a bit good, hehe"</p>
               <Link to='/chat' className='banner-link'>
                 지금 대화하러 가기
               </Link>
             </div>
-            <div>
-              <img src='/quiz-ai.png' alt='' />
+            <div className='banner-img'>
+              <img src='/quiz-ai.png' alt='퀴즈푸는 ai' />
             </div>
           </div>
         </div>

@@ -102,6 +102,23 @@
 }
 
 /* 예문, 퀴즈 소개 */
+.main-learn {
+  @apply md:flex;
+}
+
 .main-learn > div {
-  @apply w-2/4;
+  @apply w-2/4 sm:w-full;
+}
+
+.banner-img-txt {
+  @apply flex justify-between py-6 px-8 bg-[#e1ccec] rounded-xl;
+}
+
+.banner-txt > p {
+  @apply flex flex-col justify-center pt-8 pb-6 text-3xl font-semibold;
+}
+
+.banner-img > img {
+  width: 100%;
+  max-width: 200px;
 }
