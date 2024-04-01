@@ -35,7 +35,7 @@ export const Popup: React.FC<PopupProps> = ({ title, correctDatas, charDatas, ms
 	function closeHandler() {
 		if (title === '교정 목록') {
 			alert('복습하기 페이지로 이동합니다');
-			navigate(`/mylog`);
+			navigate(`/review`);
 		}
 		setIsPop(false);
 	}
