@@ -127,9 +127,7 @@ export default function PreviewContent() {
 
   return (
     <section className='preview-sentence'>
-      {isLoading && <Spinner/>}
-      {!isLoading && (
-        <div className='preview-sentence-container'>
+      <div className='preview-sentence-container'>
         <button
           className='exit-btn'
           type='button'
@@ -138,63 +136,70 @@ export default function PreviewContent() {
         >
           <FaArrowLeft />
         </button>
-        <div className='sample-sentence-area'>
-          <div className='key-sentence-english'>
-            <p>{selectedSentenceData && selectedSentenceData.sentence}</p>
-            <p>
-              {selectedSentenceData &&
-                selectedSentenceData.sentence_translation}
-            </p>
-          </div>
-          {/* 예시 대화문 */}
-          <div className='sample-sentence'>
-            {selectedSentenceData && (
-              <div className='example' key={selectedSentenceData.id}>
-                <div className='pattern-sentence'>
-                  <div className='flex p-0'>
-                    <p className='sentence-sub-title'>문장 패턴</p>
-                    <button type='button'>
-                      <LuRepeat
-                        onClick={() => {
-                          const index = sentences.findIndex(
-                            (sentence) =>
-                              sentence.mission ===
-                              selectedSentenceData?.sentence.substring(5)
-                          );
-                          getAiExample(sentences[index]);
-                        }}
-                      />
-                    </button>
-                    <button type='button'>
-                      <HiSpeakerWave />
-                    </button>
+        {
+          isLoading ? (
+            <Spinner/>
+          ) : (
+            <div className='sample-sentence-area'>
+            <div className='key-sentence-english'>
+              <p>{selectedSentenceData && selectedSentenceData.sentence}</p>
+              <p>
+                {selectedSentenceData &&
+                  selectedSentenceData.sentence_translation}
+              </p>
+            </div>
+            {/* 예시 대화문 */}
+            <div className='sample-sentence'>
+              {selectedSentenceData && (
+                <div className='example' key={selectedSentenceData.id}>
+                  <div className='pattern-sentence'>
+                    <div className='flex p-0'>
+                      <p className='sentence-sub-title'>문장 패턴</p>
+                      <button type='button'>
+                        <LuRepeat
+                          onClick={() => {
+                            const index = sentences.findIndex(
+                              (sentence) =>
+                                sentence.mission ===
+                                selectedSentenceData?.sentence.substring(5)
+                            );
+                            getAiExample(sentences[index]);
+                          }}
+                        />
+                      </button>
+                      <button type='button'>
+                        <HiSpeakerWave />
+                      </button>
+                    </div>
+                    <ul>
+                      {selectedSentenceData.similar.map((similar, index) => (
+                        <li key={index}>
+                          <p className='english'>{similar}</p>
+                          <p className='korean'>
+                            {selectedSentenceData.similar_translation[index]}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul>
-                    {selectedSentenceData.similar.map((similar, index) => (
-                      <li key={index}>
-                        <p className='english'>{similar}</p>
-                        <p className='korean'>
-                          {selectedSentenceData.similar_translation[index]}
-                        </p>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className='dialog'>
+                    <p className='sentence-sub-title'>대화문</p>
+                    <p className='english'>{selectedSentenceData.dialogue[0]}</p>
+                    <p className='korean'>
+                      {selectedSentenceData.dialogue_translation[0]}
+                    </p>
+                    <p className='english'>{selectedSentenceData.dialogue[1]}</p>
+                    <p className='korean'>
+                      {selectedSentenceData.dialogue_translation[1]}
+                    </p>
+                  </div>
                 </div>
-                <div className='dialog'>
-                  <p className='sentence-sub-title'>대화문</p>
-                  <p className='english'>{selectedSentenceData.dialogue[0]}</p>
-                  <p className='korean'>
-                    {selectedSentenceData.dialogue_translation[0]}
-                  </p>
-                  <p className='english'>{selectedSentenceData.dialogue[1]}</p>
-                  <p className='korean'>
-                    {selectedSentenceData.dialogue_translation[1]}
-                  </p>
-                </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
+          )
+        }
+       
 
         {/* 지혜님 이부분은 학습 완료처리가 된 애들만 푸 랑 대화할때 미션 리스트에 정렬되도록 체크 해주는 부분이에요. 세연님이랑 소통할 부분이니까 그러려니 하십시옹. css 건드시는건 아무 상관 없습니다.*/}
         <button
@@ -240,8 +245,6 @@ export default function PreviewContent() {
           </ul>
         </div>
       </div>
-      )}
-      
     </section>
   );
 }
