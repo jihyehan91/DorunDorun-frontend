@@ -15,7 +15,7 @@ interface PopupProps {
 }
 
 interface Mission {
-    mission_id: string;
+    missionId: string;
     name?: string;
     mission: string;
     meaning: string;

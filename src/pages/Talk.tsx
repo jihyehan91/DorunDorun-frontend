@@ -25,7 +25,7 @@ import { firework } from '../utils/firework';
 // 이미지 출처 : https://m.blog.naver.com/sinnam88/221375405075
 
 export interface Mission {
-	mission_id: string;
+	missionId: string;
 	mission: string;
 	meaning: string;
 	complete: boolean;
@@ -92,19 +92,19 @@ function Talk() {
 	// 데이터
 	const data: Mission[] = [
 		{
-			mission_id: 'lv1_1',
+			missionId: 'lv1_1',
 			mission: 'I am trying to',
 			meaning: '~ 해 보려고 하는 중이에요',
 			complete: false,
 		},
 		{
-			mission_id: 'lv1_2',
+			missionId: 'lv1_2',
 			mission: 'I am ready to',
 			meaning: '~ 할 준비가 되었어요',
 			complete: false,
 		},
 		{
-			mission_id: 'lv1_3',
+			missionId: 'lv1_3',
 			mission: 'I am just about to',
 			meaning: '지금 막 ~ 하려는 참이에요',
 			complete: false,
@@ -184,13 +184,13 @@ function Talk() {
 	}
 
 	const checkMission = async (inputText: string) => {
-		// const missionData = data.map(item => `mission_id: ${item.mission_id}\nmission: ${item.mission}\n`).join('\n')
+		// const missionData = data.map(item => `missionId: ${item.missionId}\nmission: ${item.mission}\n`).join('\n')
 		// const postData =`${missionData}\nchat:${inputText}`;
 		// const postData = {
-		//  missions: data.map(item => ({ mission_id: item.mission_id, mission: item.mission })),
+		//  missions: data.map(item => ({ missionId: item.missionId, mission: item.mission })),
 		//  chat: inputText
 		// };
-		const reducedMissions = data.map(({ mission_id, mission }) => ({ mission_id, mission }));
+		const reducedMissions = data.map(({ missionId, mission }) => ({ missionId, mission }));
 
 		// console.log('postData',reducedMissions);
 		try {
@@ -279,14 +279,14 @@ function Talk() {
 			setCorrectLoad(false);
 
 			if (authuser.result) {
+				const completedMissions: string[] = [];
 
-        const completedMissions = [];
-        missions.forEach((mission) => {
-          if (mission.complete) {
-            completedMissions.push(mission.missionId);
-          }
-        });
-        console.log('개수',completedMissions);
+				missions.forEach((mission) => {
+					if (mission.complete) {
+						completedMissions.push(mission.missionId);
+					}
+				});
+				console.log('개수', completedMissions);
 
 				await axios
 					.post(
@@ -305,41 +305,13 @@ function Talk() {
 						console.log('룸생성 에러:', error);
 					});
 
-
-          if (completedMissions.length > 0) {
-            try {
-              console.log('인:',completedMissions);
-              const response = await axios.post(
-                'https://43.203.227.36.sslip.io/server/missionComplete',
-                {
-                  mission_id: completedMissions,
-                },
-                {
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                }
-              );
-              console.log('POST 요청 성공:', response.data);
-            } catch (error) {
-              console.error('POST 요청 실패:', error);
-            }
-          }
-			}
-      const completedMissions = [];
-				missions.forEach((mission) => {
-					if (mission.complete) {
-						completedMissions.push(mission.mission_id);
-					}
-				});
-				console.log(completedMissions);
-
 				if (completedMissions.length > 0) {
 					try {
+						console.log('인:', completedMissions);
 						const response = await axios.post(
 							'https://43.203.227.36.sslip.io/server/missionComplete',
 							{
-								mission_id: completedMissions,
+								missionId: completedMissions,
 							},
 							{
 								headers: {
@@ -347,11 +319,12 @@ function Talk() {
 								},
 							}
 						);
-						console.log('POST 요청 성공:', response.data);
+						console.log('미션 완료 응답:', response.data);
 					} catch (error) {
-						console.error('POST 요청 실패:', error);
+						console.error('미션 완료 에러:', error);
 					}
 				}
+			}
 		} catch (error) {
 			console.error('에러 발생:', error);
 		}

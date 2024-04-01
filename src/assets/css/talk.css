@@ -351,7 +351,7 @@
 		@apply inline-block h-full w-[1px] m-[-1px] align-middle;
 	}
 	.ly-modal .ly-inner {
-		@apply inline-block align-middle min-w-[280px] max-w-[640px] max-h-[640px] p-5 bg-white rounded-xl overflow-auto text-left;
+		@apply inline-block align-middle w-[60%] min-w-[280px] max-w-[640px] max-h-[640px] p-5 bg-white rounded-xl overflow-auto text-left;
 	}
 	.ly-modal .ly-inner .ly-head {
 		@apply mb-3 flex justify-between items-center font-bold text-xl;
@@ -372,7 +372,7 @@
 		@apply flex justify-between;
 	}
 	.ly-modal .list-mission li {
-		@apply flex items-start gap-1;
+		@apply flex items-start gap-1 text-lg;
 	}
 
 	.ly-modal .list-mission li:before {
