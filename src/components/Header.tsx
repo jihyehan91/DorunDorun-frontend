@@ -20,8 +20,7 @@ export default function Header({ handler }: HeaderProps) {
             <FaBars />
           </button>
           <Link to='/'>
-            <h1 className='logo header'>DoRun-DoRun</h1>
-            <h1 className='logo mobile-header'>DoRun-DoRun</h1>
+            <h1 className='logo header'>DoRunDoRun</h1>
           </Link>
         </div>
         <HeaderNav />

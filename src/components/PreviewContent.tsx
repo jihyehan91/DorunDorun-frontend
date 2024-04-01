@@ -128,20 +128,24 @@ export default function PreviewContent() {
   };
 
   return (
-    <section className="preview-sentence">
-      {isLoading && <Spinner />}
-      {!isLoading && (
-        <div className="preview-sentence-container">
-          <button
-            className="exit-btn"
-            type="button"
-            onClick={backHandler}
-            aria-label="뒤로가기"
-          >
-            <FaArrowLeft />
-          </button>
-          <div className="sample-sentence-area">
-            <div className="key-sentence-english">
+    <section className='preview-sentence'>
+      <div className='preview-sentence-container'>
+        <button
+          className='exit-btn'
+          type='button'
+          onClick={backHandler}
+          aria-label='뒤로가기'
+        >
+          <FaArrowLeft />
+        </button>
+        {
+          isLoading ? (
+            <div className='flex m-auto w-2/3 h-1/3 justify-center items-center mt-10 mb-20'>
+              <Spinner />
+            </div>
+          ) : (
+            <div className='sample-sentence-area'>
+            <div className='key-sentence-english'>
               <p>{selectedSentenceData && selectedSentenceData.sentence}</p>
               <p>
                 {selectedSentenceData &&
@@ -149,13 +153,13 @@ export default function PreviewContent() {
               </p>
             </div>
             {/* 예시 대화문 */}
-            <div className="sample-sentence">
+            <div className='sample-sentence'>
               {selectedSentenceData && (
-                <div className="example" key={selectedSentenceData.id}>
-                  <div className="pattern-sentence">
-                    <div className="flex p-0">
-                      <p className="sentence-sub-title">문장 패턴</p>
-                      <button type="button">
+                <div className='example' key={selectedSentenceData.id}>
+                  <div className='pattern-sentence'>
+                    <div className='flex p-0'>
+                      <p className='sentence-sub-title'>문장 패턴</p>
+                      <button type='button'>
                         <LuRepeat
                           onClick={() => {
                             const index = sentences.findIndex(
@@ -167,33 +171,29 @@ export default function PreviewContent() {
                           }}
                         />
                       </button>
-                      <button type="button">
+                      <button type='button'>
                         <HiSpeakerWave />
                       </button>
                     </div>
                     <ul>
                       {selectedSentenceData.similar.map((similar, index) => (
                         <li key={index}>
-                          <p className="english">{similar}</p>
-                          <p className="korean">
+                          <p className='english'>{similar}</p>
+                          <p className='korean'>
                             {selectedSentenceData.similar_translation[index]}
                           </p>
                         </li>
                       ))}
                     </ul>
                   </div>
-                  <div className="dialog">
-                    <p className="sentence-sub-title">대화문</p>
-                    <p className="english">
-                      {selectedSentenceData.dialogue[0]}
-                    </p>
-                    <p className="korean">
+                  <div className='dialog'>
+                    <p className='sentence-sub-title'>대화문</p>
+                    <p className='english'>{selectedSentenceData.dialogue[0]}</p>
+                    <p className='korean'>
                       {selectedSentenceData.dialogue_translation[0]}
                     </p>
-                    <p className="english">
-                      {selectedSentenceData.dialogue[1]}
-                    </p>
-                    <p className="korean">
+                    <p className='english'>{selectedSentenceData.dialogue[1]}</p>
+                    <p className='korean'>
                       {selectedSentenceData.dialogue_translation[1]}
                     </p>
                   </div>
@@ -201,6 +201,8 @@ export default function PreviewContent() {
               )}
             </div>
           </div>
+          )
+        }
 
           {/* 지혜님 이부분은 학습 완료처리가 된 애들만 푸 랑 대화할때 미션 리스트에 정렬되도록 체크 해주는 부분이에요. 세연님이랑 소통할 부분이니까 그러려니 하십시옹. css 건드시는건 아무 상관 없습니다.*/}
           <button
@@ -247,7 +249,7 @@ export default function PreviewContent() {
             </ul>
           </div>
         </div>
-      )}
+      </div>
     </section>
   );
 }

@@ -48,12 +48,14 @@ function Home() {
           <p className='text-[var(--sub-font-color)] text-lg'>
             하루에 딱 3문장만 공부하면 실력이 UP!
           </p>
-          <div>하루 3문장 컴포넌트 넣기</div>
+          <div>
+            <div>예문학습</div>
+          </div>
         </div>
         <div>
-          <h2 className='list-title main-title'>문장 완성 퀴~즈</h2>
+          <h2 className='list-title main-title'>퀴즈 풀고 실력 높이기!</h2>
           <p className='text-[var(--sub-font-color)] text-lg mb-10'>
-            문장을 완성하면 내 영어 실력도 완성!
+            문장 완성하는 퀴즈를 풀며 즐겁게 공부해요~
           </p>
           <div>
             <Wordquiz />
