@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-// import { FaBell } from 'react-icons/fa';
+import { FaBell } from 'react-icons/fa';
 import { useAppDispatch } from '../hooks';
 import { logoutUser } from '../store/features/loginSlice';
 import useUserData from '../components/UserData';
@@ -23,7 +23,6 @@ export default function Header() {
     setUser('');
     setProfileImage('');
     setUserCheck(false);
-    // window.location.href = `https://43.203.227.36.sslip.io/`
   };
 
   useEffect(() => {
@@ -34,9 +33,9 @@ export default function Header() {
 
   return (
     <nav className='header-nav'>
-      {/* <button type="button" className="noti-icon" aria-label="알림">
+      <button type="button" className="noti-icon" aria-label="알림">
         <FaBell />
-      </button> */}
+      </button>
       <div className='nav-login'>
         {userCheck ? (
           <div className='flex items-center space-x-4'>

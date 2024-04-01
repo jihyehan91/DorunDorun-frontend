@@ -8,14 +8,14 @@ import Review from './pages/Review';
 import Talk from './pages/Talk';
 import Myroom from './pages/Myroom';
 import About from './pages/About';
-import PreviewContent from './components/PreviewContent';
+import PreviewContent from './components/TermsOfService';
 import Chat from './pages/Chat';
 import Learn from './pages/Learn';
 import Auth from './components/Mypage';
 import AuthPw from './components/MypagePw'
 import Spinner from './components/Spinner';
 import ReviewContent from './components/ReviewContent';
-import TermsOfService from './utils/TermsOfService';
+import TermsOfService from './components/TermsOfService';
 import './App.css';
 
 function App() {
