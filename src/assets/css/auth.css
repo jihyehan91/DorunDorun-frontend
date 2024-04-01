@@ -11,6 +11,10 @@
     @apply w-full sm:w-[640px] flex flex-col justify-center items-center p-0 sm:py-40 sm:px-32 bg-white rounded-none sm:rounded-3xl;
   }
 
+  .form-area2 {
+    @apply w-full sm:w-[640px] flex flex-col justify-center items-center p-0 sm:py-40 sm:px-32 bg-white rounded-none sm:rounded-3xl;
+  }
+
   .form-area.signup {
     @apply py-0;
   }
