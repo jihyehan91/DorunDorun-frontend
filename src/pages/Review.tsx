@@ -88,6 +88,7 @@ export default function Review() {
   return (
     <section className='review'>
       <div className='review-container'>
+        <h2 className='list-title'>대화내역</h2>
         <div className='conversation-controls'>
           <div className='sort-dropdown'>
             <label htmlFor='sort-select' className='hide'>
@@ -104,7 +105,6 @@ export default function Review() {
           </div>
         </div>
         <div className='review-conversation-lists'>
-          <h2 className='list-title'>대화내역</h2>
           {uniqueDates.map((date) => (
             <div key={date}>
               <div className='date'>{date}</div>
