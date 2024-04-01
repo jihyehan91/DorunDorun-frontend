@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import useUserData from './UserData';
-import Notfound from './NotFound';
+// import Notfound from './NotFound';
 
 type FormData = {
   userId: string;
@@ -65,7 +65,7 @@ export default function Mypage() {
       if (emailResponse.data.result === false) {
         alert(emailResponse.data.msg);
       } else {
-        navigate(`/`);
+        // navigate(`/`);
         alert('이메일이 변경되었습니다');
       }
     } catch (error) {
@@ -91,7 +91,7 @@ export default function Mypage() {
       if (passwordResponse.data.result === false) {
         alert(passwordResponse.data.msg);
       } else {
-        navigate(`/`);
+        // navigate(`/`);
         alert('비밀번호가 변경되었습니다');
       }
     } catch (error) {
@@ -99,7 +99,7 @@ export default function Mypage() {
     }
   };
 
-  const handleWithdraw = async (userdata: FormData) => {
+  const handleWithdraw = async () => {
     const confirmdraw = window.confirm('정말로 회원탈퇴를 하시겠습니까?');
     if (confirmdraw) {
       try {
@@ -109,6 +109,7 @@ export default function Mypage() {
           },
           withCredentials: true,
         });
+        console.log(response.data)
         navigate('/');
       } catch (error) {
         console.error('에러:', error);

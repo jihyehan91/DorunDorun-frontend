@@ -1,7 +1,10 @@
 import { useState } from 'react';
+import useUserData from './UserData';
 
 export default function Wordquiz() {
   const [showQuestions, setShowQuestions] = useState(false);
+  const { userCheck } = useUserData(); 
+
   //LEVEL 1
   const enAnswers = [
     {
@@ -10,21 +13,56 @@ export default function Wordquiz() {
       question: 'This a sentence sample is shuffling for',
     },
     {
-      sentence: 'I love to eat pizza on Fridays',
-      krTranslation: '나는 금요일에 피자를 먹는 것을 좋아합니다',
-      question: 'Fridays pizza to on eat love I',
+      sentence: '그는 오늘 학교에 가지 않았어요.',
+      krTranslation: 'He did not go to school today.',
+      question: 'not to today go school did He',
     },
     {
-      sentence: 'He goes jogging in the park every morning',
-      krTranslation: '그는 매일 아침 공원에서 조깅을 합니다',
-      question: 'morning jogging park goes every in He the',
+      sentence: 'She is a very talented singer.',
+      krTranslation: '그녀는 매우 재능 있는 가수입니다.',
+      question: 'a talented is very singer She',
     },
     {
-      sentence: 'We had a picnic by the river last weekend',
-      krTranslation: '지난 주말에 우리는 강가에서 소풍을 했습니다',
-      question: 'weekend river by picnic a had We last the',
+      sentence: 'I like to drink coffee in the morning.',
+      krTranslation: '저는 아침에 커피를 마시는 것을 좋아합니다.',
+      question: 'like drink to morning in coffee I',
+    },
+    {
+      sentence: 'The cat chased the mouse around the house.',
+      krTranslation: '고양이가 집 주변에서 쥐를 쫓았습니다.',
+      question: 'the around chased the cat mouse house the',
     },
   ];
+
+  //LEVEL 2
+  const enAnswers_lv2 = [
+    {
+      sentence: 'Despite the rain, they decided to go hiking in the mountains.',
+      krTranslation: '비가 오는데도 불구하고, 그들은 산에 하이킹을 가기로 결정했습니다.',
+      question: 'the Despite hiking decided to they in go rain mountains the',
+    },
+    {
+      sentence: 'The scientist conducted a series of experiments to test their hypothesis.',
+      krTranslation: '과학자는 그들의 가설을 실험하기 위한 일련의 실험을 진행했습니다.',
+      question: 'hypothesis series test to conducted their scientist a experiments of The',
+    },
+    {
+      sentence: 'After a long day at work, she treated herself to a relaxing bubble bath.',
+      krTranslation: '긴 하루 일한 후, 그녀는 스스로를 편안한 거품 목욕으로 보답했습니다.',
+      question: 'work relaxing bath bubble a to treated at day herself After long she',
+    },
+    {
+      sentence: 'In order to succeed, one must be willing to embrace failure as part of the journey.',
+      krTranslation: '성공하기 위해서는, 실패를 여정의 일부로 받아들일 준비가 되어야 합니다.',
+      question: 'the embrace as part to one must willing journey. In order failure succeed, of be',
+    },
+    {
+      sentence: 'Despite the language barrier, they managed to communicate effectively through gestures.',
+      krTranslation: '언어 장벽에도 불구하고, 그들은 몸짓을 통해 효과적으로 의사 소통을 성공했습니다.',
+      question: 'the communicate Despite gestures. to through language they effectively managed barrier,',
+    },
+  ];
+  
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // 현재 질문
   const [currentAnswer, setCurrentAnswer] = useState(
