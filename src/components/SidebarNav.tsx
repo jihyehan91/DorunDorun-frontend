@@ -10,7 +10,7 @@ const navMenu = [
   { id: 0, link: '/', icon: <GoHomeFill />, text: '두런두런' },
   { id: 1, link: '/chat', icon: <BiSolidChat />, text: '대화하기' },
   { id: 2, link: '/review', icon: <CgMenuGridR />, text: '대화목록' },
-  { id: 3, link: '/learning', icon: <MdLibraryBooks />, text: '학습하기' },
+  { id: 3, link: '/learning#std0', icon: <MdLibraryBooks />, text: '학습하기' },
 ];
 
 export default function SidebarNav() {
