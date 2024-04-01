@@ -92,10 +92,6 @@ export default function Mypage() {
     }
   };
 
-  //버튼 disabled
-  const emailDisabled = !getUser.password;
-  console.log(emailDisabled)
-
   return (
     <div className='form-container'>
       <div className='form-area signup'>
@@ -105,7 +101,7 @@ export default function Mypage() {
               <h1 className='logo'>DoRun-DoRun</h1>
             </Link>
           </div>
-          {/* {userCheck && ( */}
+          {userCheck && (
             <div className='form-box'>
               <h2 className='font-bold mb-2'>프로필 수정</h2>
               <p className='text-sm text-gray-400'>DoRun-DoRun e-mail과 비밀번호를 수정 하실 수 있습니다.</p>
@@ -182,16 +178,15 @@ export default function Mypage() {
                 비밀번호 변경
               </p>
               </Link>
-              <button className={`auth-input mt-11 ${emailDisabled ? 'disabled' : ''}`} type='submit' disabled={emailDisabled}>
+              <button className='auth-btn mt-11' type='submit'>
               이메일 변경하기
             </button>
-
               </form>
               <p onClick={handleWithdraw} className='auth-span font-black opacity-60 mb-4 text-right cursor-pointer' role='alert'>
                 회원탈퇴
               </p>
             </div> 
-            {/* )} */}
+            )}
         </div>
       </div>
     </div>
