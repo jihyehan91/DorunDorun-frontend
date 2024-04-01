@@ -220,7 +220,9 @@ export default function PreviewContent() {
                 }}
               >
                 <span
-                  className={`number-btn ${sentence.learned ? 'active' : ''}`}
+                  className={`number-btn cursor-pointer ${
+                    sentence.learned ? 'active' : ''
+                  }`}
                 >
                   {i + 1}
                 </span>

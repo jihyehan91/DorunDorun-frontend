@@ -16,7 +16,8 @@
   .header-icon {
     @apply flex items-center sm:hidden py-4;
   }
-  .header-icon .logo{
-    @apply hidden;
+
+  .header . .header-icon .logo {
+    @apply pb-0;
   }
 }
