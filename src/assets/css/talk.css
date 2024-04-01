@@ -366,7 +366,7 @@
 		@apply text-2xl leading-none p-0;
 	}
 	.ly-modal .ly-inner .ly-body {
-		@apply whitespace-pre-line font-normal;
+		@apply whitespace-pre-line font-normal text-lg;
 	}
 	.ly-modal .ly-inner .ly-body .todo {
 		@apply flex justify-between;
