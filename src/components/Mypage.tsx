@@ -10,7 +10,6 @@ type FormData = {
   userId: string;
   email: string;
   password: string;
-  // profileImage: string;
 };
 
 export default function Mypage() {
@@ -29,25 +28,18 @@ export default function Mypage() {
   const [getUser, setGetUser] = useState<FormData>({
     userId: '',
     email: '',
-    password: '',
-    // profileImage: ''
+    password: ''
   });
 
-  // 사용자 정보 불러오기
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${API_URL}/user/info`, { withCredentials: true });
-        console.log('마이페이지:', response.data);
         const userData = response.data; 
         setGetUser(userData); 
-        // setValue('username', userData.username);
         setValue('userId', userData.userId);
         setValue('email', userData.email);
         setValue('password', userData.password);
-        // if (userData.profileImage) {
-        //   setValue('profileImage', userData.profileImage);
-        // }
       } catch (error) {
         console.error('에러:', error);
       }
@@ -55,10 +47,59 @@ export default function Mypage() {
     fetchData();
   }, [setValue]);
 
-  // 회원탈퇴
-  const handleWithdraw = async (userdata: FormData) => {
-    console.log('이것은 userdata', userdata);
-    console.log('이것은 userdata의 userId', userdata.userId);
+  const handleEmailChange = async (userdata: FormData) => {
+    try {
+      const requestData = {
+        userid: userdata.userId,
+        email: userdata.email,
+        inputpw: userdata.password
+      };
+  
+      const emailResponse = await axios.patch(`${API_URL}/user/changeEmail`, requestData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json' 
+        }
+      });
+
+      if (emailResponse.data.result === false) {
+        alert(emailResponse.data.msg);
+      } else {
+        navigate(`/`);
+        alert('이메일이 변경되었습니다');
+      }
+    } catch (error) {
+      console.error('에러:', error);
+    }
+  };
+
+  const handlePasswordChange = async (userdata: FormData) => {
+    try {
+      const requestData = {
+        userid: userdata.userId,
+        email: userdata.email,
+        inputpw: userdata.password
+      };
+
+      const passwordResponse = await axios.patch(`${API_URL}/user/changePW`, requestData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (passwordResponse.data.result === false) {
+        alert(passwordResponse.data.msg);
+      } else {
+        navigate(`/`);
+        alert('비밀번호가 변경되었습니다');
+      }
+    } catch (error) {
+      console.error('에러:', error);
+    }
+  };
+
+  const handleWithdraw = async () => {
     const confirmdraw = window.confirm('정말로 회원탈퇴를 하시겠습니까?');
     if (confirmdraw) {
       try {
@@ -68,91 +109,12 @@ export default function Mypage() {
           },
           withCredentials: true,
         });
-        console.log('잘가라', response.data);
-        console.log('잘가라 2', response.data.data);
-        console.log('잘가라 이것은', response.data.userId);
         navigate('/');
       } catch (error) {
         console.error('에러:', error);
       }
     }
-};
-
-
-  // 사용자 정보 수정
-  const onSubmit: SubmitHandler<FormData> = async (userdata) => {
-    try {
-      const requestData = {
-        userid: userdata.userId,
-        email: userdata.email,
-        inputpw: userdata.password
-      };
-  
-      if (userdata.email) {
-        const emailResponse = await axios.patch(`${API_URL}/user/changeEmail`, requestData, {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json' 
-          }
-        });
-        console.log('이메일 변경:', emailResponse.data);
-        if (emailResponse.data.result === false) {
-          alert(emailResponse.data.msg);
-        } else {
-          navigate(`/`);
-          alert('이메일이 변경되었습니다');
-        }
-      } 
-      if (userdata.password) {
-        const passwordResponse = await axios.patch(`${API_URL}/user/changePW`, requestData, {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        console.log('비밀번호 변경:', passwordResponse.data);
-        if (passwordResponse.data.result === false) {
-          alert(passwordResponse.data.msg);
-        } else {
-          navigate(`/`);
-          alert('비밀번호가 변경되었습니다');
-        }
-      }
-    } catch (error) {
-      console.error('에러:', error);
-    }
   };
-
-  // 프로필 이미지 변경
-  // const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files) {
-  //     const formData = new FormData();
-  //     formData.append('image', e.target.files[0]);
-  
-  //     try {
-  //       const response = await axios.post(`${API_URL}/upload`, 
-  //       formData,
-  //       { withCredentials: true } ,
-  //       { 
-  //         headers: {
-  //           'Content-Type': 'multipart/form-data'
-  //         }
-  //       });
-  
-  //       const imageUrl = response.data.imageUrl;
-  //       setGetUser(prevState => ({
-  //         ...prevState,
-  //         profileImage: imageUrl
-  //       }));
-  //     } catch (error) {
-  //       console.error('이미지 업로드 에러:', error);
-  //     }
-  //   }
-  // };
- 
-  // useEffect(() => {
-  //   console.log('프로필 이미지가 업데이트되었습니다:', getUser.profileImage)
-  // }, [getUser.profileImage]);
 
   return (
     <div className='form-container'>
@@ -163,115 +125,138 @@ export default function Mypage() {
               <h1 className='logo'>DoRun-DoRun</h1>
             </Link>
           </div>
-          {/* {
-            userCheck ? */}
+          {userCheck && (
             <div className='form-box'>
-            <h2 className='font-bold mb-2'>프로필 수정</h2>
-            <p className='text-sm text-gray-400'>DoRun-DoRun e-mail과 비밀번호를 수정 하실 수 있습니다.</p>
-            <form className='auth-form' onSubmit={handleSubmit(onSubmit)}>
-              {/* <div>
-                <img src={getUser.profileImage} alt='프로필 이미지' />
-              </div> */}
+              <h2 className='font-bold mb-2'>프로필 수정</h2>
+              <p className='text-sm text-gray-400'>DoRun-DoRun e-mail과 비밀번호를 수정 하실 수 있습니다.</p>
+              
+              {/* 이메일 변경 폼 */}
+              <form className='auth-form' onSubmit={handleSubmit(handleEmailChange)}>
+                <label className='auth-label' htmlFor='userId'>
+                  아이디
+                </label>
+                <input
+                  className='auth-input'
+                  value={getUser.userId}
+                  type='text'
+                  id='userId'
+                  disabled
+                />
 
-              {/* <label className='auth-label' htmlFor='username'>
-                이름
-              </label>
-              <input
-                className='auth-input'
-                value={getUser.username}
-                type='text'
-                id='username'
-                disabled
-              /> */}
-              <label className='auth-label' htmlFor='userId'>
-                아이디
-              </label>
-              <input
-                className='auth-input'
-                value={getUser.userId}
-                type='text'
-                id='userId'
-                disabled
-              />
+                <label className='auth-label' htmlFor='currentEmail'>
+                  현재 이메일
+                </label>
+                <input
+                  className='auth-input'
+                  value={getUser.email}
+                  type='text'
+                  id='currentEmail'
+                  disabled
+                />
 
-              <label className='auth-label' htmlFor='email'>
-                이메일
-              </label>
-              <input
-                className='auth-input'
-                type='email'
-                id='email'
-                placeholder='이메일을 변경해주세요'
-                {...register('email', {
-                  required: '이메일을 입력해주세요',
-                  pattern: {
-                    value: /\S+@\S+\.\S+/,
-                    message: '유효한 이메일 주소를 입력하세요'
-                  }
-                })}
-              />
-              {errors.email && (
-                <span className='authSpan' role='alert'>
-                  {errors.email.message}
-                </span>
-              )}
+                <label className='auth-label' htmlFor='newEmail'>
+                  변경할 이메일
+                </label>
+                <input
+                  className='auth-input'
+                  type='email'
+                  id='newEmail'
+                  placeholder='이메일을 변경해주세요'
+                  {...register('email', {
+                    required: '이메일을 입력해주세요',
+                    pattern: {
+                      value: /\S+@\S+\.\S+/,
+                      message: '유효한 이메일 주소를 입력하세요'
+                    }
+                  })}
+                />
+                {errors.email && (
+                  <span className='authSpan' role='alert'>
+                    {errors.email.message}
+                  </span>
+                )}
 
-              <label className='auth-label' htmlFor='password'>
-                비밀번호
-              </label>
-              <input
-                className='auth-input'
-                type='password'
-                id='password'
-                placeholder="'영문, 숫자, 대문자, 특수문자 포함 8자리 이상'"
-                {...register('password', {
-                  required: '비밀번호를 입력하세요',
-                  minLength: {
-                    value: 8,
-                    message: '비밀번호는 8자 이상이어야 합니다'
-                  },
-                  validate: (value) => {
-                    const pwNumber = /\d/.test(value);
-                    const pwUpperCase = /[A-Z]/.test(value);
-                    const pwLowerCase = /[a-z]/.test(value);
-                    const pwSpecialChar = /[!@#$%^&*]/.test(value);
-                    return (
-                      pwNumber &&
-                      pwUpperCase &&
-                      pwLowerCase &&
-                      pwSpecialChar ||
-                      '비밀번호는 숫자, 대문자, 소문자, 특수문자를 포함해야 합니다'
-                    );
-                  }
-                })}
-              />
-              {errors.password && (
-                <span className='authSpan' role='alert'>
-                  {errors.password.message}
-                </span>
-              )}
+                <button className='auth-input mt-11' type='submit'>
+                  이메일 변경하기
+                </button>
+              </form>
+              
+              {/* 비밀번호 변경 폼 */}
+              <form className='auth-form' onSubmit={handleSubmit(handlePasswordChange)}>
+                <label className='auth-label' htmlFor='userId'>
+                  아이디
+                </label>
+                <input
+                  className='auth-input'
+                  value={getUser.userId}
+                  type='text'
+                  id='userId'
+                  disabled
+                />
 
-              {/* <label className='auth-label' htmlFor='profileImage'>
-                프로필 업로드
-              </label>
-              <input
-                className='auth-input'
-                type='file'
-                id='profileImage'
-                onChange={handleImageChange}
-                accept='image/*'
-              /> */}
-              <button className='auth-input mt-11' type='submit'>
-                수정하기
-              </button>
+                <label className='auth-label' htmlFor='currentPassword'>
+                  현재 비밀번호
+                </label>
+                <input
+                  className='auth-input'
+                  type='password'
+                  id='currentPassword'
+                  placeholder='현재 비밀번호를 입력하세요'
+                  {...register('currentPassword', {
+                    required: '현재 비밀번호를 입력하세요'
+                  })}
+                />
+                {errors.currentPassword && (
+                  <span className='authSpan' role='alert'>
+                    {errors.currentPassword.message}
+                  </span>
+                )}
+
+                <label className='auth-label' htmlFor='newPassword'>
+                  변경할 비밀번호
+                </label>
+                <input
+                  className='auth-input'
+                  type='password'
+                  id='newPassword'
+                  placeholder="'영문, 숫자, 대문자, 특수문자 포함 8자리 이상'"
+                  {...register('password', {
+                    required: '비밀번호를 입력하세요',
+                    minLength: {
+                      value: 8,
+                      message: '비밀번호는 8자 이상이어야 합니다'
+                    },
+                    validate: (value) => {
+                      const pwNumber = /\d/.test(value);
+                      const pwUpperCase = /[A-Z]/.test(value);
+                      const pwLowerCase = /[a-z]/.test(value);
+                      const pwSpecialChar = /[!@#$%^&*]/.test(value);
+                      return (
+                        pwNumber &&
+                        pwUpperCase &&
+                        pwLowerCase &&
+                        pwSpecialChar ||
+                        '비밀번호는 숫자, 대문자, 소문자, 특수문자를 포함해야 합니다'
+                      );
+                    }
+                  })}
+                />
+                {errors.password && (
+                  <span className='authSpan' role='alert'>
+                    {errors.password.message}
+                  </span>
+                )}
+
+                <button className='auth-input mt-11' type='submit'>
+                  비밀번호 변경하기
+                </button>
+              </form>
+
               <p onClick={handleWithdraw} className='auth-span font-black opacity-60 mb-2 text-right cursor-pointer' role='alert'>
-        회원탈퇴
-      </p>
-            </form>
-          </div> 
-          {/* :
-          <Notfound/>
-          } */}
+                회원탈퇴
+              </p>
+            </div> 
+          )}
         </div>
       </div>
     </div>
