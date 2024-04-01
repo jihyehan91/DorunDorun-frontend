@@ -9,23 +9,23 @@ import { useState } from 'react';
 const testUsers = [
   {
     testID:'BBQ999',
-    testPW:'Ghtjd1358!',
+    testPW:'gHTJD1358!',
   },
   {
     testID:'BHC999',
-    testPW:'Ghtjd1358!',
+    testPW:'gHTJD1358!',
   },
   {
     testID:'KYOCHON999',
-    testPW:'Ghtjd1358!',
+    testPW:'gHTJD1358!',
   },
   {
     testID:'GCOVA999',
-    testPW:'Ghtjd1358!',
+    testPW:'gHTJD1358!',
   },
   {
     testID:'HOSIGI999',
-    testPW:'Ghtjd1358!',
+    testPW:'gHTJD1358!',
   },
 ]
 
@@ -36,6 +36,7 @@ const getRandomUser = () => {
   return testUsers[randomNum];
   
 };
+////////////////////////////////////////////////////////////
 
 type FormData = {
   userId: string;

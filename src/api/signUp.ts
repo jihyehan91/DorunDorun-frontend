@@ -13,8 +13,8 @@ const signupApi = async (userdata: UserData) => {
     console.log(userdata);
     const response = await axios.post(`${API_URL}/user/register`, userdata, { withCredentials: true });
     if (response.data) {
-      window.location.href = `https://43.203.227.36.sslip.io/login`
       alert(`안녕하세요! 회원가입 환영합니다!`);
+      window.location.href = `https://43.203.227.36.sslip.io/login`
     } else {
       alert('다시 입력 부탁드립니다.');
     }

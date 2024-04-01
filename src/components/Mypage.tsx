@@ -122,10 +122,6 @@ export default function Mypage() {
       console.error('에러:', error);
     }
   };
-  
-
-  
-
 
   // 프로필 이미지 변경
   // const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -167,8 +163,8 @@ export default function Mypage() {
               <h1 className='logo'>DoRun-DoRun</h1>
             </Link>
           </div>
-          {
-            userCheck ?
+          {/* {
+            userCheck ? */}
             <div className='form-box'>
             <h2 className='font-bold mb-2'>프로필 수정</h2>
             <p className='text-sm text-gray-400'>DoRun-DoRun e-mail과 비밀번호를 수정 하실 수 있습니다.</p>
@@ -273,9 +269,9 @@ export default function Mypage() {
       </p>
             </form>
           </div> 
-          :
+          {/* :
           <Notfound/>
-          }
+          } */}
         </div>
       </div>
     </div>
