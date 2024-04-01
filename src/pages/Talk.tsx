@@ -113,7 +113,7 @@ function Talk() {
 		try {
 			const response = await axios.get<Mission[]>('https://43.203.227.36.sslip.io/server/missions');
 			console.log('미션 데이터:', response.data);
-			// setMissions(response.data);
+			setMissions(response.data);
 			// setMissions(data); // 더미 데이터
 		} catch (error) {
 			console.error('Fetch and play audio error:', error);
@@ -455,9 +455,11 @@ function Talk() {
 										{characterDesc ? <PiUserListFill className="text-lg" /> : <PiUserListDuotone className="text-lg" />}{' '}
 										{characterInfo[0].name}
 									</button>
-									<button className={`voiceContainer ${playState ? 'on' : 'off'}`} onClick={playAudio}
-									disabled={playState || firstAudioMsg ? false : true}>
-                    <PiSpeakerHighDuotone />{' '}
+									<button
+										className={`voiceContainer ${playState ? 'on' : 'off'}`}
+										onClick={playAudio}
+										disabled={playState || firstAudioMsg ? false : true}>
+										<PiSpeakerHighDuotone />{' '}
 										<div>
 											<div className="voice voice1"></div>
 											<div className="voice voice2"></div>
@@ -492,7 +494,7 @@ function Talk() {
 							ref={micRef}
 							className="btn-mic"
 							onClick={mic ? handleStopRecording : handleStartRecording}
-							disabled={isFinish ? true : false}>
+							disabled={isFinish}>
 							{mic ? <PiMicrophoneFill /> : <PiMicrophoneSlash />}
 						</button>
 						<div className={`textarea-wrap ${isTyped ? 'mic-on' : ''}`}>
@@ -500,7 +502,7 @@ function Talk() {
 								id="talkInput"
 								className="w-full"
 								ref={textareaRef}
-								onKeyPress={(e) => {
+								onKeyDown={(e) => {
 									if (e.nativeEvent.isComposing) return;
 									const key = e.key || e.charCode;
 									(key === 'Enter' || key === 13) && !e.shiftKey && sendMessage(e);
