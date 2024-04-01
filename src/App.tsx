@@ -6,6 +6,7 @@ import NotFound from './components/NotFound';
 import Home from './pages/Home';
 import Mypage from './pages/MyLog';
 import Talk from './pages/Talk';
+import Talk2 from './pages/Talk copy_test';
 import Myroom from './pages/Myroom';
 import About from './pages/About';
 import PreviewContent from './components/PreviewContent';
@@ -22,6 +23,7 @@ function App() {
       <Route element={<Layout />}>
         <Route path='/' element={<Home />} />
         <Route path='/talk/:id' element={<Talk />} />
+        <Route path='/talk2/:id' element={<Talk2 />} />
         <Route path='/myroom' element={<Myroom />} />
         <Route path='/about' element={<About />} />
         <Route path='/mylog' element={<Mypage />} />
