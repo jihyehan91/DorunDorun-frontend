@@ -4,6 +4,7 @@ import { HiSpeakerWave } from 'react-icons/hi2';
 import { FaArrowLeft } from 'react-icons/fa6';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import Spinner from './Spinner';
 
 interface Sentence {
   meaning: string;
@@ -25,6 +26,7 @@ interface PreviewData {
 }
 
 export default function PreviewContent() {
+  const [isLoading, setIsLoading] = useState(false);
   const [sentences, setSentences] = useState<Sentence[]>([]);
   const [selectedSentenceData, setSelectedSentenceData] =
     useState<PreviewData | null>(null);
@@ -52,6 +54,7 @@ export default function PreviewContent() {
     console.log('sentence_input in getAiExample:', sentence);
     try {
       //여기서 호성's 로딩 페이지 넣기.
+      setIsLoading(true);
       const response = await axios.get(
         'https://43.203.227.36.sslip.io/server/practice/getPractice',
         {
@@ -67,8 +70,11 @@ export default function PreviewContent() {
       setSelectedSentenceData(response.data);
     } catch (error) {
       console.error('getAiExample 받기 실패', error);
+    }finally{
+      setIsLoading(false);
     }
   }
+
 
   useEffect(() => {
     getLearningSentence();
@@ -121,6 +127,9 @@ export default function PreviewContent() {
 
   return (
     <section className='preview-sentence'>
+      {
+        isLoading && <Spinner/>
+      }
       <div className='preview-sentence-container'>
         <button
           className='exit-btn'

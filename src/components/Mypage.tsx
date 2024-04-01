@@ -81,47 +81,49 @@ export default function Mypage() {
 
   // 사용자 정보 수정
   const onSubmit: SubmitHandler<FormData> = async (userdata) => {
-    const requestData = {
-      userid: userdata.userId,
-      email: userdata.email,
-      inputpw: userdata.password
-    };
     try {
+      const requestData = {
+        userid: userdata.userId,
+        email: userdata.email,
+        inputpw: userdata.password
+      };
+  
       if (userdata.email) {
-        const response = await axios.patch(`${API_URL}/user/changeEmail`, requestData, {
+        const emailResponse = await axios.patch(`${API_URL}/user/changeEmail`, requestData, {
           withCredentials: true,
           headers: {
             'Content-Type': 'application/json' 
           }
         });
-        console.log('이메일 변경:', response.data);
-        if (response.data.result === false) {
-          alert(response.data.msg);
+        console.log('이메일 변경:', emailResponse.data);
+        if (emailResponse.data.result === false) {
+          alert(emailResponse.data.msg);
         } else {
           navigate(`/`);
           alert('이메일이 변경되었습니다');
         }
-        return response.data;
-      } else if (userdata.password) {
-        const response = await axios.patch(`${API_URL}/user/changePW`, requestData, {
+      } 
+      if (userdata.password) {
+        const passwordResponse = await axios.patch(`${API_URL}/user/changePW`, requestData, {
           withCredentials: true,
           headers: {
             'Content-Type': 'application/json'
           }
         });
-        console.log('비밀번호 변경:', response.data);
-        if (response.data.result === false) {
-          alert(response.data.msg);
+        console.log('비밀번호 변경:', passwordResponse.data);
+        if (passwordResponse.data.result === false) {
+          alert(passwordResponse.data.msg);
         } else {
           navigate(`/`);
           alert('비밀번호가 변경되었습니다');
         }
-        return response.data;
       }
     } catch (error) {
       console.error('에러:', error);
     }
   };
+  
+
   
 
 
