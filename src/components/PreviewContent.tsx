@@ -138,7 +138,7 @@ export default function PreviewContent() {
         </button>
         {
           isLoading ? (
-            <div className='flex w-2/3 h-1/3 justify-center items-center border border-b-2'>
+            <div className='flex m-auto w-2/3 h-1/3 justify-center items-center mt-10 mb-20'>
               <Spinner />
             </div>
           ) : (
@@ -201,7 +201,7 @@ export default function PreviewContent() {
           </div>
           )
         }
-       
+
 
         {/* 지혜님 이부분은 학습 완료처리가 된 애들만 푸 랑 대화할때 미션 리스트에 정렬되도록 체크 해주는 부분이에요. 세연님이랑 소통할 부분이니까 그러려니 하십시옹. css 건드시는건 아무 상관 없습니다.*/}
         <button
