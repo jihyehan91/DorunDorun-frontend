@@ -1,4 +1,4 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import '../assets/css/auth.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -162,6 +162,13 @@ export default function Mypage() {
                 <button className='auth-input mt-11' type='submit'>
                   비밀번호 변경하기
                 </button>
+
+                  <Link to='/mypage'>
+                  <p className='auth-span text-blue-500 font-black opacity-60 mb-2 text-right cursor-pointer' role='alert'>
+                    이메일 변경하기
+                  </p>
+                  </Link>
+               
               </form>
             </div> 
           )}

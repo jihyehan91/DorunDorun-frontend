@@ -1,10 +1,10 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import '../assets/css/auth.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import useUserData from './UserData';
-// import Notfound from './NotFound';
+
 
 type FormData = {
   userId: string;
@@ -67,7 +67,7 @@ export default function Mypage() {
       if (emailResponse.data.result === false) {
         alert(emailResponse.data.msg);
       } else {
-        // navigate(`/`);
+        navigate(`/`);
         alert('이메일이 변경되었습니다');
       }
     } catch (error) {
@@ -75,32 +75,6 @@ export default function Mypage() {
     }
   };
 
-  //비밀번호 변경
-  const handlePasswordChange = async (userdata: FormData) => {
-    try {
-      const requestData = {
-        userid: userdata.userId,
-        email: userdata.email,
-        inputpw: userdata.password
-      };
-
-      const passwordResponse = await axios.patch(`${API_URL}/user/changePW`, requestData, {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (passwordResponse.data.result === false) {
-        alert(passwordResponse.data.msg);
-      } else {
-        // navigate(`/`);
-        alert('비밀번호가 변경되었습니다');
-      }
-    } catch (error) {
-      console.error('에러:', error);
-    }
-  };
 
   //회원탈퇴
   const handleWithdraw = async () => {
@@ -118,6 +92,10 @@ export default function Mypage() {
     }
   };
 
+  //버튼 disabled
+  const emailDisabled = !getUser.password;
+  console.log(emailDisabled)
+
   return (
     <div className='form-container'>
       <div className='form-area signup'>
@@ -127,12 +105,10 @@ export default function Mypage() {
               <h1 className='logo'>DoRun-DoRun</h1>
             </Link>
           </div>
-          {userCheck && (
+          {/* {userCheck && ( */}
             <div className='form-box'>
               <h2 className='font-bold mb-2'>프로필 수정</h2>
               <p className='text-sm text-gray-400'>DoRun-DoRun e-mail과 비밀번호를 수정 하실 수 있습니다.</p>
-              
-              {/* 이메일 변경 폼 */}
               <form className='auth-form' onSubmit={handleSubmit(handleEmailChange)}>
                 <label className='auth-label' htmlFor='userId'>
                   아이디
@@ -167,13 +143,6 @@ export default function Mypage() {
                   </span>
                 )}
 
-                <button className='auth-input mt-11' type='submit'>
-                  이메일 변경하기
-                </button>
-              </form>
-              
-              {/* 비밀번호 변경 폼 */}
-              <form className='auth-form' onSubmit={handleSubmit(handlePasswordChange)}>
                 <label className='auth-label' htmlFor='password'>
                   비밀번호
                 </label>
@@ -208,17 +177,21 @@ export default function Mypage() {
                     {errors.password.message}
                   </span>
                 )}
+                 <Link to='/mypagepw'>
+              <p className='auth-span text-blue-500 font-black text-left mt-4 cursor-pointer' role='alert'>
+                비밀번호 변경
+              </p>
+              </Link>
+              <button className={`auth-input mt-11 ${emailDisabled ? 'disabled' : ''}`} type='submit' disabled={emailDisabled}>
+              이메일 변경하기
+            </button>
 
-                <button className='auth-input mt-11' type='submit'>
-                  비밀번호 변경하기
-                </button>
               </form>
-
-              <p onClick={handleWithdraw} className='auth-span font-black opacity-60 mb-2 text-right cursor-pointer' role='alert'>
+              <p onClick={handleWithdraw} className='auth-span font-black opacity-60 mb-4 text-right cursor-pointer' role='alert'>
                 회원탈퇴
               </p>
             </div> 
-          )}
+            {/* )} */}
         </div>
       </div>
     </div>
