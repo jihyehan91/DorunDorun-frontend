@@ -18,6 +18,7 @@ export default function Header() {
     setProfileImage('');
     setUserCheck(false);
     navigate('/');
+    window.location.reload();
   };
 
   useEffect(() => {
