@@ -22,6 +22,7 @@ export const loginApi = async (userdata: UserData) => {
 
 export const logoutApi = async () => {
     const response = await axios.get(`${API_URL}/user/logout` , { withCredentials: true });
+    window.location.href = `https://43.203.227.36.sslip.io/`
     console.log(response);
     return response.data;
 };

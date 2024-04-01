@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // import { FaBell } from 'react-icons/fa';
 import { useAppDispatch } from '../hooks';
 import { logoutUser } from '../store/features/loginSlice';
@@ -17,15 +17,13 @@ export default function Header() {
   } = useUserData();
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logoutUser());
     setUser('');
     setProfileImage('');
     setUserCheck(false);
-    navigate('/'); 
-    window.location.reload();
+    // window.location.href = `https://43.203.227.36.sslip.io/`
   };
 
   useEffect(() => {
