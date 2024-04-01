@@ -99,7 +99,7 @@ export default function Mypage() {
     }
   };
 
-  const handleWithdraw = async () => {
+  const handleWithdraw = async (userdata: FormData) => {
     const confirmdraw = window.confirm('정말로 회원탈퇴를 하시겠습니까?');
     if (confirmdraw) {
       try {
@@ -143,24 +143,13 @@ export default function Mypage() {
                   disabled
                 />
 
-                <label className='auth-label' htmlFor='currentEmail'>
-                  현재 이메일
-                </label>
-                <input
-                  className='auth-input'
-                  value={getUser.email}
-                  type='text'
-                  id='currentEmail'
-                  disabled
-                />
-
-                <label className='auth-label' htmlFor='newEmail'>
-                  변경할 이메일
+                <label className='auth-label' htmlFor='email'>
+                  이메일
                 </label>
                 <input
                   className='auth-input'
                   type='email'
-                  id='newEmail'
+                  id='email'
                   placeholder='이메일을 변경해주세요'
                   {...register('email', {
                     required: '이메일을 입력해주세요',
@@ -183,42 +172,13 @@ export default function Mypage() {
               
               {/* 비밀번호 변경 폼 */}
               <form className='auth-form' onSubmit={handleSubmit(handlePasswordChange)}>
-                <label className='auth-label' htmlFor='userId'>
-                  아이디
-                </label>
-                <input
-                  className='auth-input'
-                  value={getUser.userId}
-                  type='text'
-                  id='userId'
-                  disabled
-                />
-
-                <label className='auth-label' htmlFor='currentPassword'>
-                  현재 비밀번호
+                <label className='auth-label' htmlFor='password'>
+                  비밀번호
                 </label>
                 <input
                   className='auth-input'
                   type='password'
-                  id='currentPassword'
-                  placeholder='현재 비밀번호를 입력하세요'
-                  {...register('currentPassword', {
-                    required: '현재 비밀번호를 입력하세요'
-                  })}
-                />
-                {errors.currentPassword && (
-                  <span className='authSpan' role='alert'>
-                    {errors.currentPassword.message}
-                  </span>
-                )}
-
-                <label className='auth-label' htmlFor='newPassword'>
-                  변경할 비밀번호
-                </label>
-                <input
-                  className='auth-input'
-                  type='password'
-                  id='newPassword'
+                  id='password'
                   placeholder="'영문, 숫자, 대문자, 특수문자 포함 8자리 이상'"
                   {...register('password', {
                     required: '비밀번호를 입력하세요',
