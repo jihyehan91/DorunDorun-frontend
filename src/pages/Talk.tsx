@@ -26,13 +26,13 @@ import { firework } from '../utils/firework';
 
 export interface Mission {
 	missionId: string;
-	mission?: string;
-	meaning?: string;
-	complete?: boolean;
+	mission: string;
+	meaning: string;
+	complete: boolean;
 }
 
 export interface AuthUser {
-	result?: boolean;
+	result: boolean;
 	nickname?: string;
 	userId?: string;
 	newToken?: string | null;
@@ -88,35 +88,35 @@ function Talk() {
 	const [bgNum, setBgNum] = useState<number>(Math.floor(Math.random() * 3));
 	const [characterDesc, setCharacterDesc] = useState<boolean>(false);
 	const [missions, setMissions] = useState<Mission[]>([]);
-	const [missionsComplete, setMissionsComplete] = useState<Mission[]>([]);
+	const [missionsComplete, setMissionsComplete] = useState<string[]>([]);
 
 	// 데이터
-	const data: Mission[] = [
-		{
-			missionId: 'lv1_1',
-			mission: 'I am trying to',
-			meaning: '~ 해 보려고 하는 중이에요',
-			complete: false,
-		},
-		{
-			missionId: 'lv1_2',
-			mission: 'I am ready to',
-			meaning: '~ 할 준비가 되었어요',
-			complete: false,
-		},
-		{
-			missionId: 'lv1_3',
-			mission: 'I am just about to',
-			meaning: '지금 막 ~ 하려는 참이에요',
-			complete: false,
-		},
-	];
+	// const data: Mission[] = [
+	// 	{
+	// 		missionId: 'lv1_1',
+	// 		mission: 'I am trying to',
+	// 		meaning: '~ 해 보려고 하는 중이에요',
+	// 		complete: false,
+	// 	},
+	// 	{
+	// 		missionId: 'lv1_2',
+	// 		mission: 'I am ready to',
+	// 		meaning: '~ 할 준비가 되었어요',
+	// 		complete: false,
+	// 	},
+	// 	{
+	// 		missionId: 'lv1_3',
+	// 		mission: 'I am just about to',
+	// 		meaning: '지금 막 ~ 하려는 참이에요',
+	// 		complete: false,
+	// 	},
+	// ];
 
 	const getMissions = async () => {
 		try {
-			const response = await axios.get('https://43.203.227.36.sslip.io/server/missions');
+			const response = await axios.get<Mission[]>('https://43.203.227.36.sslip.io/server/missions');
 			console.log('미션 데이터:', response.data);
-			setMissions(response.data);
+			// setMissions(response.data);
 			// setMissions(data); // 더미 데이터
 		} catch (error) {
 			console.error('Fetch and play audio error:', error);
@@ -312,7 +312,6 @@ function Talk() {
 						console.log('룸생성 에러:', error);
 					});
 
-          console.log('완료된 미션 : ', missionsComplete);
 				if (missionsComplete.length > 0) {
 					try {
 						const response = await axios.post(
@@ -545,14 +544,7 @@ function Talk() {
 									disabled={firstAudioMsg || isFinishPop ? false : true}>
 									대화 종료 {correctLoad && <RiLoader2Fill className="animate-spin" />}
 								</button>
-								<Popup
-									title={'교정 목록'}
-									authUser={authuser}
-									missions={missions}
-									correctDatas={correctList}
-									isPop={isFinishPop}
-									setIsPop={setIsFinishPop}
-								/>
+								<Popup title={'교정 목록'} correctDatas={correctList} isPop={isFinishPop} setIsPop={setIsFinishPop} />
 							</div>
 						</div>
 					</form>

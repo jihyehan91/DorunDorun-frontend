@@ -1,7 +1,7 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { IoMdCloseCircle } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
-import { Character, AuthUser } from '../Talk'; // Mission 인터페이스를 가져옴
+import { Mission, Character } from '../Talk'; // Mission 인터페이스를 가져옴
 
 interface PopupProps {
 	title: string;
@@ -10,17 +10,6 @@ interface PopupProps {
 	mssDatas?: Mission[] | undefined;
 	isPop: boolean;
 	setIsPop: Dispatch<SetStateAction<boolean>>;
-	missions?: Mission[];
-	authUser?: AuthUser;
-}
-
-interface Mission {
-	missionId: string;
-	name?: string;
-	mission: string;
-	meaning: string;
-	complete: boolean;
-	desc?: string;
 }
 
 interface ListProps {
@@ -34,17 +23,16 @@ export const Popup: React.FC<PopupProps> = ({
 	mssDatas,
 	isPop,
 	setIsPop,
-	missions,
 }) => {
 	// missions, authUser : 교정목록에서만 사용함.
 	const navigate = useNavigate();
 	const [mssCount, setMssCount] = useState(0); //일 목표치 할당 카운트:추후 예정?
-	const completedCount = missions?.filter((data) => data.complete).length || 0; //교정목록에서만 사용함. (closeHandler 용)
+	const completedCount = mssDatas?.filter((data) => data.complete).length || 0; //교정목록에서만 사용함. (closeHandler 용)
 	useEffect(() => {
 		if (completedCount === 3 && mssCount < 1) {
 			setMssCount((prevMss) => prevMss + 1);
 		}
-	}, [missions, mssDatas, mssCount, completedCount]);
+	}, [mssCount, completedCount]);
 
 	function closeHandler() {
 		if (title === '교정 목록') {
