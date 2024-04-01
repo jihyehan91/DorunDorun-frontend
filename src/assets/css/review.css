@@ -10,7 +10,7 @@
   }
 
   .conversation-controls {
-    @apply w-full flex flex-row-reverse py-5;
+    @apply w-full flex flex-row-reverse;
   }
 
   .review-conversation-lists {

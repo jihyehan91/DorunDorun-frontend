@@ -14,7 +14,7 @@ import Learn from './pages/Learn';
 import Auth from './components/Mypage';
 import Spinner from './components/Spinner';
 import ReviewContent from './components/ReviewContent';
-import TermsOfService from './utils/TermsOfService'
+import TermsOfService from './utils/TermsOfService';
 import './App.css';
 
 function App() {
