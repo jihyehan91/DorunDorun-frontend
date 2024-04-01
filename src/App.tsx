@@ -14,6 +14,7 @@ import Learn from './pages/Learn';
 import Auth from './components/Mypage';
 import Spinner from './components/Spinner';
 import ReviewContent from './components/ReviewContent';
+import TermsOfService from './utils/TermsOfService'
 import './App.css';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
         <Route path='*' element={<NotFound />} />
       </Route>
       <Route path='/signup' element={<SignUp />} />
+      <Route path='/termsofservice' element={<TermsOfService />} />
       <Route path='/login' element={<Login />} />
       <Route path='/mypage' element={<Auth />} />
       <Route path='/spinner' element={<Spinner />} />

@@ -139,7 +139,7 @@ export default function PreviewContent() {
         {
           isLoading ? (
             <div className='flex m-auto w-2/3 h-1/3 justify-center items-center mt-10 mb-20'>
-              <Spinner />
+              <Spinner loadingText='AI가 예문을 생성중...' />
             </div>
           ) : (
             <div className='sample-sentence-area'>

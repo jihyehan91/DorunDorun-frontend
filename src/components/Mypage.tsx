@@ -170,6 +170,8 @@ export default function Mypage() {
           {
             userCheck ?
             <div className='form-box'>
+            <h2 className='font-bold mb-2'>프로필 수정</h2>
+            <p className='text-sm text-gray-400'>DoRun-DoRun e-mail과 비밀번호를 수정 하실 수 있습니다.</p>
             <form className='auth-form' onSubmit={handleSubmit(onSubmit)}>
               {/* <div>
                 <img src={getUser.profileImage} alt='프로필 이미지' />
@@ -185,7 +187,6 @@ export default function Mypage() {
                 id='username'
                 disabled
               /> */}
-
               <label className='auth-label' htmlFor='userId'>
                 아이디
               </label>
