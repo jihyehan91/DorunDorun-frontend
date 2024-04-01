@@ -12,6 +12,7 @@ import PreviewContent from './components/PreviewContent';
 import Chat from './pages/Chat';
 import Learn from './pages/Learn';
 import Auth from './components/Mypage';
+import AuthPw from './components/MypagePw'
 import Spinner from './components/Spinner';
 import ReviewContent from './components/ReviewContent';
 import TermsOfService from './utils/TermsOfService'
@@ -36,7 +37,8 @@ function App() {
       <Route path='/termsofservice' element={<TermsOfService />} />
       <Route path='/login' element={<Login />} />
       <Route path='/mypage' element={<Auth />} />
-      <Route path='/spinner' element={<Spinner />} />
+      <Route path='/mypagepw' element={<AuthPw />} />
+      <Route path='/spinner' element={<Spinner loadingText='잠시만 기다려주세요...'/>} />
     </Routes>
   );
 }

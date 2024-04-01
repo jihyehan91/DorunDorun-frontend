@@ -17,13 +17,12 @@ export default function Header() {
     setUser('');
     setProfileImage('');
     setUserCheck(false);
-    navigate('/');
-    navigate('/', { replace: true }); 
+    navigate('/'); 
+    window.location.reload();
   };
 
   useEffect(() => {
-    window.location.reload();
-  }, [navigate]); 
+}, []);
 
   useEffect(() => {
     setUser('');

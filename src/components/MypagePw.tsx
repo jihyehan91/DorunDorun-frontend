@@ -48,33 +48,6 @@ export default function Mypage() {
     fetchData();
   }, [setValue]);
 
-  // 이메일 변경
-  const handleEmailChange = async (userdata: FormData) => {
-    try {
-      const requestData = {
-        userid: userdata.userId,
-        email: userdata.email,
-        inputpw: userdata.password
-      };
-  
-      const emailResponse = await axios.patch(`${API_URL}/user/changeEmail`, requestData, {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json' 
-        }
-      });
-
-      if (emailResponse.data.result === false) {
-        alert(emailResponse.data.msg);
-      } else {
-        // navigate(`/`);
-        alert('이메일이 변경되었습니다');
-      }
-    } catch (error) {
-      console.error('에러:', error);
-    }
-  };
-
   //비밀번호 변경
   const handlePasswordChange = async (userdata: FormData) => {
     try {
@@ -94,27 +67,11 @@ export default function Mypage() {
       if (passwordResponse.data.result === false) {
         alert(passwordResponse.data.msg);
       } else {
-        // navigate(`/`);
+        navigate(`/`);
         alert('비밀번호가 변경되었습니다');
       }
     } catch (error) {
       console.error('에러:', error);
-    }
-  };
-
-  //회원탈퇴
-  const handleWithdraw = async () => {
-    const confirmWithdraw = window.confirm('정말로 회원탈퇴를 하시겠습니까?');
-    if (confirmWithdraw) {
-      try {
-        const response = await axios.delete(`${API_URL}/user/withdraw`, {
-          data: { userId: getUser.userId } 
-        });
-        console.log(response.data);
-        navigate('/');
-      } catch (error) {
-        console.error('에러:', error);
-      }
     }
   };
 
@@ -130,11 +87,10 @@ export default function Mypage() {
           {userCheck && (
             <div className='form-box'>
               <h2 className='font-bold mb-2'>프로필 수정</h2>
-              <p className='text-sm text-gray-400'>DoRun-DoRun e-mail과 비밀번호를 수정 하실 수 있습니다.</p>
+              <p className='text-sm text-gray-400'>DoRun-DoRun 비밀번호를 수정 하실 수 있습니다.</p>
               
-              {/* 이메일 변경 폼 */}
-              <form className='auth-form' onSubmit={handleSubmit(handleEmailChange)}>
-                <label className='auth-label' htmlFor='userId'>
+              {/* 비밀번호 변경 폼 */}
+              <label className='auth-label' htmlFor='userId'>
                   아이디
                 </label>
                 <input
@@ -167,12 +123,6 @@ export default function Mypage() {
                   </span>
                 )}
 
-                <button className='auth-input mt-11' type='submit'>
-                  이메일 변경하기
-                </button>
-              </form>
-              
-              {/* 비밀번호 변경 폼 */}
               <form className='auth-form' onSubmit={handleSubmit(handlePasswordChange)}>
                 <label className='auth-label' htmlFor='password'>
                   비밀번호
@@ -213,10 +163,6 @@ export default function Mypage() {
                   비밀번호 변경하기
                 </button>
               </form>
-
-              <p onClick={handleWithdraw} className='auth-span font-black opacity-60 mb-2 text-right cursor-pointer' role='alert'>
-                회원탈퇴
-              </p>
             </div> 
           )}
         </div>
