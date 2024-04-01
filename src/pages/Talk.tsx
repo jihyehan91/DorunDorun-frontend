@@ -190,7 +190,7 @@ function Talk() {
 		//  missions: data.map(item => ({ missionId: item.missionId, mission: item.mission })),
 		//  chat: inputText
 		// };
-		const reducedMissions = data.map(({ missionId, mission }) => ({ missionId, mission }));
+		const reducedMissions = missions.map(({ missionId, mission }) => ({ missionId, mission }));
 
 		// console.log('postData',reducedMissions);
 		try {
