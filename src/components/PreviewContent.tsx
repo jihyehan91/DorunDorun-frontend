@@ -98,6 +98,7 @@ export default function PreviewContent() {
         (sentence) =>
           sentence.mission === selectedSentenceData?.sentence.substring(5)
       );
+      console.log("index::::::::::::::::::", index);
       await axios.post("https://43.203.227.36.sslip.io/server/learned", {
         mission_id: sentences[index].missionId,
       });
@@ -211,17 +212,7 @@ export default function PreviewContent() {
           type="button"
           className="bg-[var(--highlight-color)] text-white"
           onClick={async () => {
-            const index = sentences.findIndex(
-              (sentence) =>
-                sentence.mission === selectedSentenceData?.sentence.substring(5)
-            );
-            await axios
-              .post("https://43.203.227.36.sslip.io/server/missionComplete", {
-                mission_id: sentences[index].missionId,
-              })
-              .then
-              //뭔가 부트스트랩 체크표시 같은 애니메이션 효과..?
-              ();
+            handleLearnedButtonClick();
           }}
         >
           학습 완료
