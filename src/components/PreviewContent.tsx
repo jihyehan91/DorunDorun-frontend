@@ -127,10 +127,9 @@ export default function PreviewContent() {
 
   return (
     <section className='preview-sentence'>
-      {
-        isLoading && <Spinner/>
-      }
-      <div className='preview-sentence-container'>
+      {isLoading && <Spinner/>}
+      {!isLoading && (
+        <div className='preview-sentence-container'>
         <button
           className='exit-btn'
           type='button'
@@ -241,6 +240,8 @@ export default function PreviewContent() {
           </ul>
         </div>
       </div>
+      )}
+      
     </section>
   );
 }
