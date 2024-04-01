@@ -3,6 +3,39 @@ import { Link } from 'react-router-dom';
 import { loginUser } from '../store/features/loginSlice';
 import { useAppDispatch } from '../hooks';
 import '../assets/css/auth.css';
+import { useState } from 'react';
+
+// 임시 발표용 계정
+const testUsers = [
+  {
+    testID:'BBQ999',
+    testPW:'Ghtjd1358!',
+  },
+  {
+    testID:'BHC999',
+    testPW:'Ghtjd1358!',
+  },
+  {
+    testID:'KYOCHON999',
+    testPW:'Ghtjd1358!',
+  },
+  {
+    testID:'GCOVA999',
+    testPW:'Ghtjd1358!',
+  },
+  {
+    testID:'HOSIGI999',
+    testPW:'Ghtjd1358!',
+  },
+]
+
+const getRandomUser = () => {
+  const randomNum = Math.floor(Math.random() * testUsers.length);
+  console.log(testUsers[randomNum])
+  console.log(testUsers)
+  return testUsers[randomNum];
+  
+};
 
 type FormData = {
   userId: string;
@@ -10,6 +43,7 @@ type FormData = {
 };
 
 export default function Login() {
+  const [randomUser, setRandomUser] = useState(getRandomUser());//발표 끝나면 삭제
   const dispatch = useAppDispatch();
   const {
     register,
@@ -17,9 +51,9 @@ export default function Login() {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit: SubmitHandler<FormData> = (userdata) => {
-    console.log('onSubmit', userdata);
-    dispatch(loginUser(userdata));
+  const onSubmit: SubmitHandler<FormData> = (userData) => {
+    console.log('onSubmit', userData);
+    dispatch(loginUser(userData));
   };
 
   const onError: SubmitErrorHandler<FormData> = (errors) => {
@@ -47,6 +81,7 @@ export default function Login() {
                 className='auth-input'
                 type='text'
                 id='userId'
+                defaultValue={randomUser.testID}
                 placeholder='아이디를 입력해주세요'
                 {...register('userId', {
                   required: '아이디를 입력해주세요',
@@ -64,6 +99,7 @@ export default function Login() {
                 className='auth-input'
                 type='password'
                 id='password'
+                defaultValue={randomUser.testPW}
                 placeholder='비밀번호를 입력해주세요'
                 {...register('password', {
                   required: '비밀번호를 입력하세요',
@@ -97,7 +133,6 @@ export default function Login() {
             </form>
           </div>
           <div className='signup-link'>
-            {/* <span>아직 회원이 아니라면? </span> */}
             <span>
               <Link to='/signup'>회원가입</Link>
             </span>
