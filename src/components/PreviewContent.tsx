@@ -98,6 +98,8 @@ export default function PreviewContent() {
         (sentence) =>
           sentence.mission === selectedSentenceData?.sentence.substring(5)
       );
+      console.log(sentences[index].mission);
+      console.log(selectedSentenceData?.sentence.substring(5));
       console.log("index::::::::::::::::::", index);
       await axios.post("https://43.203.227.36.sslip.io/server/learned", {
         mission_id: sentences[index].missionId,
