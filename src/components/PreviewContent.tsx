@@ -212,7 +212,8 @@ export default function PreviewContent() {
           className="bg-[var(--highlight-color)] text-white"
           onClick={async () => {
             const index = sentences.findIndex(
-              (sentence) => sentence.mission === selectedSentenceData?.sentence
+              (sentence) =>
+                sentence.mission === selectedSentenceData?.sentence.substring(5)
             );
             await axios
               .post("https://43.203.227.36.sslip.io/server/missionComplete", {
