@@ -32,6 +32,7 @@ export default function PreviewContent() {
     useState<PreviewData | null>(null);
   const { id: urlID } = useParams<{ id: string }>();
   const navigate = useNavigate();
+
   async function getLearningSentence() {
     try {
       const level = "lv" + urlID![5];
