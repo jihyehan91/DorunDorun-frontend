@@ -17,8 +17,8 @@
 
   /* 예문 */
   .preview-sentence {
-    /* width: 80%;
-    min-width: 360px; */
+    width: 80%;
+    min-width: 360px;
     margin: 0 auto;
     @apply w-full h-full;
   }

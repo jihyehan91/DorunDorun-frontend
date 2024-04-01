@@ -4,6 +4,10 @@
   @apply p-0 mb-1 mt-20;
 }
 
+.main-list-describe {
+  @apply mb-10 text-[var(--sub-font-color)] text-lg;
+}
+
 /* 사이트 소개 배너 */
 .banner {
   @apply flex w-full rounded-xl bg-[var(--bg-highlight-color)];
@@ -39,7 +43,7 @@
   object-fit: cover;
 }
 
-.banner-link-chat {
+.banner-link {
   display: block;
   width: 180px;
   margin: 16px 0;
@@ -50,15 +54,10 @@
   text-align: center;
 }
 
-.banner-link-chat:hover {
+.banner-link:hover {
   background-color: var(--highlight-color);
   color: #fff;
   border: 1px solid transparent;
-}
-
-/* 예문, 퀴즈 소개 */
-.main-learn > div {
-  @apply w-2/4;
 }
 
 /* 캐릭터 대화 목록 소개 */
@@ -100,4 +99,9 @@
 }
 .list-char li .name {
   @apply truncate font-bold text-black;
+}
+
+/* 예문, 퀴즈 소개 */
+.main-learn > div {
+  @apply w-2/4;
 }
