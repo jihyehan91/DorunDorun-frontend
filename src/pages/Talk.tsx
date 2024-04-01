@@ -26,9 +26,9 @@ import { firework } from '../utils/firework';
 
 export interface Mission {
 	missionId: string;
-	mission: string;
-	meaning: string;
-	complete: boolean;
+	mission?: string;
+	meaning?: string;
+	complete?: boolean;
 }
 
 export interface AuthUser {
@@ -88,6 +88,7 @@ function Talk() {
 	const [bgNum, setBgNum] = useState<number>(Math.floor(Math.random() * 3));
 	const [characterDesc, setCharacterDesc] = useState<boolean>(false);
 	const [missions, setMissions] = useState<Mission[]>([]);
+	const [missionsComplete, setMissionsComplete] = useState<Mission[]>([]);
 
 	// 데이터
 	const data: Mission[] = [
@@ -205,11 +206,32 @@ function Talk() {
 				console.log('data는 배열입니다.');
 			} else {
 				console.log('data는 배열이 아닙니다.');
+
 				if (checkData != ' none') {
 					let dataArray: string[] = [];
 					try {
 						dataArray = JSON.parse(checkData.replace(/'/g, '"'));
 						console.log('배열 변환 완료: ', dataArray);
+
+						const updatedMissions = missions.map((mission) => {
+							if (dataArray.includes(mission.missionId)) {
+								if (!mission.complete) {
+									firework();
+								}
+								return {
+									...mission,
+									complete: true,
+								};
+							} else {
+								return mission;
+							}
+						});
+						setMissions(updatedMissions);
+						const completedMissionIds = updatedMissions
+							.filter((mission) => mission.complete)
+							.map((mission) => mission.missionId);
+
+						setMissionsComplete(completedMissionIds);
 					} catch (error) {
 						console.error('배열 변환 에러: ', error);
 					}
@@ -230,12 +252,6 @@ function Talk() {
 		try {
 			setTalkMessages((prevData) => [...prevData, `user: ${inputText}`]);
 			await fetchAndPlayAudio(inputText);
-
-			setMissions((prevData) =>
-				prevData.map((mission) => (mission.mission === inputText ? { ...mission, complete: true } : mission))
-			);
-
-			if (missions?.filter((item) => item.mission === inputText && !item.complete).length) firework();
 			textareaRef.current!.value = '';
 			micRef.current!.focus();
 
@@ -279,15 +295,6 @@ function Talk() {
 			setCorrectLoad(false);
 
 			if (authuser.result) {
-				const completedMissions: string[] = [];
-
-				missions.forEach((mission) => {
-					if (mission.complete) {
-						completedMissions.push(mission.missionId);
-					}
-				});
-				console.log('개수', completedMissions);
-
 				await axios
 					.post(
 						'https://43.203.227.36.sslip.io/server/room/newRoom',
@@ -305,13 +312,13 @@ function Talk() {
 						console.log('룸생성 에러:', error);
 					});
 
-				if (completedMissions.length > 0) {
+          console.log('완료된 미션 : ', missionsComplete);
+				if (missionsComplete.length > 0) {
 					try {
-						console.log('인:', completedMissions);
 						const response = await axios.post(
 							'https://43.203.227.36.sslip.io/server/missionComplete',
 							{
-								missionId: completedMissions,
+								missionId: missionsComplete,
 							},
 							{
 								headers: {

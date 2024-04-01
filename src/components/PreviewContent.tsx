@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import { LuRepeat } from 'react-icons/lu';
-import { HiSpeakerWave } from 'react-icons/hi2';
-import { FaArrowLeft } from 'react-icons/fa6';
-import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
-import Spinner from './Spinner';
+import { useState, useEffect } from "react";
+import { LuRepeat } from "react-icons/lu";
+import { HiSpeakerWave } from "react-icons/hi2";
+import { FaArrowLeft } from "react-icons/fa6";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
+import axios from "axios";
+import Spinner from "./Spinner";
 
 interface Sentence {
   meaning: string;
@@ -31,57 +31,59 @@ export default function PreviewContent() {
   const [selectedSentenceData, setSelectedSentenceData] =
     useState<PreviewData | null>(null);
   const { id: urlID } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
   async function getLearningSentence() {
     try {
-      const level = 'lv' + urlID![5];
+      const level = "lv" + urlID![5];
       const response = await axios.get(
-        'https://43.203.227.36.sslip.io/server/learn',
+        "https://43.203.227.36.sslip.io/server/learn",
         {
           params: { course: level },
         }
       );
-      await setSentences(response.data); //여기서 잘못 들어갔거나.... 배열문제일지도.
-      console.log('response.data222', response.data);
-      console.log('sentences23 :', sentences);
+      if (!response.data) {
+        if (
+          confirm(
+            `${urlID} 에서의 학습을 모두 완료했습니다! 캐릭터와 배운 표현을 사용해보세요.`
+          )
+        ) {
+          navigate("/chat");
+        }
+        return;
+      }
+      await setSentences(response.data);
     } catch (error) {
-      console.error('getLearningSentence 받기 에러', error);
+      console.error("getLearningSentence 받기 에러", error);
     }
   }
-  //Number(missionId.split('_')[0].substring(2))
 
   async function getAiExample(sentence: Sentence) {
-    console.log('sentence_input in getAiExample:', sentence);
     try {
-      //여기서 호성's 로딩 페이지 넣기.
       setIsLoading(true);
       const response = await axios.get(
-        'https://43.203.227.36.sslip.io/server/practice/getPractice',
+        "https://43.203.227.36.sslip.io/server/practice/getPractice",
         {
           params: {
             expression: sentence.mission,
             meaning: sentence.meaning,
-            level: Number(sentence.missionId.split('_')[0].substring(2)),
+            level: Number(sentence.missionId.split("_")[0].substring(2)),
           },
         }
       );
-      //끝나면 로딩 끝
-      console.log(response.data);
       setSelectedSentenceData(response.data);
     } catch (error) {
-      console.error('getAiExample 받기 실패', error);
-    }finally{
+      console.error("getAiExample 받기 실패", error);
+    } finally {
       setIsLoading(false);
     }
   }
-
 
   useEffect(() => {
     getLearningSentence();
   }, []);
 
   useEffect(() => {
-    console.log('sentences22 :', sentences);
     if (sentences.length > 0 && !sentences[0].learned) {
       getAiExample(sentences[0]);
     }
@@ -99,7 +101,7 @@ export default function PreviewContent() {
         (sentence) =>
           sentence.mission === selectedSentenceData?.sentence.substring(5)
       );
-      await axios.post('https://43.203.227.36.sslip.io/server/learned', {
+      await axios.post("https://43.203.227.36.sslip.io/server/learned", {
         mission_id: sentences[index].missionId,
       });
 
@@ -114,36 +116,40 @@ export default function PreviewContent() {
         (sentence) => !sentence.learned
       );
       if (remainingUnlearnedSentences.length === 0) {
-        alert('오늘 학습 완료! 캐릭터와 오늘 배운 내용을 사용해보세요!');
-        return <Link to='/chat' />;
+        if (
+          confirm("오늘 학습 완료! 캐릭터와 오늘 배운 내용을 사용해보세요!")
+        ) {
+          navigate("/chat");
+        }
       } else {
         const nextUnlearnedSentence = remainingUnlearnedSentences[0];
         getAiExample(nextUnlearnedSentence);
       }
     } catch (error) {
-      console.error('학습 완료 처리 실패', error);
+      console.error("학습 완료 처리 실패", error);
     }
   };
 
   return (
-    <section className='preview-sentence'>
-      <div className='preview-sentence-container'>
+    <section className="preview-sentence">
+      <div className="preview-sentence-container">
         <button
-          className='exit-btn'
-          type='button'
+          className="exit-btn"
+          type="button"
           onClick={backHandler}
-          aria-label='뒤로가기'
+          aria-label="뒤로가기"
         >
           <FaArrowLeft />
         </button>
+
         {
           isLoading ? (
             <div className='flex m-auto w-2/3 h-1/3 justify-center items-center mt-10 mb-20'>
               <Spinner loadingText='AI가 예문을 생성중...' />
             </div>
           ) : (
-            <div className='sample-sentence-area'>
-            <div className='key-sentence-english'>
+          <div className="sample-sentence-area">
+            <div className="key-sentence-english">
               <p>{selectedSentenceData && selectedSentenceData.sentence}</p>
               <p>
                 {selectedSentenceData &&
@@ -151,13 +157,13 @@ export default function PreviewContent() {
               </p>
             </div>
             {/* 예시 대화문 */}
-            <div className='sample-sentence'>
+            <div className="sample-sentence">
               {selectedSentenceData && (
-                <div className='example' key={selectedSentenceData.id}>
-                  <div className='pattern-sentence'>
-                    <div className='flex p-0'>
-                      <p className='sentence-sub-title'>문장 패턴</p>
-                      <button type='button'>
+                <div className="example" key={selectedSentenceData.id}>
+                  <div className="pattern-sentence">
+                    <div className="flex p-0">
+                      <p className="sentence-sub-title">문장 패턴</p>
+                      <button type="button">
                         <LuRepeat
                           onClick={() => {
                             const index = sentences.findIndex(
@@ -169,29 +175,33 @@ export default function PreviewContent() {
                           }}
                         />
                       </button>
-                      <button type='button'>
+                      <button type="button">
                         <HiSpeakerWave />
                       </button>
                     </div>
                     <ul>
                       {selectedSentenceData.similar.map((similar, index) => (
                         <li key={index}>
-                          <p className='english'>{similar}</p>
-                          <p className='korean'>
+                          <p className="english">{similar}</p>
+                          <p className="korean">
                             {selectedSentenceData.similar_translation[index]}
                           </p>
                         </li>
                       ))}
                     </ul>
                   </div>
-                  <div className='dialog'>
-                    <p className='sentence-sub-title'>대화문</p>
-                    <p className='english'>{selectedSentenceData.dialogue[0]}</p>
-                    <p className='korean'>
+                  <div className="dialog">
+                    <p className="sentence-sub-title">대화문</p>
+                    <p className="english">
+                      {selectedSentenceData.dialogue[0]}
+                    </p>
+                    <p className="korean">
                       {selectedSentenceData.dialogue_translation[0]}
                     </p>
-                    <p className='english'>{selectedSentenceData.dialogue[1]}</p>
-                    <p className='korean'>
+                    <p className="english">
+                      {selectedSentenceData.dialogue[1]}
+                    </p>
+                    <p className="korean">
                       {selectedSentenceData.dialogue_translation[1]}
                     </p>
                   </div>
@@ -199,32 +209,21 @@ export default function PreviewContent() {
               )}
             </div>
           </div>
-          )
-        }
-
+        )}
 
         {/* 지혜님 이부분은 학습 완료처리가 된 애들만 푸 랑 대화할때 미션 리스트에 정렬되도록 체크 해주는 부분이에요. 세연님이랑 소통할 부분이니까 그러려니 하십시옹. css 건드시는건 아무 상관 없습니다.*/}
         <button
-          type='button'
-          className='bg-[var(--highlight-color)] text-white'
+          type="button"
+          className="bg-[var(--highlight-color)] text-white"
           onClick={async () => {
-            const index = sentences.findIndex(
-              (sentence) => sentence.mission === selectedSentenceData?.sentence
-            );
-            await axios
-              .post('https://43.203.227.36.sslip.io/server/missionComplete', {
-                mission_id: sentences[index].missionId,
-              })
-              .then
-              //뭔가 부트스트랩 체크표시 같은 애니메이션 효과..?
-              ();
+            handleLearnedButtonClick();
           }}
         >
           학습 완료
         </button>
 
-        <div className='three-sentence-area'>
-          <h3 className='sentence-sub-title'>하루 3문장</h3>
+        <div className="three-sentence-area">
+          <h3 className="sentence-sub-title">하루 3문장</h3>
           <ul>
             {/* sentence.learned가 true이면 초록 배경이 되도록 부탁드립니다 */}
             {sentences.map((sentence, i) => (
@@ -236,7 +235,7 @@ export default function PreviewContent() {
               >
                 <span
                   className={`number-btn cursor-pointer ${
-                    sentence.learned ? 'active' : ''
+                    sentence.learned ? "active" : ""
                   }`}
                 >
                   {i + 1}

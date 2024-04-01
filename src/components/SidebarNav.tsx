@@ -1,38 +1,41 @@
-import { NavLink, Link } from "react-router-dom";
-import { GoHomeFill } from "react-icons/go";
-import { CgMenuGridR } from "react-icons/cg";
-import { BiSolidChat } from "react-icons/bi";
-import { MdLibraryBooks } from "react-icons/md";
-import "../assets/css/sidebarNav.css";
+import { NavLink, Link } from 'react-router-dom';
+import { GoHomeFill } from 'react-icons/go';
+import { CgMenuGridR } from 'react-icons/cg';
+import { BiSolidChat } from 'react-icons/bi';
+import { MdLibraryBooks } from 'react-icons/md';
+import '../assets/css/sidebarNav.css';
+import useUserData from './UserData';
 
 const navMenu = [
-  { id: 0, link: "/", icon: <GoHomeFill />, text: "두런두런" },
-  { id: 1, link: "/chat", icon: <BiSolidChat />, text: "대화하기" },
-  { id: 2, link: "/mylog", icon: <CgMenuGridR />, text: "나의활동" },
-  { id: 3, link: "/learning", icon: <MdLibraryBooks />, text: "학습하기" },
+  { id: 0, link: '/', icon: <GoHomeFill />, text: '두런두런' },
+  { id: 1, link: '/chat', icon: <BiSolidChat />, text: '대화하기' },
+  { id: 2, link: '/mylog', icon: <CgMenuGridR />, text: '나의활동' },
+  { id: 3, link: '/learning', icon: <MdLibraryBooks />, text: '학습하기' },
 ];
 
 export default function SidebarNav() {
+  const { userCheck } = useUserData();
   return (
-    <nav className="sidebar-nav">
-      <div className="container">
-        <Link to="/">
-          <h1 className="logo">
-            <span className="nav-logo">DoRun-DoRun</span>
-            <span className="nav-logo-tablet">DD</span>
+    <nav className='sidebar-nav'>
+      <div className='container'>
+        <Link to='/'>
+          <h1 className='logo'>
+            <span className='nav-logo'>DoRunDoRun</span>
+            <span className='nav-logo-tablet'>DD</span>
           </h1>
         </Link>
-        <ul className="sidebar-nav-menu">
+        <ul className='sidebar-nav-menu'>
           {navMenu.map(({ id, link, icon, text }) => {
             return (
-              <li className="sidebar-nav-item" key={id}>
+              <li className='sidebar-nav-item' key={id}>
                 <NavLink
                   to={link}
-                  className={({ isActive }) => (isActive ? "active" : "")}
+                  className={({ isActive }) => (isActive ? 'active' : '')}
+                  onClick={(e)=> (id > 1 && userCheck===false) && (e.preventDefault(), alert('회원 가입 후 이용 가능합니다'))}
                 >
-                  <div className="icon-text-group">
-                    <div className="icon">{icon}</div>
-                    <div className="text">{text}</div>
+                  <div className='icon-text-group'>
+                    <div className='icon'>{icon}</div>
+                    <div className='text'>{text}</div>
                   </div>
                 </NavLink>
               </li>
