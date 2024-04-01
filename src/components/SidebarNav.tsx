@@ -4,6 +4,7 @@ import { CgMenuGridR } from 'react-icons/cg';
 import { BiSolidChat } from 'react-icons/bi';
 import { MdLibraryBooks } from 'react-icons/md';
 import '../assets/css/sidebarNav.css';
+import useUserData from './UserData';
 
 const navMenu = [
   { id: 0, link: '/', icon: <GoHomeFill />, text: '두런두런' },
@@ -13,6 +14,7 @@ const navMenu = [
 ];
 
 export default function SidebarNav() {
+  const { userCheck } = useUserData();
   return (
     <nav className='sidebar-nav'>
       <div className='container'>
@@ -29,6 +31,7 @@ export default function SidebarNav() {
                 <NavLink
                   to={link}
                   className={({ isActive }) => (isActive ? 'active' : '')}
+                  onClick={(e)=> (id > 1 && userCheck===false) && (e.preventDefault(), alert('회원 가입 후 이용 가능합니다'))}
                 >
                   <div className='icon-text-group'>
                     <div className='icon'>{icon}</div>
