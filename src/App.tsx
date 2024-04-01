@@ -8,7 +8,7 @@ import Review from './pages/Review';
 import Talk from './pages/Talk';
 import Myroom from './pages/Myroom';
 import About from './pages/About';
-import PreviewContent from './components/TermsOfService';
+import PreviewContent from './components/PreviewContent';
 import Chat from './pages/Chat';
 import Learn from './pages/Learn';
 import Auth from './components/Mypage';
