@@ -8,45 +8,9 @@
   @apply mb-10 text-[var(--sub-font-color)] text-lg;
 }
 
-/* 사이트 소개 배너 */
-.banner {
-  @apply flex w-full rounded-xl bg-[var(--bg-highlight-color)];
-  position: relative;
-}
-
-.banner-text-area {
-  @apply pl-10 py-4;
-  z-index: 1;
-  width: 40%;
-}
-
-.banner h3 {
-  @apply text-[30px] pt-1 pb-3;
-}
-
-.banner-text {
-  @apply text-lg;
-}
-
-.img-box {
-  @apply pr-10;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 60%;
-}
-
-.img-box img {
-  width: 100%;
-  max-width: 1200px;
-  object-position: center center;
-  object-fit: cover;
-}
-
 .banner-link {
   display: block;
   width: 180px;
-  margin: 16px 0;
   padding: 8px 0;
   border: 1px solid var(--sub-font-color);
   font-size: 16px;
@@ -58,6 +22,40 @@
   background-color: var(--highlight-color);
   color: #fff;
   border: 1px solid transparent;
+}
+
+/* 사이트 소개 배너 */
+.banner {
+  @apply flex w-full py-4 relative rounded-xl bg-[var(--bg-highlight-color)];
+}
+
+.banner-text-area {
+  @apply pl-10 py-4 md:w-5/12 w-9/12;
+  z-index: 1;
+}
+
+.banner h3 {
+  @apply text-[30px] pt-1 pb-3;
+}
+
+.banner-text {
+  @apply text-lg;
+}
+
+.img-box {
+  @apply sm:pr-10 w-1/2 absolute bottom-0 right-0 sm:w-8/12 pr-0;
+}
+
+.one-img {
+  @apply block w-10/12 max-w-7xl object-cover object-center md:hidden w-full;
+}
+
+.all-img {
+  @apply hidden md:block;
+}
+
+.banner-link.character {
+  margin-top: 30px;
 }
 
 /* 캐릭터 대화 목록 소개 */
@@ -103,22 +101,35 @@
 
 /* 예문, 퀴즈 소개 */
 .main-learn {
-  @apply md:flex;
-}
-
-.main-learn > div {
-  @apply w-2/4 sm:w-full;
+  @apply sm:block md:flex gap-4;
 }
 
 .banner-img-txt {
-  @apply flex justify-between py-6 px-8 bg-[#e1ccec] rounded-xl;
+  @apply flex justify-between box-content h-60 pt-6 pb-4 px-8 rounded-xl;
+}
+
+.banner-img-txt.study {
+  @apply bg-[#dfd4f3];
+}
+
+.banner-img-txt.quiz {
+  @apply bg-[#dcf0d8];
+}
+
+.banner-txt {
+  @apply flex flex-col justify-center;
 }
 
 .banner-txt > p {
-  @apply flex flex-col justify-center pt-8 pb-6 text-3xl font-semibold;
+  @apply pt-10 pb-8 text-3xl font-semibold;
 }
 
 .banner-img > img {
   width: 100%;
   max-width: 200px;
+}
+
+.banner-img.study > img {
+  width: 100%;
+  max-width: 250px;
 }

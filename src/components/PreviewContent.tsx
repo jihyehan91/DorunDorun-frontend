@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { LuRepeat } from 'react-icons/lu';
 import { HiSpeakerWave } from 'react-icons/hi2';
-import { FaArrowLeft } from 'react-icons/fa6';
-import { useParams, useNavigate, Navigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Spinner from './Spinner';
 
@@ -26,13 +25,17 @@ interface PreviewData {
 }
 
 export default function PreviewContent() {
+  // 로딩
   const [isLoading, setIsLoading] = useState(true);
+  // 응답 데이터 담기
   const [sentences, setSentences] = useState<Sentence[]>([]);
+  // 하루 3문장 선택한 문장 담기
   const [selectedSentenceData, setSelectedSentenceData] =
     useState<PreviewData | null>(null);
   const { id: urlID } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
+  // 학습하기에서 학습한 문장 받아오기
   async function getLearningSentence() {
     try {
       const level = 'lv' + urlID![5];
@@ -58,6 +61,7 @@ export default function PreviewContent() {
     }
   }
 
+  // AI한테 하루 3문장 관련 예문 받아오기
   async function getAiExample(sentence: Sentence) {
     try {
       setIsLoading(true);
@@ -89,12 +93,7 @@ export default function PreviewContent() {
     }
   }, [sentences]);
 
-  // 뒤로가기 버튼
-  const backHandler = () => {
-    window.history.back();
-    // 탭이 있다면 예문 탭이 보이게
-  };
-
+  // 학습완료 버튼
   const handleLearnedButtonClick = async () => {
     try {
       const index = sentences.findIndex(
@@ -112,6 +111,7 @@ export default function PreviewContent() {
       };
       await setSentences(updatedSentences);
 
+      // 미학습 문장 확인하기
       const remainingUnlearnedSentences = updatedSentences.filter(
         (sentence) => !sentence.learned
       );
@@ -133,15 +133,7 @@ export default function PreviewContent() {
   return (
     <section className='preview-sentence'>
       <div className='preview-sentence-container'>
-        <button
-          className='exit-btn'
-          type='button'
-          onClick={backHandler}
-          aria-label='뒤로가기'
-        >
-          <FaArrowLeft />
-        </button>
-
+        {/* 예문 불러오기 로딩 알림 */}
         {isLoading ? (
           <div className='flex m-auto w-2/3 h-1/3 justify-center items-center mt-10 mb-20'>
             <Spinner loadingText='AI가 예문을 생성중...' />
@@ -155,7 +147,7 @@ export default function PreviewContent() {
                   selectedSentenceData.sentence_translation}
               </p>
             </div>
-            {/* 예시 대화문 */}
+            {/* 예시 구문 - 3문장 랜덤 반복 출력 */}
             <div className='sample-sentence'>
               {selectedSentenceData && (
                 <div className='example' key={selectedSentenceData.id}>
@@ -189,6 +181,7 @@ export default function PreviewContent() {
                       ))}
                     </ul>
                   </div>
+                  {/* 예시 대화문 - A,B 1세트 */}
                   <div className='dialog'>
                     <p className='sentence-sub-title'>대화문</p>
                     <p className='english'>
@@ -209,8 +202,7 @@ export default function PreviewContent() {
             </div>
           </div>
         )}
-
-        {/* 지혜님 이부분은 학습 완료처리가 된 애들만 푸 랑 대화할때 미션 리스트에 정렬되도록 체크 해주는 부분이에요. 세연님이랑 소통할 부분이니까 그러려니 하십시옹. css 건드시는건 아무 상관 없습니다.*/}
+        {/* 학습완료 내역 대화창 미션 리스트에 정렬시키기 */}
         <button
           type='button'
           className='bg-[var(--highlight-color)] text-white'
@@ -224,7 +216,6 @@ export default function PreviewContent() {
         <div className='three-sentence-area'>
           <h3 className='sentence-sub-title'>하루 3문장</h3>
           <ul>
-            {/* sentence.learned가 true이면 초록 배경이 되도록 부탁드립니다 */}
             {sentences.map((sentence, i) => (
               <li
                 key={i}

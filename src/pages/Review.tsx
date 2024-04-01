@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 import '../assets/css/review.css';
 import datas from '../../datas.json';
@@ -28,7 +28,7 @@ function ReviewItem({ data, dummy }: Props) {
   const dummyImg = selectedDummy?.img;
 
   return (
-    <Link to={`/mylog/${data.id}`}>
+    <Link to={`/review/${data.id}`}>
       <div className='mx-6'>
         <img className='character-img' src={dummyImg} alt={`${data.ai}`} />
       </div>
@@ -46,7 +46,7 @@ export default function Review() {
   const [reviewDatas, setReviewDatas] = useState<ReviewData[]>([]);
   const [dummyDatas, setDummyDatas] = useState<DummyData[]>([]);
   // 대화내역 정렬
-  const [sortBy, setSortBy] = useState<string>('latest');
+  const [sortedBy, setSortedBy] = useState<string>('최신순');
   // 날짜추출
   const uniqueDates: string[] = [
     ...new Set(
@@ -57,6 +57,7 @@ export default function Review() {
     ),
   ];
 
+  // 대화내역 받아오기
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -72,7 +73,17 @@ export default function Review() {
     fetchData();
   }, []);
 
-  const handleChange = () => {};
+  // 날짜별 정렬하기
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSortedBy(e.target.value);
+    uniqueDates.slice().sort((a, b) => {
+      if (e.target.value === 'latest') {
+        return new Date(b).getTime() - new Date(a).getTime();
+      } else {
+        return new Date(a).getTime() - new Date(b).getTime();
+      }
+    });
+  };
 
   return (
     <section className='review'>
@@ -83,9 +94,8 @@ export default function Review() {
               정렬
             </label>
             <select
-              id='sort-select'
-              className='border-none'
-              value={sortBy}
+              className='selectedSort'
+              value={sortedBy}
               onChange={handleChange}
             >
               <option value='latest'>최신순</option>

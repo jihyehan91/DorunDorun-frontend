@@ -17,6 +17,14 @@
     @apply w-full;
   }
 
+  .selectedSort {
+    @apply border-none;
+  }
+
+  .selectedSort:focus {
+    @apply outline-none;
+  }
+
   .date {
     @apply py-5 text-lg text-[var(--sub-font-color)];
   }
