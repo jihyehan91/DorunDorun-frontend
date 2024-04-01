@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import { LuRepeat } from 'react-icons/lu';
-import { HiSpeakerWave } from 'react-icons/hi2';
-import { FaArrowLeft } from 'react-icons/fa6';
-import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
-import Spinner from './Spinner';
+import { useState, useEffect } from "react";
+import { LuRepeat } from "react-icons/lu";
+import { HiSpeakerWave } from "react-icons/hi2";
+import { FaArrowLeft } from "react-icons/fa6";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
+import axios from "axios";
+import Spinner from "./Spinner";
 
 interface Sentence {
   meaning: string;
@@ -31,37 +31,37 @@ export default function PreviewContent() {
   const [selectedSentenceData, setSelectedSentenceData] =
     useState<PreviewData | null>(null);
   const { id: urlID } = useParams<{ id: string }>();
-
+  const navigate = useNavigate();
   async function getLearningSentence() {
     try {
-      const level = 'lv' + urlID![5];
+      const level = "lv" + urlID![5];
       const response = await axios.get(
-        'https://43.203.227.36.sslip.io/server/learn',
+        "https://43.203.227.36.sslip.io/server/learn",
         {
           params: { course: level },
         }
       );
       await setSentences(response.data); //여기서 잘못 들어갔거나.... 배열문제일지도.
-      console.log('response.data222', response.data);
-      console.log('sentences23 :', sentences);
+      console.log("response.data222", response.data);
+      console.log("sentences23 :", sentences);
     } catch (error) {
-      console.error('getLearningSentence 받기 에러', error);
+      console.error("getLearningSentence 받기 에러", error);
     }
   }
   //Number(missionId.split('_')[0].substring(2))
 
   async function getAiExample(sentence: Sentence) {
-    console.log('sentence_input in getAiExample:', sentence);
+    console.log("sentence_input in getAiExample:", sentence);
     try {
       //여기서 호성's 로딩 페이지 넣기.
       setIsLoading(true);
       const response = await axios.get(
-        'https://43.203.227.36.sslip.io/server/practice/getPractice',
+        "https://43.203.227.36.sslip.io/server/practice/getPractice",
         {
           params: {
             expression: sentence.mission,
             meaning: sentence.meaning,
-            level: Number(sentence.missionId.split('_')[0].substring(2)),
+            level: Number(sentence.missionId.split("_")[0].substring(2)),
           },
         }
       );
@@ -69,19 +69,18 @@ export default function PreviewContent() {
       console.log(response.data);
       setSelectedSentenceData(response.data);
     } catch (error) {
-      console.error('getAiExample 받기 실패', error);
-    }finally{
+      console.error("getAiExample 받기 실패", error);
+    } finally {
       setIsLoading(false);
     }
   }
-
 
   useEffect(() => {
     getLearningSentence();
   }, []);
 
   useEffect(() => {
-    console.log('sentences22 :', sentences);
+    console.log("sentences22 :", sentences);
     if (sentences.length > 0 && !sentences[0].learned) {
       getAiExample(sentences[0]);
     }
@@ -99,7 +98,7 @@ export default function PreviewContent() {
         (sentence) =>
           sentence.mission === selectedSentenceData?.sentence.substring(5)
       );
-      await axios.post('https://43.203.227.36.sslip.io/server/learned', {
+      await axios.post("https://43.203.227.36.sslip.io/server/learned", {
         mission_id: sentences[index].missionId,
       });
 
@@ -114,14 +113,17 @@ export default function PreviewContent() {
         (sentence) => !sentence.learned
       );
       if (remainingUnlearnedSentences.length === 0) {
-        alert('오늘 학습 완료! 캐릭터와 오늘 배운 내용을 사용해보세요!');
-        return <Link to='/chat' />;
+        if (
+          confirm("오늘 학습 완료! 캐릭터와 오늘 배운 내용을 사용해보세요!")
+        ) {
+          navigate("/chat");
+        }
       } else {
         const nextUnlearnedSentence = remainingUnlearnedSentences[0];
         getAiExample(nextUnlearnedSentence);
       }
     } catch (error) {
-      console.error('학습 완료 처리 실패', error);
+      console.error("학습 완료 처리 실패", error);
     }
   };
 
@@ -202,49 +204,50 @@ export default function PreviewContent() {
           )
         }
 
+          {/* 지혜님 이부분은 학습 완료처리가 된 애들만 푸 랑 대화할때 미션 리스트에 정렬되도록 체크 해주는 부분이에요. 세연님이랑 소통할 부분이니까 그러려니 하십시옹. css 건드시는건 아무 상관 없습니다.*/}
+          <button
+            type="button"
+            className="bg-[var(--highlight-color)] text-white"
+            onClick={async () => {
+              const index = sentences.findIndex(
+                (sentence) =>
+                  sentence.mission === selectedSentenceData?.sentence
+              );
+              await axios
+                .post("https://43.203.227.36.sslip.io/server/missionComplete", {
+                  mission_id: sentences[index].missionId,
+                })
+                .then
+                //뭔가 부트스트랩 체크표시 같은 애니메이션 효과..?
+                ();
+            }}
+          >
+            학습 완료
+          </button>
 
-        {/* 지혜님 이부분은 학습 완료처리가 된 애들만 푸 랑 대화할때 미션 리스트에 정렬되도록 체크 해주는 부분이에요. 세연님이랑 소통할 부분이니까 그러려니 하십시옹. css 건드시는건 아무 상관 없습니다.*/}
-        <button
-          type='button'
-          className='bg-[var(--highlight-color)] text-white'
-          onClick={async () => {
-            const index = sentences.findIndex(
-              (sentence) => sentence.mission === selectedSentenceData?.sentence
-            );
-            await axios
-              .post('https://43.203.227.36.sslip.io/server/missionComplete', {
-                mission_id: sentences[index].missionId,
-              })
-              .then
-              //뭔가 부트스트랩 체크표시 같은 애니메이션 효과..?
-              ();
-          }}
-        >
-          학습 완료
-        </button>
-
-        <div className='three-sentence-area'>
-          <h3 className='sentence-sub-title'>하루 3문장</h3>
-          <ul>
-            {/* sentence.learned가 true이면 초록 배경이 되도록 부탁드립니다 */}
-            {sentences.map((sentence, i) => (
-              <li
-                key={i}
-                onClick={() => {
-                  getAiExample(sentence);
-                }}
-              >
-                <span
-                  className={`number-btn cursor-pointer ${
-                    sentence.learned ? 'active' : ''
-                  }`}
+          <div className="three-sentence-area">
+            <h3 className="sentence-sub-title">하루 3문장</h3>
+            <ul>
+              {/* sentence.learned가 true이면 초록 배경이 되도록 부탁드립니다 */}
+              {sentences.map((sentence, i) => (
+                <li
+                  key={i}
+                  onClick={() => {
+                    getAiExample(sentence);
+                  }}
                 >
-                  {i + 1}
-                </span>
-                <span>{sentence.mission}</span>
-              </li>
-            ))}
-          </ul>
+                  <span
+                    className={`number-btn cursor-pointer ${
+                      sentence.learned ? "active" : ""
+                    }`}
+                  >
+                    {i + 1}
+                  </span>
+                  <span>{sentence.mission}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
