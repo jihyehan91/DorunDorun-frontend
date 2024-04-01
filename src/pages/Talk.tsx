@@ -10,10 +10,7 @@ import { PiUserListDuotone } from 'react-icons/pi';
 import { PiMicrophoneFill } from 'react-icons/pi';
 import { PiMicrophoneSlash } from 'react-icons/pi';
 import { RiSendPlaneFill } from 'react-icons/ri';
-import { MdOutlineKeyboardReturn } from 'react-icons/md';
-import { BsShiftFill } from 'react-icons/bs';
-import { IoStop } from 'react-icons/io5';
-import { IoPlay } from 'react-icons/io5';
+import { PiSpeakerHighDuotone } from "react-icons/pi";
 import { PiListMagnifyingGlassDuotone } from 'react-icons/pi';
 import { RiLoader2Fill } from 'react-icons/ri';
 
@@ -26,13 +23,13 @@ import { firework } from '../utils/firework';
 
 export interface Mission {
 	missionId: string;
-	mission?: string;
-	meaning?: string;
-	complete?: boolean;
+	mission: string;
+	meaning: string;
+	complete: boolean;
 }
 
 export interface AuthUser {
-	result?: boolean;
+	result: boolean;
 	nickname?: string;
 	userId?: string;
 	newToken?: string | null;
@@ -88,35 +85,35 @@ function Talk() {
 	const [bgNum, setBgNum] = useState<number>(Math.floor(Math.random() * 3));
 	const [characterDesc, setCharacterDesc] = useState<boolean>(false);
 	const [missions, setMissions] = useState<Mission[]>([]);
-	const [missionsComplete, setMissionsComplete] = useState<Mission[]>([]);
+	const [missionsComplete, setMissionsComplete] = useState<string[]>([]);
 
 	// 데이터
-	const data: Mission[] = [
-		{
-			missionId: 'lv1_1',
-			mission: 'I am trying to',
-			meaning: '~ 해 보려고 하는 중이에요',
-			complete: false,
-		},
-		{
-			missionId: 'lv1_2',
-			mission: 'I am ready to',
-			meaning: '~ 할 준비가 되었어요',
-			complete: false,
-		},
-		{
-			missionId: 'lv1_3',
-			mission: 'I am just about to',
-			meaning: '지금 막 ~ 하려는 참이에요',
-			complete: false,
-		},
-	];
+	// const data: Mission[] = [
+	// 	{
+	// 		missionId: 'lv1_1',
+	// 		mission: 'I am trying to',
+	// 		meaning: '~ 해 보려고 하는 중이에요',
+	// 		complete: false,
+	// 	},
+	// 	{
+	// 		missionId: 'lv1_2',
+	// 		mission: 'I am ready to',
+	// 		meaning: '~ 할 준비가 되었어요',
+	// 		complete: false,
+	// 	},
+	// 	{
+	// 		missionId: 'lv1_3',
+	// 		mission: 'I am just about to',
+	// 		meaning: '지금 막 ~ 하려는 참이에요',
+	// 		complete: false,
+	// 	},
+	// ];
 
 	const getMissions = async () => {
 		try {
-			const response = await axios.get('https://43.203.227.36.sslip.io/server/missions');
+			const response = await axios.get<Mission[]>('https://43.203.227.36.sslip.io/server/missions');
 			console.log('미션 데이터:', response.data);
-			setMissions(response.data);
+			// setMissions(response.data);
 			// setMissions(data); // 더미 데이터
 		} catch (error) {
 			console.error('Fetch and play audio error:', error);
@@ -312,7 +309,6 @@ function Talk() {
 						console.log('룸생성 에러:', error);
 					});
 
-          console.log('완료된 미션 : ', missionsComplete);
 				if (missionsComplete.length > 0) {
 					try {
 						const response = await axios.post(
@@ -454,10 +450,14 @@ function Talk() {
 					<div className="talking">
 						<dl>
 							<dt className="flex justify-between">
-								<button id="charName" className="btn-char" onClick={() => setCharacterDesc(!characterDesc)}>
-									{characterDesc ? <PiUserListFill className="text-lg" /> : <PiUserListDuotone className="text-lg" />}{' '}
-									{characterInfo[0].name}
-									<div className={`voiceContainer ${playState ? 'on' : 'off'}`}>
+								<div className="flex items-center">
+									<button id="charName" className="btn-char" onClick={() => setCharacterDesc(!characterDesc)}>
+										{characterDesc ? <PiUserListFill className="text-lg" /> : <PiUserListDuotone className="text-lg" />}{' '}
+										{characterInfo[0].name}
+									</button>
+									<button className={`voiceContainer ${playState ? 'on' : 'off'}`} onClick={playAudio}
+									disabled={playState || firstAudioMsg ? false : true}>
+                    <PiSpeakerHighDuotone />{' '}
 										<div>
 											<div className="voice voice1"></div>
 											<div className="voice voice2"></div>
@@ -465,14 +465,14 @@ function Talk() {
 											<div className="voice voice4"></div>
 											<div className="voice voice5"></div>
 										</div>
-									</div>
-								</button>
-								<Popup
-									title={'캐릭터 소개'}
-									charDatas={characterInfo}
-									isPop={characterDesc}
-									setIsPop={setCharacterDesc}
-								/>
+									</button>
+									<Popup
+										title={'캐릭터 소개'}
+										charDatas={characterInfo}
+										isPop={characterDesc}
+										setIsPop={setCharacterDesc}
+									/>
+								</div>
 
 								<button className="btn-history" onClick={() => setHistory(!history)}>
 									<PiListMagnifyingGlassDuotone
@@ -514,30 +514,9 @@ function Talk() {
 								<button type="submit" className="btn-send" disabled={playState || isFinish ? true : false}>
 									{audioLoad ? <RiLoader2Fill className="animate-spin" /> : <RiSendPlaneFill />}
 								</button>
-								<button
-									type="button"
-									className="btn-stop"
-									onClick={playAudio}
-									disabled={playState || firstAudioMsg ? false : true}>
-									{playState ? <IoStop /> : <IoPlay />}
-								</button>
 							</div>
 
 							<div className="shortcuts">
-								<div className="shortcut hidden">
-									* Send:{' '}
-									<span>
-										<MdOutlineKeyboardReturn />
-									</span>{' '}
-									/ New Line:{' '}
-									<span>
-										<BsShiftFill />
-									</span>{' '}
-									+{' '}
-									<span>
-										<MdOutlineKeyboardReturn />
-									</span>
-								</div>
 								<button
 									type="button"
 									className="btn-finishchat"
@@ -545,14 +524,7 @@ function Talk() {
 									disabled={firstAudioMsg || isFinishPop ? false : true}>
 									대화 종료 {correctLoad && <RiLoader2Fill className="animate-spin" />}
 								</button>
-								<Popup
-									title={'교정 목록'}
-									authUser={authuser}
-									missions={missions}
-									correctDatas={correctList}
-									isPop={isFinishPop}
-									setIsPop={setIsFinishPop}
-								/>
+								<Popup title={'교정 목록'} correctDatas={correctList} isPop={isFinishPop} setIsPop={setIsFinishPop} />
 							</div>
 						</div>
 					</form>

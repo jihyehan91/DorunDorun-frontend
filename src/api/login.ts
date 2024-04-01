@@ -14,17 +14,11 @@ export const loginApi = async (userdata: UserData) => {
   if (response.data.result === false) {
     alert(response.data.msg);
   } else {
-    window.location.href = `https://43.203.227.36.sslip.io/login`
+    window.location.href = `https://43.203.227.36.sslip.io/`
     alert('로그인에 성공하였습니다');
   }
   return response.data;
 };
-
-// export const authUser = async () => {
-//     const response = await axios.get(`${API_URL}/user/authuser`,  { withCredentials: true });
-//     console.log('이게 문제인건가? ', response);
-//     return response.data;
-// };
 
 export const logoutApi = async () => {
     const response = await axios.get(`${API_URL}/user/logout` , { withCredentials: true });
