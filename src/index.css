@@ -150,7 +150,7 @@
     @apply text-2xl font-semibold mb-2 pb-6;
   }
   .list-title ~ .list-title {
-    @apply mt-4;
+    @apply mt-10;
   }
 
   .form li {
