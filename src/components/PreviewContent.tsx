@@ -41,19 +41,24 @@ export default function PreviewContent() {
           params: { course: level },
         }
       );
-      await setSentences(response.data); //여기서 잘못 들어갔거나.... 배열문제일지도.
-      console.log("response.data222", response.data);
-      console.log("sentences23 :", sentences);
+      if (!response.data) {
+        if (
+          confirm(
+            `${urlID} 에서의 학습을 모두 완료했습니다! 캐릭터와 배운 표현을 사용해보세요.`
+          )
+        ) {
+          navigate("/chat");
+        }
+        return;
+      }
+      await setSentences(response.data);
     } catch (error) {
       console.error("getLearningSentence 받기 에러", error);
     }
   }
-  //Number(missionId.split('_')[0].substring(2))
 
   async function getAiExample(sentence: Sentence) {
-    console.log("sentence_input in getAiExample:", sentence);
     try {
-      //여기서 호성's 로딩 페이지 넣기.
       setIsLoading(true);
       const response = await axios.get(
         "https://43.203.227.36.sslip.io/server/practice/getPractice",
@@ -65,8 +70,6 @@ export default function PreviewContent() {
           },
         }
       );
-      //끝나면 로딩 끝
-      console.log(response.data);
       setSelectedSentenceData(response.data);
     } catch (error) {
       console.error("getAiExample 받기 실패", error);
@@ -80,7 +83,6 @@ export default function PreviewContent() {
   }, []);
 
   useEffect(() => {
-    console.log("sentences22 :", sentences);
     if (sentences.length > 0 && !sentences[0].learned) {
       getAiExample(sentences[0]);
     }
@@ -98,9 +100,6 @@ export default function PreviewContent() {
         (sentence) =>
           sentence.mission === selectedSentenceData?.sentence.substring(5)
       );
-      console.log(sentences[index].mission);
-      console.log(selectedSentenceData?.sentence.substring(5));
-      console.log("index::::::::::::::::::", index);
       await axios.post("https://43.203.227.36.sslip.io/server/learned", {
         mission_id: sentences[index].missionId,
       });
