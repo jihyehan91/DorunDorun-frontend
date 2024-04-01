@@ -283,7 +283,7 @@ function Talk() {
         const completedMissions = [];
         missions.forEach((mission) => {
           if (mission.complete) {
-            completedMissions.push(mission.mission_id);
+            completedMissions.push(mission.missionId);
           }
         });
         console.log('개수',completedMissions);
