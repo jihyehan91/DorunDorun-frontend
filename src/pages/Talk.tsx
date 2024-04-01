@@ -25,10 +25,10 @@ import { firework } from '../utils/firework';
 // 이미지 출처 : https://m.blog.naver.com/sinnam88/221375405075
 
 export interface Mission {
-    mission_id: string;
-    mission: string;
-    meaning: string;
-    complete: boolean;
+	mission_id: string;
+	mission: string;
+	meaning: string;
+	complete: boolean;
 }
 
 export interface AuthUser {
@@ -55,7 +55,7 @@ export interface Character {
 
 function Talk() {
 	const { id } = useParams();
-	const [authuser, setAuthUser] = useState<AuthUser>({result: false});
+	const [authuser, setAuthUser] = useState<AuthUser>({ result: false });
 
 	const [mic, setMic] = useState<boolean>(false); //마이크 활성 체크
 	const [history, setHistory] = useState<boolean>(false); //대화 내역
@@ -296,23 +296,60 @@ function Talk() {
 						console.log('룸생성 에러:', error);
 					});
 
-        const completedMissionIds = missions?.filter((item) => item.complete).reduce((acc, item) => {
-          acc.push(item.mission_id);
-          return acc;
-          }, []);
-				await axios
-					.post(
-						'https://43.203.227.36.sslip.io/server/missionComplete',
-						{ mission_id: completedMissionIds },
-						{ withCredentials: true }
-					)
-					.then(function (response) {
-						console.log(response.data);
-					})
-					.catch((error) => {
-						console.log('미션완료 에러:', error);
-					});
+          const completedMissions = [];
+          missions.forEach((mission) => {
+            if (mission.complete) {
+              completedMissions.push(mission.mission_id);
+            }
+          });
+          console.log('개수',completedMissions);
+
+          if (completedMissions.length > 0) {
+            try {
+              console.log('인:',completedMissions);
+              const response = await axios.post(
+                'https://43.203.227.36.sslip.io/server/missionComplete',
+                {
+                  mission_id: completedMissions,
+                },
+                {
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                }
+              );
+              console.log('POST 요청 성공:', response.data);
+            } catch (error) {
+              console.error('POST 요청 실패:', error);
+            }
+          }
 			}
+      const completedMissions = [];
+				missions.forEach((mission) => {
+					if (mission.complete) {
+						completedMissions.push(mission.mission_id);
+					}
+				});
+				console.log(completedMissions);
+
+				if (completedMissions.length > 0) {
+					try {
+						const response = await axios.post(
+							'https://43.203.227.36.sslip.io/server/missionComplete',
+							{
+								mission_id: completedMissions,
+							},
+							{
+								headers: {
+									'Content-Type': 'application/json',
+								},
+							}
+						);
+						console.log('POST 요청 성공:', response.data);
+					} catch (error) {
+						console.error('POST 요청 실패:', error);
+					}
+				}
 		} catch (error) {
 			console.error('에러 발생:', error);
 		}
@@ -448,7 +485,12 @@ function Talk() {
 										</div>
 									</div>
 								</button>
-								<Popup title={'캐릭터 소개'} charDatas={characterInfo} isPop={characterDesc} setIsPop={setCharacterDesc} />
+								<Popup
+									title={'캐릭터 소개'}
+									charDatas={characterInfo}
+									isPop={characterDesc}
+									setIsPop={setCharacterDesc}
+								/>
 
 								<button className="btn-history" onClick={() => setHistory(!history)}>
 									<PiListMagnifyingGlassDuotone
