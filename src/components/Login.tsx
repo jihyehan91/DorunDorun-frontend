@@ -135,7 +135,7 @@ export default function Login() {
           </div>
           <div className='signup-link'>
             <span>
-              <Link to='/termsofservic'>회원가입</Link>
+              <Link to='/termsofservice'>회원가입</Link>
             </span>
             <span>
               <Link to='/signup'> | 아이디 찾기</Link>

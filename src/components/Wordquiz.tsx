@@ -1,80 +1,17 @@
 import { useState } from 'react';
-import useUserData from './UserData';
+import { firework } from '../utils/firework';
+import { enAnswersData, enAnswersLv2Data } from '../utils/word';
 
 export default function Wordquiz() {
   const [showQuestions, setShowQuestions] = useState(false);
-  const { userCheck } = useUserData(); 
-
-  //LEVEL 1
-  const enAnswers = [
-    {
-      sentence: 'This is a sample sentence for shuffling',
-      krTranslation: '이것은 셔플링을 위한 샘플 문장입니다',
-      question: 'This a sentence sample is shuffling for',
-    },
-    {
-      sentence: '그는 오늘 학교에 가지 않았어요.',
-      krTranslation: 'He did not go to school today.',
-      question: 'not to today go school did He',
-    },
-    {
-      sentence: 'She is a very talented singer.',
-      krTranslation: '그녀는 매우 재능 있는 가수입니다.',
-      question: 'a talented is very singer She',
-    },
-    {
-      sentence: 'I like to drink coffee in the morning.',
-      krTranslation: '저는 아침에 커피를 마시는 것을 좋아합니다.',
-      question: 'like drink to morning in coffee I',
-    },
-    {
-      sentence: 'The cat chased the mouse around the house.',
-      krTranslation: '고양이가 집 주변에서 쥐를 쫓았습니다.',
-      question: 'the around chased the cat mouse house the',
-    },
-  ];
-
-  //LEVEL 2
-  const enAnswers_lv2 = [
-    {
-      sentence: 'Despite the rain, they decided to go hiking in the mountains.',
-      krTranslation: '비가 오는데도 불구하고, 그들은 산에 하이킹을 가기로 결정했습니다.',
-      question: 'the Despite hiking decided to they in go rain mountains the',
-    },
-    {
-      sentence: 'The scientist conducted a series of experiments to test their hypothesis.',
-      krTranslation: '과학자는 그들의 가설을 실험하기 위한 일련의 실험을 진행했습니다.',
-      question: 'hypothesis series test to conducted their scientist a experiments of The',
-    },
-    {
-      sentence: 'After a long day at work, she treated herself to a relaxing bubble bath.',
-      krTranslation: '긴 하루 일한 후, 그녀는 스스로를 편안한 거품 목욕으로 보답했습니다.',
-      question: 'work relaxing bath bubble a to treated at day herself After long she',
-    },
-    {
-      sentence: 'In order to succeed, one must be willing to embrace failure as part of the journey.',
-      krTranslation: '성공하기 위해서는, 실패를 여정의 일부로 받아들일 준비가 되어야 합니다.',
-      question: 'the embrace as part to one must willing journey. In order failure succeed, of be',
-    },
-    {
-      sentence: 'Despite the language barrier, they managed to communicate effectively through gestures.',
-      krTranslation: '언어 장벽에도 불구하고, 그들은 몸짓을 통해 효과적으로 의사 소통을 성공했습니다.',
-      question: 'the communicate Despite gestures. to through language they effectively managed barrier,',
-    },
-  ];
-  
-
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // 현재 질문
-  const [currentAnswer, setCurrentAnswer] = useState(
-    enAnswers[currentQuestionIndex]
-  ); // 답변
-  const [krAnswer, setKrAnswer] = useState(
-    enAnswers[currentQuestionIndex].krTranslation
-  ); // 해석
-  const [questionArr, setQuestionArr] = useState(
-    enAnswers[currentQuestionIndex].question.split(' ')
-  ); //문제 종합
-  const [userAnswer, setUserAnswer] = useState(''); //내 답변
+  const [currentLevel, setCurrentLevel] = useState(1); // 현재 레벨
+  const [enAnswers, setEnAnswers] = useState(enAnswersData); // LEVEL 1
+  const [enAnswers_lv2, setEnAnswers_lv2] = useState(enAnswersLv2Data); // LEVEL 2
+  const [currentAnswer, setCurrentAnswer] = useState(enAnswers[currentQuestionIndex]); // 답변
+  const [krAnswer, setKrAnswer] = useState(enAnswers[currentQuestionIndex].krTranslation); // 해석
+  const [questionArr, setQuestionArr] = useState(enAnswers[currentQuestionIndex].question.split(' ')); // 문제 종합
+  const [userAnswer, setUserAnswer] = useState(''); // 내 답변
   const [wrongAnswer, setWrongAnswer] = useState(false); // 틀리면 나오는
 
   const checkAnswer = () => {
@@ -94,7 +31,7 @@ export default function Wordquiz() {
     }
   };
 
-  const userAnswerHandler = (word: string) => {
+  const userAnswerHandler = (word) => {
     setUserAnswer((prevAnswer) => {
       if (prevAnswer === '') {
         return word;
@@ -114,13 +51,20 @@ export default function Wordquiz() {
       setUserAnswer('');
       setWrongAnswer(false);
     } else {
-      alert('모든 문제를 푸셨습니다!');
-      setCurrentQuestionIndex(0);
-      setCurrentAnswer(enAnswers[0]);
-      setQuestionArr(enAnswers[0].question.split(' '));
-      setKrAnswer(enAnswers[0].krTranslation);
-      setUserAnswer('');
-      setWrongAnswer(false);
+      // 모든 문제를 푼 경우
+      if (currentLevel === 1) {
+        alert('모든 Level 1 문제를 푸셨습니다! Level 2로 이동합니다.');
+        setCurrentLevel(2);
+        setEnAnswers(enAnswers_lv2);
+        setCurrentQuestionIndex(0);
+        setCurrentAnswer(enAnswers_lv2[0]);
+        setQuestionArr(enAnswers_lv2[0].question.split(' '));
+        setKrAnswer(enAnswers_lv2[0].krTranslation);
+        setUserAnswer('');
+        setWrongAnswer(false);
+      } else {
+        alert('모든 문제를 푸셨습니다!');
+      }
     }
   };
 
@@ -131,40 +75,6 @@ export default function Wordquiz() {
       return words.join(' ');
     });
     setQuestionArr((prevArr) => [...prevArr, userAnswer.split(' ').pop()]);
-  };
-
-  const firework = () => {
-    let duration = 20 * 100;
-    let animationEnd = Date.now() + duration;
-    let defaults = { startVelocity: 20, spread: 360, ticks: 100, zIndex: 0 };
-    //  startVelocity: 범위, spread: 방향, ticks: 갯수
-
-    function randomInRange(min, max) {
-      return Math.random() * (max - min) + min;
-    }
-
-    let interval = setInterval(function () {
-      let timeLeft = animationEnd - Date.now();
-
-      if (timeLeft <= 0) {
-        return clearInterval(interval);
-      }
-
-      let particleCount = 50 * (timeLeft / duration);
-      // since particles fall down, start a bit higher than random
-      confetti(
-        Object.assign({}, defaults, {
-          particleCount,
-          origin: { x: randomInRange(-0.1, 0.3), y: Math.random() - 0.2 },
-        })
-      );
-      confetti(
-        Object.assign({}, defaults, {
-          particleCount,
-          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-        })
-      );
-    }, 250);
   };
 
   return (
@@ -199,7 +109,7 @@ export default function Wordquiz() {
             className='border border-gray-300 rounded-md px-4 py-2 mb-4 w-full max-w-md mx-auto focus:outline-none focus:ring-2 focus:ring-blue-500 font-semibold'
             style={{
               fontSize: '16px',
-              color: 'blue',
+              color: 'var(--highlight-color)',
               backgroundColor: '#f4f4f4',
               textAlign: 'center',
             }}

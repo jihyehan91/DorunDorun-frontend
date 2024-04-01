@@ -134,7 +134,7 @@ export default function Mypage() {
                   })}
                 />
                 {errors.email && (
-                  <span className='authSpan' role='alert'>
+                  <span className='authSpan text-blue-500 text-xs' role='alert'>
                     {errors.email.message}
                   </span>
                 )}
@@ -169,7 +169,7 @@ export default function Mypage() {
                   })}
                 />
                 {errors.password && (
-                  <span className='authSpan' role='alert'>
+                  <span className='authSpan text-blue-500 text-xs' role='alert'>
                     {errors.password.message}
                   </span>
                 )}

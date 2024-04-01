@@ -13,7 +13,6 @@ type FormData = {
   email: string;
   password: string;
   confirmPassword: string;
-  agree: boolean;
 };
 
 export default function SignUp() {
@@ -258,7 +257,7 @@ export default function SignUp() {
                 비밀번호 확인
               </label>
               <input
-                className='auth-input'
+                className='auth-input mb-5'
                 type='password'
                 id='confirmPassword'
                 placeholder='비밀번호와 동일하게 입력해주세요'
@@ -275,23 +274,6 @@ export default function SignUp() {
                   {errors.confirmPassword.message}
                 </span>
               )}
-
-              <div className='flex items-center align-center mt-4'>
-                <label className='auth-label' htmlFor='agree'>
-                  위에 약관에 동의하십니까?
-                </label>
-                <input
-                  className='auth-checkbox'
-                  type='checkbox'
-                  id='agree'
-                  {...register('agree', { required: '약관에 동의해주세요' })}
-                />
-                {errors.agree && (
-                  <span className='auth-span mt-2' role='alert'>
-                    {errors.agree.message}
-                  </span>
-                )}
-              </div>
               <button
                 className={userIdRedundancy === true || userIdRedundancy === null ? 'auth-btn bg-neutral-400' : 'auth-btn'}
                 type='submit'

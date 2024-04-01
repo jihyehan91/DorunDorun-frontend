@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import '../assets/css/auth.css'
 
 function TermsOfService() {
   const [isChecked, setIsChecked] = useState({
     term1: false,
     term2: false,
     term3: false,
-    term4: false,
+    // term4: false,
     allTerms: false, // 전체 동의 체크 상태
   });
 
@@ -27,7 +28,7 @@ function TermsOfService() {
       term1: allChecked,
       term2: allChecked,
       term3: allChecked,
-      term4: allChecked,
+      // term4: allChecked,
       allTerms: allChecked,
     });
     // 전체 동의 체크 상태가 변경될 때 회원가입 버튼의 활성화 상태를 설정
@@ -49,17 +50,19 @@ function TermsOfService() {
 
   return (
     <div className="form-container">
-      <div className=" form-area2">
-        <h1 className="text-2xl font-semibold mb-4 text-center">DoRun-DoRun 이용약관</h1>
-        <div className="mb-6 py-4">
-          <h2 className="text-lg font-semibold mb-2 flex items-center">
+      <div className="form-area2">
+        <Link to={'/'}>
+        <h1 className="text-3xl font-bold mt-4 mb-7 text-center">DoRun-DoRun</h1>
+        </Link> 
+        <div className="mb-6">
+          <h2 className="font-semibold mb-2 flex items-center">
             <input
               type="checkbox"
-              className="mr-2 h-5 w-5 text-blue-600 rounded"
+              className="mr-2 h-4 w-4 rounded-full text-#67c0cd"
               checked={isChecked.term1}
               onChange={() => toggleCheck('term1')}
             />
-            <span className="text-gray-700">제1장: 총칙</span>
+            <span onClick={()=>toggleCheck('term1')} className="text-gray-700 cursor-pointer">제1장: 총칙</span>
           </h2>
           <div className="overflow-y-auto max-h-24 border border-gray-200 p-1">
             <p className="mb-2">제1조 (목적)</p>
@@ -70,14 +73,14 @@ function TermsOfService() {
           </div>
         </div>
         <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-2 flex items-center">
+          <h2 className="font-semibold mb-2 flex items-center">
             <input
               type="checkbox"
-              className="mr-2 h-5 w-5 text-blue-600 rounded"
+              className="mr-2 h-4 w-4 text-#67c0cd rounded"
               checked={isChecked.term2}
               onChange={() => toggleCheck('term2')}
             />
-            <span className="text-gray-700">제2장: 서비스 이용</span>
+            <span onClick={()=>toggleCheck('term2')} className="text-gray-700 cursor-pointer">제2장: 서비스 이용</span>
           </h2>
           <div className="overflow-y-auto max-h-24 border border-gray-200 p-1">
             <p className="mb-2">제3조 (회원 가입)</p>
@@ -89,14 +92,14 @@ function TermsOfService() {
           </div>
         </div>
         <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-2 flex items-center">
+          <h2 className="font-semibold mb-2 flex items-center">
             <input
               type="checkbox"
-              className="mr-2 h-5 w-5 text-blue-600 rounded"
+              className="mr-2 h-4 w-4 text-#67c0cd rounded"
               checked={isChecked.term3}
               onChange={() => toggleCheck('term3')}
             />
-            <span className="text-gray-700">제3장: 권리 및 의무</span>
+            <span onClick={()=>toggleCheck('term3')} className="text-gray-700 cursor-pointer">제3장: 권리 및 의무</span>
           </h2>
           <div className="overflow-y-auto max-h-24 border border-gray-200 p-1">
             <p className="mb-2">제5조 (서비스 이용권한)</p>
@@ -107,11 +110,11 @@ function TermsOfService() {
             <p className='text-sm'>회원은 타인의 정보를 도용하거나 부정한 목적으로 서비스를 이용해서는 안됩니다.</p>
           </div>
         </div>
-        <div className="mb-6">
-          <h2 className="text-lg font-semibold mb-2 flex items-center">
+        {/* <div className="mb-6">
+          <h2 className="font-semibold mb-2 flex items-center">
             <input
               type="checkbox"
-              className="mr-2 h-5 w-5 text-blue-600 rounded"
+              className="mr-2 h-4 w-4 text-#67c0cd rounded"
               checked={isChecked.term4}
               onChange={() => toggleCheck('term4')}
             />
@@ -124,33 +127,32 @@ function TermsOfService() {
             <p className="mb-2">제8조 (준거법 및 재판관할)</p>
             <p className='text-sm'>본 약관에 명시되지 않은 사항 및 회원과 회사간에 발생한 분쟁에 대하여는 대한민국 법률을 준거법으로 하며, 관할 법원은 서울중앙지방법원으로 합니다.</p>
           </div>
-        </div>
+        </div> */}
         <div className="mb-6">
           <h2 className="text-lg font-semibold mb-2 flex items-center">
             <input
               type="checkbox"
-              className="mr-2 h-5 w-5 text-blue-600 rounded"
+              className="mr-2 h-4 w-4 text-#67c0cd rounded"
               checked={isChecked.allTerms}
               onChange={toggleAllCheck}
             />
-            <span className="text-gray-700">전체 동의하기</span>
+            <span onClick={toggleAllCheck} className="text-gray-700 cursor-pointer">전체 동의하기</span>
           </h2>
           <p className="text-gray-600 className='text-sm'">실명 인증된 아이디로 가입, 위치기반서비스 이용약관(선택), 이벤트・혜택 정보 수신(선택) 동의를 포함합니다.</p>
         </div>
-        <div className="flex justify-center">
-          <Link to='/signup'>
-            <button
-              id="signupButton"
-              type="submit"
-              className={`auth-btn ${isAllChecked() ? '' : 'opacity-50 cursor-not-allowed'}`}
-              disabled={!isAllChecked()}
-            >
-              회원가입
-            </button>
-          </Link>
+        
+        <Link to='/signup' className={`auth-input ${isAllChecked() ? '' : 'opacity-50 cursor-not-allowed'}`}>
+  <button
+    id="signupButton"
+    type="submit"
+    className="w-full text-lg"
+    disabled={!isAllChecked()}
+  >
+    회원가입
+  </button>
+</Link>
         </div>
       </div>
-    </div>
   );
 }
 

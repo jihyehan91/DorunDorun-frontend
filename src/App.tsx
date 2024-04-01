@@ -16,6 +16,7 @@ import AuthPw from './components/MypagePw'
 import Spinner from './components/Spinner';
 import ReviewContent from './components/ReviewContent';
 import TermsOfService from './components/TermsOfService';
+import Wordquiz from './components/Wordquiz';
 import './App.css';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
         <Route path='/chat' element={<Chat />} />
         <Route path='/learning' element={<Learn />} />
         <Route path='/learning/:id' element={<PreviewContent />} />
+        <Route path='/wordquiz' element={<Wordquiz />} />
         <Route path='*' element={<NotFound />} />
       </Route>
       <Route path='/signup' element={<SignUp />} />

@@ -118,7 +118,7 @@ export default function Mypage() {
                   })}
                 />
                 {errors.email && (
-                  <span className='authSpan' role='alert'>
+                  <span className='authSpan text-blue-500 text-xs' role='alert'>
                     {errors.email.message}
                   </span>
                 )}
@@ -154,7 +154,7 @@ export default function Mypage() {
                   })}
                 />
                 {errors.password && (
-                  <span className='authSpan' role='alert'>
+                  <span className='authSpan text-blue-500 text-xs' role='alert'>
                     {errors.password.message}
                   </span>
                 )}
@@ -164,11 +164,10 @@ export default function Mypage() {
                 </button>
 
                   <Link to='/mypage'>
-                  <p className='auth-span text-blue-500 font-black opacity-60 mb-2 text-right cursor-pointer' role='alert'>
+                  <p className='auth-span text-blue-500 font-black mb-2 text-right cursor-pointer' role='alert'>
                     이메일 변경하기
                   </p>
                   </Link>
-               
               </form>
             </div> 
           )}

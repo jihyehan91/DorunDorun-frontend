@@ -12,7 +12,7 @@
   }
 
   .form-area2 {
-    @apply w-full sm:w-[640px] flex flex-col justify-center items-center p-0 sm:py-40 sm:px-32 bg-white rounded-none sm:rounded-3xl;
+    @apply w-full sm:w-[640px] flex flex-col justify-center items-center p-0 sm:px-20 bg-white rounded-none sm:rounded-3xl;
   }
 
   .form-area.signup {
@@ -53,5 +53,20 @@
 
   .signup-link {
     @apply text-center;
+  }
+
+  input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    appearance: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  input[type="checkbox"]:checked {
+    background: var(--highlight-color, #32e732);
+    border: none;
   }
 }
