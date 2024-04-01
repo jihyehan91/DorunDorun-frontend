@@ -279,6 +279,15 @@ function Talk() {
 			setCorrectLoad(false);
 
 			if (authuser.result) {
+
+        const completedMissions = [];
+        missions.forEach((mission) => {
+          if (mission.complete) {
+            completedMissions.push(mission.mission_id);
+          }
+        });
+        console.log('개수',completedMissions);
+
 				await axios
 					.post(
 						'https://43.203.227.36.sslip.io/server/room/newRoom',
@@ -296,13 +305,6 @@ function Talk() {
 						console.log('룸생성 에러:', error);
 					});
 
-          const completedMissions = [];
-          missions.forEach((mission) => {
-            if (mission.complete) {
-              completedMissions.push(mission.mission_id);
-            }
-          });
-          console.log('개수',completedMissions);
 
           if (completedMissions.length > 0) {
             try {
