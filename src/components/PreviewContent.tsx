@@ -138,7 +138,9 @@ export default function PreviewContent() {
         </button>
         {
           isLoading ? (
-            <Spinner/>
+            <div className='flex w-2/3 h-1/3 justify-center items-center border border-b-2'>
+              <Spinner />
+            </div>
           ) : (
             <div className='sample-sentence-area'>
             <div className='key-sentence-english'>
