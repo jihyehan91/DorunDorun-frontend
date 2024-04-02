@@ -7,7 +7,7 @@
 
   /* 알림 아이콘 */
   .noti-icon {
-    @apply w-[40px] h-[40px];
+    @apply hidden w-[40px] h-[40px];
   }
   button.noti-icon {
     @apply p-0;

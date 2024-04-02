@@ -20,4 +20,9 @@
   .header.logo {
     @apply pb-0;
   }
+  @media screen and (max-width:500px){
+    .header.logo {
+      @apply hidden;
+    }
+  }
 }
