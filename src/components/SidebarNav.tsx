@@ -1,4 +1,4 @@
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import { GoHomeFill } from 'react-icons/go';
 import { CgMenuGridR } from 'react-icons/cg';
 import { BiSolidChat } from 'react-icons/bi';
@@ -15,6 +15,8 @@ const navMenu = [
 
 export default function SidebarNav() {
   const { userCheck } = useUserData();
+  const {pathname} = useLocation();
+  console.log(pathname);
   return (
     <nav className='sidebar-nav'>
       <div className='container'>
@@ -30,7 +32,7 @@ export default function SidebarNav() {
               <li className='sidebar-nav-item' key={id}>
                 <NavLink
                   to={link}
-                  className={({ isActive }) => (isActive ? 'active' : '')}
+                  className={({ isActive }) => (isActive || text=='대화하기' && pathname.includes('talk') ? 'active' : '')}
                   onClick={(e) =>
                     id > 1 &&
                     userCheck === false &&
