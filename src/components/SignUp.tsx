@@ -163,7 +163,7 @@ export default function SignUp() {
                 className='auth-input mr-2 w-3/4'
                 type='text'
                 id='userId'
-                placeholder='ID를 입력해주세요 (8글자 이상, 영문 및 숫자 조합)'
+                placeholder='8글자 이상, 영문 및 숫자 조합'
                 {...register('userId', {
                   required: '아이디를 입력해주세요',
                   minLength: {

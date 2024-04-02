@@ -12,7 +12,7 @@
   }
 
   .form-area2 {
-    @apply w-full sm:w-[640px] flex flex-col justify-center items-center p-0 sm:px-20 bg-white rounded-none sm:rounded-3xl;
+    @apply w-full sm:w-[640px] flex flex-col justify-center items-center p-5 sm:px-20 bg-white rounded-none sm:rounded-3xl;
   }
 
   .form-area.signup {

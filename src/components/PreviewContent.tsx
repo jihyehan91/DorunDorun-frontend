@@ -166,9 +166,9 @@ export default function PreviewContent() {
                           }}
                         />
                       </button>
-                      <button type='button'>
+                      {/* <button type='button'>
                         <HiSpeakerWave />
-                      </button>
+                      </button> */}
                     </div>
                     <ul>
                       {selectedSentenceData.similar.map((similar, index) => (

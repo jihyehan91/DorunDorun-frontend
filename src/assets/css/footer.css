@@ -16,6 +16,9 @@
   .about-icon {
     @apply lg:hidden sm:block sm:text-xl;
   }
+  .on .about-icon{
+    @apply hidden
+  }
 
   .about-text {
     @apply sm:hidden lg:block;
