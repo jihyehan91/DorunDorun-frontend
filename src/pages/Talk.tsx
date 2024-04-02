@@ -112,7 +112,7 @@ function Talk() {
 	const getMissions = async () => {
 		try {
 			const response = await axios.get<Mission[]>('https://43.203.227.36.sslip.io/server/missions');
-			console.log('미션 데이터:', response.data);
+			// console.log('미션 데이터:', response.data);
 			setMissions(response.data);
 			// setMissions(data); // 더미 데이터
 		} catch (error) {
@@ -197,18 +197,18 @@ function Talk() {
 				chat: inputText,
 			});
 			const checkData = response.data;
-			console.log('중간 데이터', checkData);
+			// console.log('중간 데이터', checkData);
 
 			if (Array.isArray(checkData)) {
-				console.log('data는 배열입니다.');
+				// console.log('data는 배열입니다.');
 			} else {
-				console.log('data는 배열이 아닙니다.');
+				// console.log('data는 배열이 아닙니다.');
 
 				if (checkData != ' none') {
 					let dataArray: string[] = [];
 					try {
 						dataArray = JSON.parse(checkData.replace(/'/g, '"'));
-						console.log('배열 변환 완료: ', dataArray);
+						// console.log('배열 변환 완료: ', dataArray);
 
 						const updatedMissions = missions.map((mission) => {
 							if (dataArray.includes(mission.missionId)) {
@@ -302,7 +302,7 @@ function Talk() {
 						{ withCredentials: true }
 					)
 					.then(function (response) {
-						console.log(response.data);
+						// console.log('대화룸:',response.data);
 						// roomid = response.data;
 					})
 					.catch((error) => {
@@ -322,7 +322,7 @@ function Talk() {
 								},
 							}
 						);
-						console.log('미션 완료 응답:', response.data);
+						// console.log('미션 완료 응답:', response.data);
 					} catch (error) {
 						console.error('미션 완료 에러:', error);
 					}
@@ -398,7 +398,7 @@ function Talk() {
 				// ,withCredentials: true,
 			});
 
-			console.log('Audio data sent successfully:', response.data);
+			// console.log('Audio data sent successfully:', response.data);
 			textareaRef.current!.value = response.data;
 			setIsTyped(false);
 			textareaRef.current!.focus();
